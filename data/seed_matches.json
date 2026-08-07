@@ -46,7 +46,7 @@
       "gender": "men"
     },
     {
-      "id": "19600814-eintrach-tsvmnche",
+      "id": "19600814-eintrach-mnchen",
       "date": "1960-08-14T15:30:00",
       "kickoffText": null,
       "competition": "oberliga",
@@ -893,7 +893,7 @@
       "gender": "men"
     },
     {
-      "id": "19601211-tsvmnche-eintrach",
+      "id": "19601211-mnchen-eintrach",
       "date": "1960-12-11T15:30:00",
       "kickoffText": null,
       "competition": "oberliga",
@@ -2246,7 +2246,7 @@
       "gender": "men"
     },
     {
-      "id": "19610806-tsvmnche-eintrach",
+      "id": "19610806-mnchen-eintrach",
       "date": "1961-08-06T15:30:00",
       "kickoffText": null,
       "competition": "oberliga",
@@ -3097,7 +3097,7 @@
       "gender": "men"
     },
     {
-      "id": "19611210-eintrach-tsvmnche",
+      "id": "19611210-eintrach-mnchen",
       "date": "1961-12-10T15:30:00",
       "kickoffText": null,
       "competition": "oberliga",
@@ -4553,7 +4553,7 @@
       "gender": "men"
     },
     {
-      "id": "19620916-hessenka-eintrach",
+      "id": "19620916-ksvhesse-eintrach",
       "date": "1962-09-16T15:30:00",
       "kickoffText": null,
       "competition": "oberliga",
@@ -4695,7 +4695,7 @@
       "gender": "men"
     },
     {
-      "id": "19621007-eintrach-tsvmnche",
+      "id": "19621007-eintrach-mnchen",
       "date": "1962-10-07T15:30:00",
       "kickoffText": null,
       "competition": "oberliga",
@@ -5335,7 +5335,7 @@
       "gender": "men"
     },
     {
-      "id": "19630126-eintrach-hessenka",
+      "id": "19630126-eintrach-ksvhesse",
       "date": "1963-01-26T15:30:00",
       "kickoffText": null,
       "competition": "oberliga",
@@ -5438,7 +5438,7 @@
       "gender": "men"
     },
     {
-      "id": "19630217-tsvmnche-eintrach",
+      "id": "19630217-mnchen-eintrach",
       "date": "1963-02-17T15:30:00",
       "kickoffText": null,
       "competition": "oberliga",
@@ -9425,7 +9425,7 @@
       "gender": "men"
     },
     {
-      "id": "19650821-bayernmn-eintrach",
+      "id": "19650821-fcbayern-eintrach",
       "date": "1965-08-21T16:00:00",
       "kickoffText": "16:00",
       "competition": "bundesliga",
@@ -10208,7 +10208,7 @@
       "gender": "men"
     },
     {
-      "id": "19660115-eintrach-bayernmn",
+      "id": "19660115-eintrach-fcbayern",
       "date": "1966-01-15T15:00:00",
       "kickoffText": "15:00",
       "competition": "bundesliga",
@@ -11067,7 +11067,7 @@
       "gender": "men"
     },
     {
-      "id": "19660820-bayernmn-eintrach",
+      "id": "19660820-fcbayern-eintrach",
       "date": "1966-08-20T16:00:00",
       "kickoffText": "16:00",
       "competition": "bundesliga",
@@ -12147,7 +12147,7 @@
       "gender": "men"
     },
     {
-      "id": "19670107-eintrach-bayernmn",
+      "id": "19670107-eintrach-fcbayern",
       "date": "1967-01-07T15:00:00",
       "kickoffText": "15:00",
       "competition": "bundesliga",
@@ -12465,7 +12465,7 @@
       "gender": "men"
     },
     {
-      "id": "19670221-eintrach-ferencva",
+      "id": "19670221-eintrach-ferencvr",
       "date": "1967-02-21T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -12571,7 +12571,7 @@
       "gender": "men"
     },
     {
-      "id": "19670228-ferencva-eintrach",
+      "id": "19670228-ferencvr-eintrach",
       "date": "1967-02-28T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -13666,7 +13666,7 @@
       "gender": "men"
     },
     {
-      "id": "19670930-eintrach-bayernmn",
+      "id": "19670930-eintrach-fcbayern",
       "date": "1967-09-30T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -14532,7 +14532,7 @@
       "gender": "men"
     },
     {
-      "id": "19680309-bayernmn-eintrach",
+      "id": "19680309-fcbayern-eintrach",
       "date": "1968-03-09T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -15345,7 +15345,7 @@
       "gender": "men"
     },
     {
-      "id": "19680914-eintrach-bayernmn",
+      "id": "19680914-eintrach-fcbayern",
       "date": "1968-09-14T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -16283,7 +16283,7 @@
       "gender": "men"
     },
     {
-      "id": "19690222-bayernmn-eintrach",
+      "id": "19690222-fcbayern-eintrach",
       "date": "1969-02-22T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -16933,7 +16933,7 @@
       "gender": "men"
     },
     {
-      "id": "19690827-bayernmn-eintrach",
+      "id": "19690827-fcbayern-eintrach",
       "date": "1969-08-27T20:00:00",
       "kickoffText": "20:00",
       "competition": "bundesliga",
@@ -17766,7 +17766,7 @@
       "gender": "men"
     },
     {
-      "id": "19700303-eintrach-bayernmn",
+      "id": "19700303-eintrach-fcbayern",
       "date": "1970-03-03T20:00:00",
       "kickoffText": "20:00",
       "competition": "bundesliga",
@@ -18676,7 +18676,7 @@
       "gender": "men"
     },
     {
-      "id": "19700912-eintrach-bayernmn",
+      "id": "19700912-eintrach-fcbayern",
       "date": "1970-09-12T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -19925,7 +19925,7 @@
       "gender": "men"
     },
     {
-      "id": "19710519-bayernmn-eintrach",
+      "id": "19710519-fcbayern-eintrach",
       "date": "1971-05-19T20:00:00",
       "kickoffText": "20:00",
       "competition": "bundesliga",
@@ -20879,7 +20879,7 @@
       "gender": "men"
     },
     {
-      "id": "19711113-eintrach-bayernmn",
+      "id": "19711113-eintrach-fcbayern",
       "date": "1971-11-13T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -21959,7 +21959,7 @@
       "gender": "men"
     },
     {
-      "id": "19720603-bayernmn-eintrach",
+      "id": "19720603-fcbayern-eintrach",
       "date": "1972-06-03T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -22891,7 +22891,7 @@
       "gender": "men"
     },
     {
-      "id": "19721014-eintrach-bayernmn",
+      "id": "19721014-eintrach-fcbayern",
       "date": "1972-10-14T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -23921,7 +23921,7 @@
       "gender": "men"
     },
     {
-      "id": "19730310-bayernmn-eintrach",
+      "id": "19730310-fcbayern-eintrach",
       "date": "1973-03-10T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -24935,7 +24935,7 @@
       "gender": "men"
     },
     {
-      "id": "19730929-bayernmn-eintrach",
+      "id": "19730929-fcbayern-eintrach",
       "date": "1973-09-29T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -26071,7 +26071,7 @@
       "gender": "men"
     },
     {
-      "id": "19740316-eintrach-bayernmn",
+      "id": "19740316-eintrach-fcbayern",
       "date": "1974-03-16T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -26283,7 +26283,7 @@
       "gender": "men"
     },
     {
-      "id": "19740413-eintrach-bayernmn",
+      "id": "19740413-eintrach-fcbayern",
       "date": "1974-04-13T15:30:00",
       "kickoffText": null,
       "competition": "dfbPokal",
@@ -27257,7 +27257,7 @@
       "gender": "men"
     },
     {
-      "id": "19741019-bayernmn-eintrach",
+      "id": "19741019-fcbayern-eintrach",
       "date": "1974-10-19T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -28304,7 +28304,7 @@
       "gender": "men"
     },
     {
-      "id": "19750405-eintrach-bayernmn",
+      "id": "19750405-eintrach-fcbayern",
       "date": "1975-04-05T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -30008,7 +30008,7 @@
       "gender": "men"
     },
     {
-      "id": "19751122-eintrach-bayernmn",
+      "id": "19751122-eintrach-fcbayern",
       "date": "1975-11-22T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -31139,7 +31139,7 @@
       "gender": "men"
     },
     {
-      "id": "19760529-bayernmn-eintrach",
+      "id": "19760529-fcbayern-eintrach",
       "date": "1976-05-29T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -32383,7 +32383,7 @@
       "gender": "men"
     },
     {
-      "id": "19761204-bayernmn-eintrach",
+      "id": "19761204-fcbayern-eintrach",
       "date": "1976-12-04T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -33584,7 +33584,7 @@
       "gender": "men"
     },
     {
-      "id": "19770514-eintrach-bayernmn",
+      "id": "19770514-eintrach-fcbayern",
       "date": "1977-05-14T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -34852,7 +34852,7 @@
       "gender": "men"
     },
     {
-      "id": "19771123-eintrach-bayernmn",
+      "id": "19771123-eintrach-fcbayern",
       "date": "1977-11-23T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -34905,7 +34905,7 @@
       "gender": "men"
     },
     {
-      "id": "19771126-eintrach-bayernmn",
+      "id": "19771126-eintrach-fcbayern",
       "date": "1977-11-26T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -34995,7 +34995,7 @@
       "gender": "men"
     },
     {
-      "id": "19771207-bayernmn-eintrach",
+      "id": "19771207-fcbayern-eintrach",
       "date": "1977-12-07T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -35795,7 +35795,7 @@
       "gender": "men"
     },
     {
-      "id": "19780422-bayernmn-eintrach",
+      "id": "19780422-fcbayern-eintrach",
       "date": "1978-04-22T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -36057,7 +36057,7 @@
       "gender": "men"
     },
     {
-      "id": "19780902-bayernmn-eintrach",
+      "id": "19780902-fcbayern-eintrach",
       "date": "1978-09-02T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -36457,7 +36457,7 @@
       "gender": "men"
     },
     {
-      "id": "19781028-eintrach-darmstad",
+      "id": "19781028-eintrach-svdarmst",
       "date": "1978-10-28T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -36881,7 +36881,7 @@
       "gender": "men"
     },
     {
-      "id": "19790203-eintrach-bayernmn",
+      "id": "19790203-eintrach-fcbayern",
       "date": "1979-02-03T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -37231,7 +37231,7 @@
       "gender": "men"
     },
     {
-      "id": "19790418-darmstad-eintrach",
+      "id": "19790418-svdarmst-eintrach",
       "date": "1979-04-18T20:00:00",
       "kickoffText": "20:00",
       "competition": "bundesliga",
@@ -38268,7 +38268,7 @@
       "gender": "men"
     },
     {
-      "id": "19791020-eintrach-bayernmn",
+      "id": "19791020-eintrach-fcbayern",
       "date": "1979-10-20T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -39561,7 +39561,7 @@
       "gender": "men"
     },
     {
-      "id": "19800322-bayernmn-eintrach",
+      "id": "19800322-fcbayern-eintrach",
       "date": "1980-03-22T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -39651,7 +39651,7 @@
       "gender": "men"
     },
     {
-      "id": "19800409-bayernmn-eintrach",
+      "id": "19800409-fcbayern-eintrach",
       "date": "1980-04-09T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -39802,7 +39802,7 @@
       "gender": "men"
     },
     {
-      "id": "19800422-eintrach-bayernmn",
+      "id": "19800422-eintrach-fcbayern",
       "date": "1980-04-22T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -41344,7 +41344,7 @@
       "gender": "men"
     },
     {
-      "id": "19801129-eintrach-bayernmn",
+      "id": "19801129-eintrach-fcbayern",
       "date": "1980-11-29T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -42316,7 +42316,7 @@
       "gender": "men"
     },
     {
-      "id": "19810530-bayernmn-eintrach",
+      "id": "19810530-fcbayern-eintrach",
       "date": "1981-05-30T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -42894,7 +42894,7 @@
       "gender": "men"
     },
     {
-      "id": "19810916-eintrach-paoksalo",
+      "id": "19810916-eintrach-paokthes",
       "date": "1981-09-16T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -43061,7 +43061,7 @@
       "gender": "men"
     },
     {
-      "id": "19810930-paoksalo-eintrach",
+      "id": "19810930-paokthes-eintrach",
       "date": "1981-09-30T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -43254,7 +43254,7 @@
       "gender": "men"
     },
     {
-      "id": "19811024-bayernmn-eintrach",
+      "id": "19811024-fcbayern-eintrach",
       "date": "1981-10-24T16:00:00",
       "kickoffText": "16:00",
       "competition": "bundesliga",
@@ -43413,7 +43413,7 @@
       "gender": "men"
     },
     {
-      "id": "19811107-darmstad-eintrach",
+      "id": "19811107-svdarmst-eintrach",
       "date": "1981-11-07T14:30:00",
       "kickoffText": "14:30",
       "competition": "bundesliga",
@@ -44434,7 +44434,7 @@
       "gender": "men"
     },
     {
-      "id": "19820417-eintrach-bayernmn",
+      "id": "19820417-eintrach-fcbayern",
       "date": "1982-04-17T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -44556,7 +44556,7 @@
       "gender": "men"
     },
     {
-      "id": "19820428-eintrach-darmstad",
+      "id": "19820428-eintrach-svdarmst",
       "date": "1982-04-28T20:00:00",
       "kickoffText": "20:00",
       "competition": "bundesliga",
@@ -45051,7 +45051,7 @@
       "gender": "men"
     },
     {
-      "id": "19820918-bayernmn-eintrach",
+      "id": "19820918-fcbayern-eintrach",
       "date": "1982-09-18T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -45808,7 +45808,7 @@
       "gender": "men"
     },
     {
-      "id": "19830305-eintrach-bayernmn",
+      "id": "19830305-eintrach-fcbayern",
       "date": "1983-03-05T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -47124,7 +47124,7 @@
       "gender": "men"
     },
     {
-      "id": "19831105-eintrach-bayernmn",
+      "id": "19831105-eintrach-fcbayern",
       "date": "1983-11-05T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -47806,7 +47806,7 @@
       "gender": "men"
     },
     {
-      "id": "19840428-bayernmn-eintrach",
+      "id": "19840428-fcbayern-eintrach",
       "date": "1984-04-28T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -48622,7 +48622,7 @@
       "gender": "men"
     },
     {
-      "id": "19841020-bayernmn-eintrach",
+      "id": "19841020-fcbayern-eintrach",
       "date": "1984-10-20T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -49592,7 +49592,7 @@
       "gender": "men"
     },
     {
-      "id": "19850403-eintrach-bayernmn",
+      "id": "19850403-eintrach-fcbayern",
       "date": "1985-04-03T20:00:00",
       "kickoffText": "20:00",
       "competition": "bundesliga",
@@ -50488,7 +50488,7 @@
       "gender": "men"
     },
     {
-      "id": "19851026-bayernmn-eintrach",
+      "id": "19851026-fcbayern-eintrach",
       "date": "1985-10-26T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -51167,7 +51167,7 @@
       "gender": "men"
     },
     {
-      "id": "19860329-eintrach-bayernmn",
+      "id": "19860329-eintrach-fcbayern",
       "date": "1986-03-29T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -51874,7 +51874,7 @@
       "gender": "men"
     },
     {
-      "id": "19861011-eintrach-bayernmn",
+      "id": "19861011-eintrach-fcbayern",
       "date": "1986-10-11T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -52770,7 +52770,7 @@
       "gender": "men"
     },
     {
-      "id": "19870512-bayernmn-eintrach",
+      "id": "19870512-fcbayern-eintrach",
       "date": "1987-05-12T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -53399,7 +53399,7 @@
       "gender": "men"
     },
     {
-      "id": "19870905-bayernmn-eintrach",
+      "id": "19870905-fcbayern-eintrach",
       "date": "1987-09-05T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -54371,7 +54371,7 @@
       "gender": "men"
     },
     {
-      "id": "19880319-eintrach-bayernmn",
+      "id": "19880319-eintrach-fcbayern",
       "date": "1988-03-19T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -54920,7 +54920,7 @@
       "gender": "men"
     },
     {
-      "id": "19880723-bayernmn-eintrach",
+      "id": "19880723-fcbayern-eintrach",
       "date": "1988-07-23T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -55909,7 +55909,7 @@
       "gender": "men"
     },
     {
-      "id": "19890218-eintrach-bayernmn",
+      "id": "19890218-eintrach-fcbayern",
       "date": "1989-02-18T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -56969,7 +56969,7 @@
       "gender": "men"
     },
     {
-      "id": "19890819-eintrach-bayernmn",
+      "id": "19890819-eintrach-fcbayern",
       "date": "1989-08-19T15:30:00",
       "kickoffText": null,
       "competition": "dfbPokal",
@@ -57125,7 +57125,7 @@
       "gender": "men"
     },
     {
-      "id": "19890909-eintrach-bayernmn",
+      "id": "19890909-eintrach-fcbayern",
       "date": "1989-09-09T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -57922,7 +57922,7 @@
       "gender": "men"
     },
     {
-      "id": "19900317-bayernmn-eintrach",
+      "id": "19900317-fcbayern-eintrach",
       "date": "1990-03-17T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -58755,7 +58755,7 @@
       "gender": "women"
     },
     {
-      "id": "19900919-brndbyko-eintrach",
+      "id": "19900919-brndbyif-eintrach",
       "date": "1990-09-19T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -58903,7 +58903,7 @@
       "gender": "women"
     },
     {
-      "id": "19901003-eintrach-brndbyko",
+      "id": "19901003-eintrach-brndbyif",
       "date": "1990-10-03T15:30:00",
       "kickoffText": null,
       "competition": "europacup",
@@ -59173,7 +59173,7 @@
       "gender": "women"
     },
     {
-      "id": "19901027-eintrach-bayernmn",
+      "id": "19901027-eintrach-fcbayern",
       "date": "1990-10-27T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -60844,7 +60844,7 @@
       "gender": "men"
     },
     {
-      "id": "19910511-bayernmn-eintrach",
+      "id": "19910511-fcbayern-eintrach",
       "date": "1991-05-11T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -61824,7 +61824,7 @@
       "gender": "men"
     },
     {
-      "id": "19910921-bayernmn-eintrach",
+      "id": "19910921-fcbayern-eintrach",
       "date": "1991-09-21T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -62763,7 +62763,7 @@
       "gender": "men"
     },
     {
-      "id": "19920321-eintrach-bayernmn",
+      "id": "19920321-eintrach-fcbayern",
       "date": "1992-03-21T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -64011,7 +64011,7 @@
       "gender": "men"
     },
     {
-      "id": "19921027-eintrach-bayernmn",
+      "id": "19921027-eintrach-fcbayern",
       "date": "1992-10-27T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -64526,7 +64526,7 @@
       "gender": "men"
     },
     {
-      "id": "19930306-bayernmn-eintrach",
+      "id": "19930306-fcbayern-eintrach",
       "date": "1993-03-06T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -66537,7 +66537,7 @@
       "gender": "men"
     },
     {
-      "id": "19931023-eintrach-bayernmn",
+      "id": "19931023-eintrach-fcbayern",
       "date": "1993-10-23T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -67680,7 +67680,7 @@
       "gender": "men"
     },
     {
-      "id": "19940409-bayernmn-eintrach",
+      "id": "19940409-fcbayern-eintrach",
       "date": "1994-04-09T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -69093,7 +69093,7 @@
       "gender": "men"
     },
     {
-      "id": "19941015-bayernmn-eintrach",
+      "id": "19941015-fcbayern-eintrach",
       "date": "1994-10-15T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -70765,7 +70765,7 @@
       "gender": "women"
     },
     {
-      "id": "19950415-eintrach-bayernmn",
+      "id": "19950415-eintrach-fcbayern",
       "date": "1995-04-15T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -71911,7 +71911,7 @@
       "gender": "men"
     },
     {
-      "id": "19951104-eintrach-bayernmn",
+      "id": "19951104-eintrach-fcbayern",
       "date": "1995-11-04T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -72668,7 +72668,7 @@
       "gender": "men"
     },
     {
-      "id": "19960420-bayernmn-eintrach",
+      "id": "19960420-fcbayern-eintrach",
       "date": "1996-04-20T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -73711,7 +73711,7 @@
       "gender": "men"
     },
     {
-      "id": "19961122-eintrach-rotweiss",
+      "id": "19961122-eintrach-rotweies",
       "date": "1996-11-22T19:00:00",
       "kickoffText": "19:00",
       "competition": "bundesliga2",
@@ -74373,7 +74373,7 @@
       "gender": "men"
     },
     {
-      "id": "19970518-sgpraunh-svgrnwei",
+      "id": "19970518-sgpraunh-grnweibr",
       "date": "1997-05-18T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -74479,7 +74479,7 @@
       "gender": "men"
     },
     {
-      "id": "19970525-rotweiss-eintrach",
+      "id": "19970525-rotweies-eintrach",
       "date": "1997-05-25T15:00:00",
       "kickoffText": "15:00",
       "competition": "bundesliga2",
@@ -74540,7 +74540,7 @@
       "gender": "men"
     },
     {
-      "id": "19970525-svgrnwei-sgpraunh",
+      "id": "19970525-grnweibr-sgpraunh",
       "date": "1997-05-25T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -75312,7 +75312,7 @@
       "gender": "men"
     },
     {
-      "id": "19971005-sgpraunh-ssvturbi",
+      "id": "19971005-sgpraunh-turbinep",
       "date": "1997-10-05T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -76515,7 +76515,7 @@
       "gender": "men"
     },
     {
-      "id": "19980405-ssvturbi-sgpraunh",
+      "id": "19980405-turbinep-sgpraunh",
       "date": "1998-04-05T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -77448,7 +77448,7 @@
       "gender": "men"
     },
     {
-      "id": "19980830-ssvturbi-sgpraunh",
+      "id": "19980830-turbinep-sgpraunh",
       "date": "1998-08-30T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -78242,7 +78242,7 @@
       "gender": "women"
     },
     {
-      "id": "19981031-eintrach-bayernmn",
+      "id": "19981031-eintrach-fcbayern",
       "date": "1998-10-31T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -78712,7 +78712,7 @@
       "gender": "men"
     },
     {
-      "id": "19990131-ffcfrank-ssvturbi",
+      "id": "19990131-ffcfrank-turbinep",
       "date": "1999-01-31T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -79397,7 +79397,7 @@
       "gender": "men"
     },
     {
-      "id": "19990416-bayernmn-eintrach",
+      "id": "19990416-fcbayern-eintrach",
       "date": "1999-04-16T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -81789,7 +81789,7 @@
       "gender": "men"
     },
     {
-      "id": "20000226-bayernmn-eintrach",
+      "id": "20000226-fcbayern-eintrach",
       "date": "2000-02-26T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -83095,7 +83095,7 @@
       "gender": "men"
     },
     {
-      "id": "20000910-fcenergi-eintrach",
+      "id": "20000910-energiec-eintrach",
       "date": "2000-09-10T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -83664,7 +83664,7 @@
       "gender": "women"
     },
     {
-      "id": "20001118-bayernmn-eintrach",
+      "id": "20001118-fcbayern-eintrach",
       "date": "2000-11-18T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -84321,7 +84321,7 @@
       "gender": "men"
     },
     {
-      "id": "20010209-eintrach-fcenergi",
+      "id": "20010209-eintrach-energiec",
       "date": "2001-02-09T09:30:00",
       "kickoffText": "9:30",
       "competition": "bundesliga",
@@ -85123,7 +85123,7 @@
       "gender": "women"
     },
     {
-      "id": "20010421-eintrach-bayernmn",
+      "id": "20010421-eintrach-fcbayern",
       "date": "2001-04-21T15:30:00",
       "kickoffText": null,
       "competition": "bundesliga",
@@ -94332,7 +94332,7 @@
       "gender": "men"
     },
     {
-      "id": "20040821-rotweier-eintrach",
+      "id": "20040821-fcrotwei-eintrach",
       "date": "2004-08-21T15:00:00",
       "kickoffText": "15:00",
       "competition": "dfbPokal",
@@ -94443,7 +94443,7 @@
       "gender": "women"
     },
     {
-      "id": "20040910-eintrach-fcdynamo",
+      "id": "20040910-eintrach-dynamodr",
       "date": "2004-09-10T19:00:00",
       "kickoffText": "19:00",
       "competition": "bundesliga2",
@@ -94740,7 +94740,7 @@
       "gender": "men"
     },
     {
-      "id": "20041001-rotweiss-eintrach",
+      "id": "20041001-rotweies-eintrach",
       "date": "2004-10-01T19:00:00",
       "kickoffText": "19:00",
       "competition": "bundesliga2",
@@ -95032,7 +95032,7 @@
       "gender": "women"
     },
     {
-      "id": "20041018-eintrach-tsvmnche",
+      "id": "20041018-eintrach-mnchen",
       "date": "2004-10-18T20:15:00",
       "kickoffText": "20:15",
       "competition": "bundesliga2",
@@ -95972,7 +95972,7 @@
       "gender": "men"
     },
     {
-      "id": "20050211-fcdynamo-eintrach",
+      "id": "20050211-dynamodr-eintrach",
       "date": "2005-02-11T19:00:00",
       "kickoffText": "19:00",
       "competition": "bundesliga2",
@@ -96205,7 +96205,7 @@
       "gender": "women"
     },
     {
-      "id": "20050306-eintrach-rotweiss",
+      "id": "20050306-eintrach-rotweies",
       "date": "2005-03-06T15:00:00",
       "kickoffText": "15:00",
       "competition": "bundesliga2",
@@ -96234,7 +96234,7 @@
       "gender": "men"
     },
     {
-      "id": "20050314-tsvmnche-eintrach",
+      "id": "20050314-mnchen-eintrach",
       "date": "2005-03-14T20:15:00",
       "kickoffText": "20:15",
       "competition": "bundesliga2",
@@ -97802,7 +97802,7 @@
       "gender": "men"
     },
     {
-      "id": "20051001-eintrach-fcschalk",
+      "id": "20051001-eintrach-schalke",
       "date": "2005-10-01T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -98014,7 +98014,7 @@
       "gender": "women"
     },
     {
-      "id": "20051025-eintrach-fcschalk",
+      "id": "20051025-eintrach-schalke",
       "date": "2005-10-25T19:30:00",
       "kickoffText": "19:30",
       "competition": "dfbPokal",
@@ -98083,7 +98083,7 @@
       "gender": "men"
     },
     {
-      "id": "20051029-svwerder-eintrach",
+      "id": "20051029-werderbr-eintrach",
       "date": "2005-10-29T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -98205,7 +98205,7 @@
       "gender": "women"
     },
     {
-      "id": "20051105-eintrach-dscarmin",
+      "id": "20051105-eintrach-arminiab",
       "date": "2005-11-05T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -98682,7 +98682,7 @@
       "gender": "men"
     },
     {
-      "id": "20060125-tsvmnche-eintrach",
+      "id": "20060125-mnchen-eintrach",
       "date": "2006-01-25T19:00:00",
       "kickoffText": "19:00",
       "competition": "dfbPokal",
@@ -99087,7 +99087,7 @@
       "gender": "men"
     },
     {
-      "id": "20060312-fcschalk-eintrach",
+      "id": "20060312-schalke-eintrach",
       "date": "2006-03-12T17:30:00",
       "kickoffText": "17:30",
       "competition": "bundesliga",
@@ -99992,7 +99992,7 @@
       "gender": "women"
     },
     {
-      "id": "20060429-eintrach-bayernmn",
+      "id": "20060429-eintrach-fcbayern",
       "date": "2006-04-29T20:00:00",
       "kickoffText": "20:00",
       "competition": "dfbPokal",
@@ -100429,7 +100429,7 @@
       "gender": "women"
     },
     {
-      "id": "20060812-fcschalk-eintrach",
+      "id": "20060812-schalke-eintrach",
       "date": "2006-08-12T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -101437,7 +101437,7 @@
       "gender": "men"
     },
     {
-      "id": "20061108-fcenergi-eintrach",
+      "id": "20061108-energiec-eintrach",
       "date": "2006-11-08T20:00:00",
       "kickoffText": "20:00",
       "competition": "bundesliga",
@@ -101466,7 +101466,7 @@
       "gender": "men"
     },
     {
-      "id": "20061111-eintrach-dscarmin",
+      "id": "20061111-eintrach-arminiab",
       "date": "2006-11-11T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -101804,7 +101804,7 @@
       "gender": "women"
     },
     {
-      "id": "20061203-tsvalema-eintrach",
+      "id": "20061203-alemanni-eintrach",
       "date": "2006-12-03T17:00:00",
       "kickoffText": "17:00",
       "competition": "bundesliga",
@@ -101865,7 +101865,7 @@
       "gender": "men"
     },
     {
-      "id": "20061209-eintrach-svwerder",
+      "id": "20061209-eintrach-werderbr",
       "date": "2006-12-09T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -102130,7 +102130,7 @@
       "gender": "men"
     },
     {
-      "id": "20070127-eintrach-fcschalk",
+      "id": "20070127-eintrach-schalke",
       "date": "2007-01-27T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -102896,7 +102896,7 @@
       "gender": "men"
     },
     {
-      "id": "20070407-eintrach-fcenergi",
+      "id": "20070407-eintrach-energiec",
       "date": "2007-04-07T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -102949,7 +102949,7 @@
       "gender": "men"
     },
     {
-      "id": "20070414-dscarmin-eintrach",
+      "id": "20070414-arminiab-eintrach",
       "date": "2007-04-14T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -103344,7 +103344,7 @@
       "gender": "women"
     },
     {
-      "id": "20070505-eintrach-tsvalema",
+      "id": "20070505-eintrach-alemanni",
       "date": "2007-05-05T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -103434,7 +103434,7 @@
       "gender": "women"
     },
     {
-      "id": "20070512-svwerder-eintrach",
+      "id": "20070512-werderbr-eintrach",
       "date": "2007-05-12T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -103919,7 +103919,7 @@
       "gender": "men"
     },
     {
-      "id": "20070818-dscarmin-eintrach",
+      "id": "20070818-arminiab-eintrach",
       "date": "2007-08-18T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -104110,7 +104110,7 @@
       "gender": "women"
     },
     {
-      "id": "20070826-eintrach-fchansar",
+      "id": "20070826-eintrach-hansaros",
       "date": "2007-08-26T17:00:00",
       "kickoffText": "17:00",
       "competition": "bundesliga",
@@ -104278,7 +104278,7 @@
       "gender": "men"
     },
     {
-      "id": "20070930-fcenergi-eintrach",
+      "id": "20070930-energiec-eintrach",
       "date": "2007-09-30T17:00:00",
       "kickoffText": "17:00",
       "competition": "bundesliga",
@@ -105002,7 +105002,7 @@
       "gender": "women"
     },
     {
-      "id": "20071208-eintrach-fcschalk",
+      "id": "20071208-eintrach-schalke",
       "date": "2007-12-08T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -105219,7 +105219,7 @@
       "gender": "men"
     },
     {
-      "id": "20080208-eintrach-dscarmin",
+      "id": "20080208-eintrach-arminiab",
       "date": "2008-02-08T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -105264,7 +105264,7 @@
       "gender": "men"
     },
     {
-      "id": "20080216-fchansar-eintrach",
+      "id": "20080216-hansaros-eintrach",
       "date": "2008-02-16T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -105656,7 +105656,7 @@
       "gender": "men"
     },
     {
-      "id": "20080320-eintrach-fcenergi",
+      "id": "20080320-eintrach-energiec",
       "date": "2008-03-20T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -106406,7 +106406,7 @@
       "gender": "men"
     },
     {
-      "id": "20080510-fcschalk-eintrach",
+      "id": "20080510-schalke-eintrach",
       "date": "2008-05-10T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -107132,7 +107132,7 @@
       "gender": "women"
     },
     {
-      "id": "20080920-fcschalk-eintrach",
+      "id": "20080920-schalke-eintrach",
       "date": "2008-09-20T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -107230,7 +107230,7 @@
       "gender": "women"
     },
     {
-      "id": "20080923-eintrach-fchansar",
+      "id": "20080923-eintrach-hansaros",
       "date": "2008-09-23T19:00:00",
       "kickoffText": "19:00",
       "competition": "dfbPokal",
@@ -107275,7 +107275,7 @@
       "gender": "men"
     },
     {
-      "id": "20080928-eintrach-arminabi",
+      "id": "20080928-eintrach-arminiab",
       "date": "2008-09-28T17:00:00",
       "kickoffText": "17:00",
       "competition": "bundesliga",
@@ -108342,7 +108342,7 @@
       "gender": "men"
     },
     {
-      "id": "20090228-eintrach-fcschalk",
+      "id": "20090228-eintrach-schalke",
       "date": "2009-02-28T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -108448,7 +108448,7 @@
       "gender": "women"
     },
     {
-      "id": "20090308-arminabi-eintrach",
+      "id": "20090308-arminiab-eintrach",
       "date": "2009-03-08T17:00:00",
       "kickoffText": "17:00",
       "competition": "bundesliga",
@@ -110019,7 +110019,7 @@
       "gender": "women"
     },
     {
-      "id": "20091002-fcschalk-eintrach",
+      "id": "20091002-schalke-eintrach",
       "date": "2009-10-02T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -111560,7 +111560,7 @@
       "gender": "men"
     },
     {
-      "id": "20100306-eintrach-fcschalk",
+      "id": "20100306-eintrach-schalke",
       "date": "2010-03-06T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -113853,7 +113853,7 @@
       "gender": "men"
     },
     {
-      "id": "20101023-eintrach-fcschalk",
+      "id": "20101023-eintrach-schalke",
       "date": "2010-10-23T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -114271,7 +114271,7 @@
       "gender": "women"
     },
     {
-      "id": "20101113-svwerder-eintrach",
+      "id": "20101113-werderbr-eintrach",
       "date": "2010-11-13T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -115486,7 +115486,7 @@
       "gender": "women"
     },
     {
-      "id": "20110312-fcschalk-eintrach",
+      "id": "20110312-schalke-eintrach",
       "date": "2011-03-12T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -115759,7 +115759,7 @@
       "gender": "men"
     },
     {
-      "id": "20110408-eintrach-svwerder",
+      "id": "20110408-eintrach-werderbr",
       "date": "2011-04-08T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -117813,7 +117813,7 @@
       "gender": "men"
     },
     {
-      "id": "20111126-tsvmnche-eintrach",
+      "id": "20111126-mnchen-eintrach",
       "date": "2011-11-26T13:00:00",
       "kickoffText": "13:00",
       "competition": "bundesliga2",
@@ -119337,7 +119337,7 @@
       "gender": "women"
     },
     {
-      "id": "20120429-eintrach-tsvmnche",
+      "id": "20120429-eintrach-mnchen",
       "date": "2012-04-29T13:30:00",
       "kickoffText": "13:30",
       "competition": "bundesliga2",
@@ -119644,7 +119644,7 @@
       "gender": "women"
     },
     {
-      "id": "20120819-fcerzgeb-eintrach",
+      "id": "20120819-erzgebir-eintrach",
       "date": "2012-08-19T16:00:00",
       "kickoffText": "16:00",
       "competition": "dfbPokal",
@@ -120759,7 +120759,7 @@
       "gender": "men"
     },
     {
-      "id": "20121124-fcschalk-eintrach",
+      "id": "20121124-schalke-eintrach",
       "date": "2012-11-24T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -121008,7 +121008,7 @@
       "gender": "women"
     },
     {
-      "id": "20121208-eintrach-svwerder",
+      "id": "20121208-eintrach-werderbr",
       "date": "2012-12-08T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
@@ -121865,7 +121865,7 @@
       "gender": "women"
     },
     {
-      "id": "20130420-eintrach-fcschalk",
+      "id": "20130420-eintrach-schalke",
       "date": "2013-04-20T17:30:00",
       "kickoffText": "17:30",
       "competition": "bundesliga",
@@ -122139,7 +122139,7 @@
       "gender": "women"
     },
     {
-      "id": "20130511-svwerder-eintrach",
+      "id": "20130511-werderbr-eintrach",
       "date": "2013-05-11T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -122618,7 +122618,7 @@
       "gender": "women"
     },
     {
-      "id": "20130914-svwerder-eintrach",
+      "id": "20130914-werderbr-eintrach",
       "date": "2013-09-14T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -123728,7 +123728,7 @@
       "gender": "women"
     },
     {
-      "id": "20131123-eintrach-fcschalk",
+      "id": "20131123-eintrach-schalke",
       "date": "2013-11-23T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -124160,7 +124160,7 @@
       "gender": "men"
     },
     {
-      "id": "20131215-svwerder-ffcfrank",
+      "id": "20131215-werderbr-ffcfrank",
       "date": "2013-12-15T13:00:00",
       "kickoffText": "13:00",
       "competition": "dfbPokal",
@@ -124601,7 +124601,7 @@
       "gender": "women"
     },
     {
-      "id": "20140223-eintrach-svwerder",
+      "id": "20140223-eintrach-werderbr",
       "date": "2014-02-23T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -125208,7 +125208,7 @@
       "gender": "men"
     },
     {
-      "id": "20140411-fcschalk-eintrach",
+      "id": "20140411-schalke-eintrach",
       "date": "2014-04-11T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -126131,7 +126131,7 @@
       "gender": "men"
     },
     {
-      "id": "20140920-fcschalk-eintrach",
+      "id": "20140920-schalke-eintrach",
       "date": "2014-09-20T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -128191,7 +128191,7 @@
       "gender": "men"
     },
     {
-      "id": "20150214-eintrach-fcschalk",
+      "id": "20150214-eintrach-schalke",
       "date": "2015-02-14T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
@@ -130050,7 +130050,7 @@
       "gender": "men"
     },
     {
-      "id": "20150923-fcschalk-eintrach",
+      "id": "20150923-schalke-eintrach",
       "date": "2015-09-23T20:00:00",
       "kickoffText": "20:00",
       "competition": "bundesliga",
@@ -130543,7 +130543,7 @@
       "gender": "men"
     },
     {
-      "id": "20151018-svwerder-ffcfrank",
+      "id": "20151018-werderbr-ffcfrank",
       "date": "2015-10-18T11:00:00",
       "kickoffText": "11:00",
       "competition": "bundesliga",
@@ -131319,7 +131319,7 @@
       "gender": "women"
     },
     {
-      "id": "20151219-eintrach-svwerder",
+      "id": "20151219-eintrach-werderbr",
       "date": "2015-12-19T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -131778,7 +131778,7 @@
       "gender": "women"
     },
     {
-      "id": "20160228-eintrach-fcschalk",
+      "id": "20160228-eintrach-schalke",
       "date": "2016-02-28T19:30:00",
       "kickoffText": "19:30",
       "competition": "bundesliga",
@@ -132028,7 +132028,7 @@
       "gender": "women"
     },
     {
-      "id": "20160327-ffcfrank-svwerder",
+      "id": "20160327-ffcfrank-werderbr",
       "date": "2016-03-27T11:00:00",
       "kickoffText": "11:00",
       "competition": "bundesliga",
@@ -132594,7 +132594,7 @@
       "gender": "women"
     },
     {
-      "id": "20160514-svwerder-eintrach",
+      "id": "20160514-werderbr-eintrach",
       "date": "2016-05-14T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -132713,7 +132713,7 @@
       "gender": "men"
     },
     {
-      "id": "20160827-eintrach-fcschalk",
+      "id": "20160827-eintrach-schalke",
       "date": "2016-08-27T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -133550,7 +133550,7 @@
       "gender": "women"
     },
     {
-      "id": "20161120-svwerder-eintrach",
+      "id": "20161120-werderbr-eintrach",
       "date": "2016-11-20T17:30:00",
       "kickoffText": "17:30",
       "competition": "bundesliga",
@@ -133983,7 +133983,7 @@
       "gender": "men"
     },
     {
-      "id": "20170127-fcschalk-eintrach",
+      "id": "20170127-schalke-eintrach",
       "date": "2017-01-27T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -134623,7 +134623,7 @@
       "gender": "men"
     },
     {
-      "id": "20170407-eintrach-svwerder",
+      "id": "20170407-eintrach-werderbr",
       "date": "2017-04-07T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -136136,7 +136136,7 @@
       "gender": "women"
     },
     {
-      "id": "20171103-eintrach-svwerder",
+      "id": "20171103-eintrach-werderbr",
       "date": "2017-11-03T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -136181,7 +136181,7 @@
       "gender": "men"
     },
     {
-      "id": "20171105-ffcfrank-svwerder",
+      "id": "20171105-ffcfrank-werderbr",
       "date": "2017-11-05T11:00:00",
       "kickoffText": "11:00",
       "competition": "bundesliga",
@@ -136546,7 +136546,7 @@
       "gender": "men"
     },
     {
-      "id": "20171216-eintrach-fcschalk",
+      "id": "20171216-eintrach-schalke",
       "date": "2017-12-16T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -137552,7 +137552,7 @@
       "gender": "women"
     },
     {
-      "id": "20180401-svwerder-eintrach",
+      "id": "20180401-werderbr-eintrach",
       "date": "2018-04-01T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -137695,7 +137695,7 @@
       "gender": "men"
     },
     {
-      "id": "20180418-fcschalk-eintrach",
+      "id": "20180418-schalke-eintrach",
       "date": "2018-04-18T20:45:00",
       "kickoffText": "20:45",
       "competition": "dfbPokal",
@@ -137859,7 +137859,7 @@
       "gender": "men"
     },
     {
-      "id": "20180429-svwerder-ffcfrank",
+      "id": "20180429-werderbr-ffcfrank",
       "date": "2018-04-29T11:00:00",
       "kickoffText": "11:00",
       "competition": "bundesliga",
@@ -137970,7 +137970,7 @@
       "gender": "women"
     },
     {
-      "id": "20180512-fcschalk-eintrach",
+      "id": "20180512-schalke-eintrach",
       "date": "2018-05-12T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -138322,7 +138322,7 @@
       "gender": "men"
     },
     {
-      "id": "20180901-eintrach-svwerder",
+      "id": "20180901-eintrach-werderbr",
       "date": "2018-09-01T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -139151,7 +139151,7 @@
       "gender": "men"
     },
     {
-      "id": "20181028-ffcfrank-svwerder",
+      "id": "20181028-ffcfrank-werderbr",
       "date": "2018-10-28T10:00:00",
       "kickoffText": "10:00",
       "competition": "bundesliga",
@@ -139416,7 +139416,7 @@
       "gender": "men"
     },
     {
-      "id": "20181111-eintrach-fcschalk",
+      "id": "20181111-eintrach-schalke",
       "date": "2018-11-11T18:00:00",
       "kickoffText": "18:00",
       "competition": "bundesliga",
@@ -140178,7 +140178,7 @@
       "gender": "men"
     },
     {
-      "id": "20190126-svwerder-eintrach",
+      "id": "20190126-werderbr-eintrach",
       "date": "2019-01-26T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
@@ -140317,7 +140317,7 @@
       "gender": "women"
     },
     {
-      "id": "20190214-shakhtar-eintrach",
+      "id": "20190214-schachtj-eintrach",
       "date": "2019-02-14T21:00:00",
       "kickoffText": "21:00",
       "competition": "europacup",
@@ -140476,7 +140476,7 @@
       "gender": "men"
     },
     {
-      "id": "20190221-eintrach-shakhtar",
+      "id": "20190221-eintrach-schachtj",
       "date": "2019-02-21T18:55:00",
       "kickoffText": "18:55",
       "competition": "europacup",
@@ -140962,7 +140962,7 @@
       "gender": "men"
     },
     {
-      "id": "20190406-fcschalk-eintrach",
+      "id": "20190406-schalke-eintrach",
       "date": "2019-04-06T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -141076,7 +141076,7 @@
       "gender": "men"
     },
     {
-      "id": "20190414-svwerder-ffcfrank",
+      "id": "20190414-werderbr-ffcfrank",
       "date": "2019-04-14T11:00:00",
       "kickoffText": "11:00",
       "competition": "bundesliga",
@@ -142660,7 +142660,7 @@
       "gender": "men"
     },
     {
-      "id": "20191006-eintrach-svwerder",
+      "id": "20191006-eintrach-werderbr",
       "date": "2019-10-06T18:00:00",
       "kickoffText": "18:00",
       "competition": "bundesliga",
@@ -143762,7 +143762,7 @@
       "gender": "women"
     },
     {
-      "id": "20191215-fcschalk-eintrach",
+      "id": "20191215-schalke-eintrach",
       "date": "2019-12-15T18:00:00",
       "kickoffText": "18:00",
       "competition": "bundesliga",
@@ -144525,7 +144525,7 @@
       "gender": "women"
     },
     {
-      "id": "20200304-eintrach-svwerder",
+      "id": "20200304-eintrach-werderbr",
       "date": "2020-03-04T20:45:00",
       "kickoffText": "20:45",
       "competition": "dfbPokal",
@@ -144957,7 +144957,7 @@
       "gender": "men"
     },
     {
-      "id": "20200603-svwerder-eintrach",
+      "id": "20200603-werderbr-eintrach",
       "date": "2020-06-03T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -145328,7 +145328,7 @@
       "gender": "women"
     },
     {
-      "id": "20200617-eintrach-fcschalk",
+      "id": "20200617-eintrach-schalke",
       "date": "2020-06-17T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
@@ -145590,7 +145590,7 @@
       "gender": "men"
     },
     {
-      "id": "20200906-eintrach-svwerder",
+      "id": "20200906-eintrach-werderbr",
       "date": "2020-09-06T14:00:00",
       "kickoffText": "14:00",
       "competition": "bundesliga",
@@ -145659,7 +145659,7 @@
       "gender": "women"
     },
     {
-      "id": "20200912-tsvmnche-eintrach",
+      "id": "20200912-mnchen-eintrach",
       "date": "2020-09-12T15:30:00",
       "kickoffText": "15:30",
       "competition": "dfbPokal",
@@ -146291,7 +146291,7 @@
       "gender": "women"
     },
     {
-      "id": "20201031-eintrach-svwerder",
+      "id": "20201031-eintrach-werderbr",
       "date": "2020-10-31T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -146876,7 +146876,7 @@
       "gender": "men"
     },
     {
-      "id": "20201220-svwerder-eintrach",
+      "id": "20201220-werderbr-eintrach",
       "date": "2020-12-20T14:00:00",
       "kickoffText": "14:00",
       "competition": "bundesliga",
@@ -147080,7 +147080,7 @@
       "gender": "men"
     },
     {
-      "id": "20210117-eintrach-fcschalk",
+      "id": "20210117-eintrach-schalke",
       "date": "2021-01-17T18:00:00",
       "kickoffText": "18:00",
       "competition": "bundesliga",
@@ -147443,7 +147443,7 @@
       "gender": "men"
     },
     {
-      "id": "20210226-svwerder-eintrach",
+      "id": "20210226-werderbr-eintrach",
       "date": "2021-02-26T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -148402,7 +148402,7 @@
       "gender": "men"
     },
     {
-      "id": "20210515-fcschalk-eintrach",
+      "id": "20210515-schalke-eintrach",
       "date": "2021-05-15T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -150313,7 +150313,7 @@
       "gender": "men"
     },
     {
-      "id": "20211212-svwerder-eintrach",
+      "id": "20211212-werderbr-eintrach",
       "date": "2021-12-12T18:00:00",
       "kickoffText": "18:00",
       "competition": "bundesliga",
@@ -151838,7 +151838,7 @@
       "gender": "men"
     },
     {
-      "id": "20220515-eintrach-svwerder",
+      "id": "20220515-eintrach-werderbr",
       "date": "2022-05-15T14:00:00",
       "kickoffText": "14:00",
       "competition": "bundesliga",
@@ -152251,7 +152251,7 @@
       "gender": "men"
     },
     {
-      "id": "20220828-svwerder-eintrach",
+      "id": "20220828-werderbr-eintrach",
       "date": "2022-08-28T17:30:00",
       "kickoffText": "17:30",
       "competition": "bundesliga",
@@ -152740,7 +152740,7 @@
       "gender": "men"
     },
     {
-      "id": "20221002-eintrach-svwerder",
+      "id": "20221002-eintrach-werderbr",
       "date": "2022-10-02T13:01:00",
       "kickoffText": "13:01",
       "competition": "bundesliga",
@@ -153764,7 +153764,7 @@
       "gender": "women"
     },
     {
-      "id": "20230121-eintrach-fcschalk",
+      "id": "20230121-eintrach-schalke",
       "date": "2023-01-21T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -154116,7 +154116,7 @@
       "gender": "men"
     },
     {
-      "id": "20230218-eintrach-svwerder",
+      "id": "20230218-eintrach-werderbr",
       "date": "2023-02-18T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
@@ -154386,7 +154386,7 @@
       "gender": "men"
     },
     {
-      "id": "20230314-svwerder-eintrach",
+      "id": "20230314-werderbr-eintrach",
       "date": "2023-03-14T18:00:00",
       "kickoffText": "18:00",
       "competition": "bundesliga",
@@ -155228,7 +155228,7 @@
       "gender": "women"
     },
     {
-      "id": "20230520-fcschalk-eintrach",
+      "id": "20230520-schalke-eintrach",
       "date": "2023-05-20T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -156730,7 +156730,7 @@
       "gender": "men"
     },
     {
-      "id": "20231106-svwerder-eintrach",
+      "id": "20231106-werderbr-eintrach",
       "date": "2023-11-06T19:30:00",
       "kickoffText": "19:30",
       "competition": "bundesliga",
@@ -161162,7 +161162,7 @@
       "gender": "men"
     },
     {
-      "id": "20241213-carlzeis-eintrach",
+      "id": "20241213-fccarlze-eintrach",
       "date": "2024-12-13T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
@@ -163105,7 +163105,7 @@
       "gender": "men"
     },
     {
-      "id": "20250823-eintrach-svwerder",
+      "id": "20250823-eintrach-werderbr",
       "date": "2025-08-23T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
@@ -163837,7 +163837,7 @@
       "gender": "men"
     },
     {
-      "id": "20250928-viktoria-eintrach",
+      "id": "20250928-fcviktor-eintrach",
       "date": "2025-09-28T14:00:00",
       "kickoffText": "14:00",
       "competition": "dfbPokal",
@@ -163959,7 +163959,7 @@
       "gender": "men"
     },
     {
-      "id": "20251003-eintrach-carlzeis",
+      "id": "20251003-eintrach-fccarlze",
       "date": "2025-10-03T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
@@ -164118,7 +164118,7 @@
       "gender": "women"
     },
     {
-      "id": "20251019-eintrach-svwerder",
+      "id": "20251019-eintrach-werderbr",
       "date": "2025-10-19T14:00:00",
       "kickoffText": "14:00",
       "competition": "bundesliga",
@@ -164848,7 +164848,7 @@
       "gender": "men"
     },
     {
-      "id": "20251206-rbleizig-eintrach",
+      "id": "20251206-rbleipzi-eintrach",
       "date": "2025-12-06T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
@@ -165418,7 +165418,7 @@
       "gender": "men"
     },
     {
-      "id": "20260116-svwerder-eintrach",
+      "id": "20260116-werderbr-eintrach",
       "date": "2026-01-16T20:30:00",
       "kickoffText": "20:30",
       "competition": "bundesliga",
@@ -165487,7 +165487,7 @@
       "gender": "men"
     },
     {
-      "id": "20260121-qarabaga-eintrach",
+      "id": "20260121-fkqaraba-eintrach",
       "date": "2026-01-21T18:45:00",
       "kickoffText": "18:45",
       "competition": "championsLeague",
@@ -165855,7 +165855,7 @@
       "gender": "men"
     },
     {
-      "id": "20260215-carlzeis-eintrach",
+      "id": "20260215-fccarlze-eintrach",
       "date": "2026-02-15T16:00:00",
       "kickoffText": "16:00",
       "competition": "bundesliga",
@@ -166108,7 +166108,7 @@
       "gender": "women"
     },
     {
-      "id": "20260314-svwerder-eintrach",
+      "id": "20260314-werderbr-eintrach",
       "date": "2026-03-14T14:00:00",
       "kickoffText": "14:00",
       "competition": "bundesliga",
@@ -166492,7 +166492,7 @@
       "gender": "men"
     },
     {
-      "id": "20260418-eintrach-rbleizig",
+      "id": "20260418-eintrach-rbleipzi",
       "date": "2026-04-18T18:30:00",
       "kickoffText": "18:30",
       "competition": "bundesliga",
