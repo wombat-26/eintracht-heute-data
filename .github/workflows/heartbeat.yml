@@ -1,0 +1,25 @@
+# Scheduled Workflows werden in öffentlichen Repos nach 60 Tagen ohne
+# Repo-Aktivität automatisch deaktiviert. In der Sommerpause (Juni/Juli)
+# findet der Seed-Lauf nichts und committet nicht - ohne diesen Heartbeat
+# stirbt der Cron still, kurz vor Saisonstart.
+name: Heartbeat
+
+on:
+  schedule:
+    - cron: '0 4 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          date -u +'%Y-%m-%dT%H:%M:%SZ' > .heartbeat
+          git config user.name  'seed-bot'
+          git config user.email 'seed-bot@users.noreply.github.com'
+          git add .heartbeat
+          git diff --staged --quiet || (git commit -m 'chore: heartbeat' && git push)

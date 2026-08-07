@@ -1,0 +1,88 @@
+name: Seed aktualisieren
+
+on:
+  schedule:
+    # 07:20 und 23:20 Berliner Sommerzeit
+    - cron: '20 5,21 * * *'
+  workflow_dispatch:
+    inputs:
+      full_backfill:
+        description: 'Alle Saisons ab 2003 statt nur der laufenden'
+        type: boolean
+        default: false
+      dry_run:
+        description: 'Nur prüfen, nichts schreiben'
+        type: boolean
+        default: false
+
+# Zwei Läufe dürfen sich nie überschneiden - sonst committen beide
+# gegen denselben Stand.
+concurrency:
+  group: seed-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Seed aktualisieren
+        id: update
+        working-directory: tools
+        run: |
+          python update_seed.py \
+            --seed ../data/seed_matches.json \
+            --out-dir ../data \
+            --window-days 120 \
+            ${{ inputs.full_backfill && '--full-backfill' || '' }} \
+            ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      # Zweite, unabhängige Prüfung: update_seed.py validiert bereits vor dem
+      # Schreiben, aber ein separater Lauf gegen die geschriebene Datei fängt
+      # auch Fehler beim Serialisieren ab.
+      - name: Geschriebene Datei validieren
+        if: steps.update.outputs.changed == 'true'
+        working-directory: tools
+        run: python validate_seed.py ../data/seed_matches.json --min-count 3500
+
+      - name: Commit
+        if: steps.update.outputs.changed == 'true'
+        run: |
+          git config user.name  'seed-bot'
+          git config user.email 'seed-bot@users.noreply.github.com'
+          git add data/
+          git commit -m "Seed: ${{ steps.update.outputs.summary }}"
+          git push
+
+      # Release-Assets statt GitHub Pages: Ein einziges Release mit festem
+      # Tag, dessen Assets bei jedem Lauf ersetzt werden. Dadurch bleiben die
+      # Download-URLs stabil (/releases/latest/download/<datei>), und die
+      # Pages-Nutzungsbedingungen greifen nicht.
+      - name: Release-Assets aktualisieren
+        if: steps.update.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view data >/dev/null 2>&1 || \
+            gh release create data --title "Spieldaten" --notes \
+              "Automatisch gepflegte Spieldaten. Assets werden bei jedem Lauf ersetzt."
+          gh release upload data \
+            data/manifest.json \
+            data/window.json.gz \
+            data/seed_matches.json.gz \
+            --clobber
+
+      - name: Zusammenfassung
+        if: always()
+        run: |
+          echo "### Seed-Update" >> $GITHUB_STEP_SUMMARY
+          echo "Geändert: ${{ steps.update.outputs.changed }}" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.update.outputs.summary }}" >> $GITHUB_STEP_SUMMARY

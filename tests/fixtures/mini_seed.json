@@ -1,0 +1,542 @@
+{
+  "matches": [
+    {
+      "id": "19600730-eintrach-karlsruh",
+      "date": "1960-07-30T15:30:00",
+      "kickoffText": null,
+      "competition": "dfbPokal",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "Karlsruher SC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "halftimeHome": 0,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-07-30st.html",
+      "goals": [
+        {
+          "minute": 30,
+          "scorer": "Reinhold Wischnowsky",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 74,
+          "scorer": "Heinz Ruppenstein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 80,
+          "scorer": "Hans Weilbächer",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19600814-eintrach-tsvmnche",
+      "date": "1960-08-14T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "1860 München",
+      "homeScore": 2,
+      "awayScore": 0,
+      "halftimeHome": 1,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-08-14st.html",
+      "goals": [
+        {
+          "minute": 8,
+          "scorer": "Richard Kreß",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 58,
+          "scorer": "Lothar Schämer",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19600821-kickerso-eintrach",
+      "date": "1960-08-21T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "Kickers Offenbach",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": 2,
+      "awayScore": 1,
+      "halftimeHome": 1,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-08-21st.html",
+      "goals": [
+        {
+          "minute": 22,
+          "scorer": "Erwin Stein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 45,
+          "scorer": "Dieter Praxl",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 50,
+          "scorer": "Dieter Praxl",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19600904-karlsruh-eintrach",
+      "date": "1960-09-04T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "Karlsruher SC",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": 5,
+      "awayScore": 2,
+      "halftimeHome": 1,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-09-04st.html",
+      "goals": [
+        {
+          "minute": 40,
+          "scorer": "Reinhold Nedoschil",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 50,
+          "scorer": "Reinhold Nedoschil",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 47,
+          "scorer": "Günter Herrmann",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 67,
+          "scorer": "Willy Reitgaßl",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 70,
+          "scorer": "Lothar Schämer",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 85,
+          "scorer": "Richard Kreß",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 87,
+          "scorer": "Reinhold Nedoschil",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19600911-jahnrege-eintrach",
+      "date": "1960-09-11T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "Jahn Regensburg",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": 1,
+      "awayScore": 4,
+      "halftimeHome": 0,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-09-11st.html",
+      "goals": [
+        {
+          "minute": 8,
+          "scorer": "Richard Kreß",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 69,
+          "scorer": "Erwin Stein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 78,
+          "scorer": "Lothar Schämer",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 84,
+          "scorer": "Eberhard Schymik",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 85,
+          "scorer": "Horst Schmidt",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19600918-eintrach-fsvfrank",
+      "date": "1960-09-18T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "FSV Frankfurt",
+      "homeScore": 1,
+      "awayScore": 1,
+      "halftimeHome": 0,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-09-18st.html",
+      "goals": [
+        {
+          "minute": 48,
+          "scorer": "Friedel Lutz",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 84,
+          "scorer": "Horst Schlagowski",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19600924-spvggfrt-eintrach",
+      "date": "1960-09-24T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "SpVgg Fürth",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": 1,
+      "awayScore": 3,
+      "halftimeHome": 1,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-09-24st.html",
+      "goals": [
+        {
+          "minute": 10,
+          "scorer": "Erwin Stein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 24,
+          "scorer": "Karl Schmidt",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 50,
+          "scorer": "Erwin Stein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 60,
+          "scorer": "Helmut Groß",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 3
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19601001-eintrach-ssvreutl",
+      "date": "1960-10-01T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "SSV Reutlingen",
+      "homeScore": 6,
+      "awayScore": 1,
+      "halftimeHome": 1,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-10-01st.html",
+      "goals": [
+        {
+          "minute": 40,
+          "scorer": "Uwe Scheurer",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 42,
+          "scorer": "Erwin Stein",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 46,
+          "scorer": "Erwin Stein",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 68,
+          "scorer": "Richard Kreß",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 82,
+          "scorer": "Erwin Stein",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 86,
+          "scorer": "Dieter Lindner",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 89,
+          "scorer": "Hans Weilbächer",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19601009-fcbayern-eintrach",
+      "date": "1960-10-09T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "FC Bayern München",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": 4,
+      "awayScore": 2,
+      "halftimeHome": 2,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-10-09st.html",
+      "goals": [
+        {
+          "minute": 10,
+          "scorer": "Eberhard Schymik",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 20,
+          "scorer": "Sieber",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 43,
+          "scorer": "Sieber",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 54,
+          "scorer": "Erwin Stein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 80,
+          "scorer": "Peter Grosser",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 84,
+          "scorer": "Peter Grosser",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "19601015-eintrach-fcschwei",
+      "date": "1960-10-15T15:30:00",
+      "kickoffText": null,
+      "competition": "oberliga",
+      "season": "1960/61",
+      "matchday": null,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "FC Schweinfurt 05",
+      "homeScore": 2,
+      "awayScore": 0,
+      "halftimeHome": 0,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/1960/1960-10-15st.html",
+      "goals": [
+        {
+          "minute": 82,
+          "scorer": "Eberhard Schymik",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 87,
+          "scorer": "Harald Krämer",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 1
+        }
+      ],
+      "gender": "men"
+    }
+  ]
+}
