@@ -167054,15 +167054,32 @@
       "matchday": null,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "Malmö FF",
-      "homeScore": null,
-      "awayScore": null,
+      "homeScore": 2,
+      "awayScore": 0,
       "halftimeHome": null,
       "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": "UWCL-Qualifikation, 2. Runde – Finale",
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 39,
+          "scorer": "Laura Freigang",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 76,
+          "scorer": "Laura Freigang",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
       "gender": "women"
     },
     {
