@@ -147,7 +147,14 @@ def upsert(existing, incoming):
         new_named = any(g["scorer"].strip() for g in ing)
         old_named = any(g["scorer"].strip() for g in (m.get("goals") or []))
         old = m.get("goals") or []
-        replace = (not old) or (new_named and not old_named) or (new_named and len(ing) >= len(old))
+        # Der kuratierte Bestand hat Vorrang: Die Namen im Seed stammen aus
+        # eintracht-archiv.de und sind von Hand vereinheitlicht ("Vorname
+        # Nachname", kein einziger mit Komma). OpenLigaDB liefert dieselben
+        # Spieler als "Boateng, K.-P." oder "Uth". Frueher stand hier
+        # zusaetzlich `len(ing) >= len(old)` - damit ersetzte jeder Lauf
+        # gepflegte Namen, sobald die API gleich viele Tore kannte.
+        # Ergaenzt wird nur noch, wo ueberhaupt keine Namen stehen.
+        replace = (not old) or (new_named and not old_named)
         if replace:
             m["goals"] = ing
             m["goalsLoaded"] = True

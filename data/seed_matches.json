@@ -460,7 +460,7 @@
         },
         {
           "minute": 20,
-          "scorer": "Sieber",
+          "scorer": "Josef Sieber",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -468,7 +468,7 @@
         },
         {
           "minute": 43,
-          "scorer": "Sieber",
+          "scorer": "Josef Sieber",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -672,7 +672,7 @@
       "goals": [
         {
           "minute": 24,
-          "scorer": "Gutperle",
+          "scorer": "Werner Gutperle",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -912,7 +912,7 @@
       "goals": [
         {
           "minute": 14,
-          "scorer": "Fallisch",
+          "scorer": "Manfred Fallisch",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -1246,7 +1246,7 @@
       "goals": [
         {
           "minute": 3,
-          "scorer": "Appis",
+          "scorer": "Karl Appis",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -2374,7 +2374,7 @@
         },
         {
           "minute": 41,
-          "scorer": "Gast",
+          "scorer": "Walter Gast",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -2406,7 +2406,7 @@
         },
         {
           "minute": 58,
-          "scorer": "Gast",
+          "scorer": "Walter Gast",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -3540,7 +3540,7 @@
         },
         {
           "minute": 63,
-          "scorer": "Marx",
+          "scorer": "Josef Marx",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -3585,7 +3585,7 @@
       "goals": [
         {
           "minute": 71,
-          "scorer": "Giesemann",
+          "scorer": "Willi Giesemann",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -4184,7 +4184,7 @@
         },
         {
           "minute": 40,
-          "scorer": "Kranz",
+          "scorer": "Walter Kranz",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -4192,7 +4192,7 @@
         },
         {
           "minute": 44,
-          "scorer": "E Schneider",
+          "scorer": "Erich Schneider",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -4913,7 +4913,7 @@
         },
         {
           "minute": 38,
-          "scorer": "Ruppenstein",
+          "scorer": "Heinz Ruppenstein",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -5084,7 +5084,7 @@
       "goals": [
         {
           "minute": 24,
-          "scorer": "Biesinger",
+          "scorer": "Ulrich Biesinger",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -5214,7 +5214,7 @@
         },
         {
           "minute": 56,
-          "scorer": "Piechaczek",
+          "scorer": "Reinhold Piechaczek",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -5243,7 +5243,7 @@
       "goals": [
         {
           "minute": 26,
-          "scorer": "Giesemann",
+          "scorer": "Willi Giesemann",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -5603,7 +5603,7 @@
         },
         {
           "minute": 35,
-          "scorer": "Gehling",
+          "scorer": "Rolf Gehling",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -5791,7 +5791,7 @@
         },
         {
           "minute": 63,
-          "scorer": "Beichter",
+          "scorer": "Rolf Beichter",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -11486,7 +11486,7 @@
         },
         {
           "minute": 12,
-          "scorer": "Whelan",
+          "scorer": "Alfie Whelan",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -11502,7 +11502,7 @@
         },
         {
           "minute": 45,
-          "scorer": "P. McGrath",
+          "scorer": "Patrick McGrath",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": true,
@@ -22490,7 +22490,7 @@
         },
         {
           "minute": 29,
-          "scorer": "Renner",
+          "scorer": "Herbert Renner",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -29478,7 +29478,7 @@
       "goals": [
         {
           "minute": 20,
-          "scorer": "McCurdy",
+          "scorer": "Desi McCurdy",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -29648,7 +29648,7 @@
         },
         {
           "minute": 18,
-          "scorer": "Bohe",
+          "scorer": "Herbert Bohe",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -32031,7 +32031,7 @@
         },
         {
           "minute": 80,
-          "scorer": "Schulz",
+          "scorer": "Wolfgang Schulz",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -33701,7 +33701,7 @@
         },
         {
           "minute": 14,
-          "scorer": "Schaffner",
+          "scorer": "Rainer Schaffner",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": true,
@@ -33741,7 +33741,7 @@
         },
         {
           "minute": 78,
-          "scorer": "Beck",
+          "scorer": "Wolfgang Beck",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -35896,7 +35896,7 @@
       "goals": [
         {
           "minute": 24,
-          "scorer": "Ovcharovic",
+          "scorer": "Miodrag Ovcharovic",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -36716,7 +36716,7 @@
         },
         {
           "minute": 81,
-          "scorer": "Ganz",
+          "scorer": "Horst Ganz",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -37829,7 +37829,7 @@
         },
         {
           "minute": 83,
-          "scorer": "Bayer",
+          "scorer": "Siegfried Bayer",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -55037,7 +55037,7 @@
         },
         {
           "minute": 116,
-          "scorer": "Mosert",
+          "scorer": "Uwe Mosert",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -55291,7 +55291,7 @@
       "goals": [
         {
           "minute": 5,
-          "scorer": "Wilhelmi",
+          "scorer": "Ralf Wilhelmi",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": true,
@@ -55315,7 +55315,7 @@
         },
         {
           "minute": 64,
-          "scorer": "Mosert",
+          "scorer": "Uwe Mosert",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -61414,7 +61414,7 @@
         },
         {
           "minute": 78,
-          "scorer": "Westphal",
+          "scorer": "René Westphal",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -61798,7 +61798,7 @@
         },
         {
           "minute": 39,
-          "scorer": "Rigaud",
+          "scorer": "Patrick Rigaud",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -63595,7 +63595,7 @@
       "goals": [
         {
           "minute": 19,
-          "scorer": "Joskowiak",
+          "scorer": "Tomasz Jóźwiak",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -65316,7 +65316,7 @@
         },
         {
           "minute": 19,
-          "scorer": "Link",
+          "scorer": "Sandra Link",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -66920,7 +66920,7 @@
       "goals": [
         {
           "minute": 5,
-          "scorer": "Häußler",
+          "scorer": "Gabriele Häußler",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -66936,7 +66936,7 @@
         },
         {
           "minute": 23,
-          "scorer": "Dumpf",
+          "scorer": "Claudia Dumpf",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": true,
@@ -70551,7 +70551,7 @@
         },
         {
           "minute": 42,
-          "scorer": "Rauschhardt",
+          "scorer": "Anja Rauschhardt",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": true,
@@ -70575,7 +70575,7 @@
         },
         {
           "minute": 76,
-          "scorer": "Michael",
+          "scorer": "Carmen Michael",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -84975,7 +84975,7 @@
         },
         {
           "minute": 67,
-          "scorer": "Lucio",
+          "scorer": "Lúcio",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -84983,7 +84983,7 @@
         },
         {
           "minute": 82,
-          "scorer": "Lucio",
+          "scorer": "Lúcio",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -91560,7 +91560,7 @@
         },
         {
           "minute": 84,
-          "scorer": "Geri Cipi",
+          "scorer": "Geri Çipi",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": true,
@@ -92197,7 +92197,7 @@
         },
         {
           "minute": 44,
-          "scorer": "Caca",
+          "scorer": "Cacá",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -98799,7 +98799,7 @@
       "goals": [
         {
           "minute": 20,
-          "scorer": "Kevin Boateng",
+          "scorer": "Kevin-Prince Boateng",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -103551,7 +103551,7 @@
       "goals": [
         {
           "minute": 47,
-          "scorer": "Kevin Boateng",
+          "scorer": "Kevin-Prince Boateng",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -108834,7 +108834,7 @@
         },
         {
           "minute": 36,
-          "scorer": "Lucio",
+          "scorer": "Lúcio",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -120111,7 +120111,7 @@
         },
         {
           "minute": 73,
-          "scorer": "Anderson",
+          "scorer": "Bamba Anderson",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -123514,7 +123514,7 @@
       "goals": [
         {
           "minute": 2,
-          "scorer": "Anderson",
+          "scorer": "Bamba Anderson",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": true,
@@ -127855,7 +127855,7 @@
         },
         {
           "minute": 86,
-          "scorer": "Kämper",
+          "scorer": "Meike Kämper",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -130130,7 +130130,7 @@
         },
         {
           "minute": 28,
-          "scorer": "van Egmond",
+          "scorer": "Emily van Egmond",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -130170,7 +130170,7 @@
         },
         {
           "minute": 50,
-          "scorer": "van Egmond",
+          "scorer": "Emily van Egmond",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -132494,7 +132494,7 @@
         },
         {
           "minute": 72,
-          "scorer": "van Egmond",
+          "scorer": "Emily van Egmond",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -132928,7 +132928,7 @@
         },
         {
           "minute": 60,
-          "scorer": "Chicharito",
+          "scorer": "Javier Chicharito",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -134113,7 +134113,7 @@
       "goals": [
         {
           "minute": 5,
-          "scorer": "Chicharito",
+          "scorer": "Javier Chicharito",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -134121,7 +134121,7 @@
         },
         {
           "minute": 63,
-          "scorer": "Chicharito",
+          "scorer": "Javier Chicharito",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -140458,7 +140458,7 @@
       "goals": [
         {
           "minute": 45,
-          "scorer": "da Costa",
+          "scorer": "Danny da Costa",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -141250,7 +141250,7 @@
       "goals": [
         {
           "minute": 78,
-          "scorer": "de Guzman",
+          "scorer": "Jonathan de Guzmán",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -141522,7 +141522,7 @@
         },
         {
           "minute": 14,
-          "scorer": "Tah",
+          "scorer": "Jonathan Tah",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -141954,7 +141954,7 @@
       "goals": [
         {
           "minute": 31,
-          "scorer": "de Guzman",
+          "scorer": "Jonathan de Guzmán",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -142208,7 +142208,7 @@
         },
         {
           "minute": 66,
-          "scorer": "da Costa",
+          "scorer": "Danny da Costa",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -142973,7 +142973,7 @@
         },
         {
           "minute": 59,
-          "scorer": "da Costa",
+          "scorer": "Danny da Costa",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -143582,7 +143582,7 @@
       "goals": [
         {
           "minute": 20,
-          "scorer": "B. Schmidt",
+          "scorer": "Bianca Schmidt",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -143606,7 +143606,7 @@
         },
         {
           "minute": 47,
-          "scorer": "B. Schmidt",
+          "scorer": "Bianca Schmidt",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -143667,7 +143667,7 @@
         },
         {
           "minute": 31,
-          "scorer": "da Costa",
+          "scorer": "Danny da Costa",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -143683,7 +143683,7 @@
         },
         {
           "minute": 85,
-          "scorer": "Al Musrati",
+          "scorer": "Moatasem al-Musrati",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -145135,7 +145135,7 @@
         },
         {
           "minute": 69,
-          "scorer": "da Costa",
+          "scorer": "Danny da Costa",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -148514,7 +148514,7 @@
         },
         {
           "minute": 58,
-          "scorer": "K. Holmgaard",
+          "scorer": "Karen Holmgaard",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -148739,7 +148739,7 @@
       "goals": [
         {
           "minute": 48,
-          "scorer": "M. Seegert",
+          "scorer": "Marcel Seegert",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -149373,7 +149373,7 @@
         },
         {
           "minute": 78,
-          "scorer": "L. Ostermeier",
+          "scorer": "Lena Ostermeier",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -150120,7 +150120,7 @@
         },
         {
           "minute": 29,
-          "scorer": "Mesjasz",
+          "scorer": "Małgorzata Mesjasz",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -152848,7 +152848,7 @@
         },
         {
           "minute": 90,
-          "scorer": "P. Förster",
+          "scorer": "Philipp Förster",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -154180,7 +154180,7 @@
         },
         {
           "minute": 65,
-          "scorer": "di Lorenzo",
+          "scorer": "Giovanni Normand",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -163917,7 +163917,7 @@
         },
         {
           "minute": 33,
-          "scorer": "Le Normand",
+          "scorer": "Robin Le Normand",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -164243,7 +164243,7 @@
         },
         {
           "minute": 39,
-          "scorer": "van Dijk",
+          "scorer": "Virgil van Dijk",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -164793,7 +164793,7 @@
         },
         {
           "minute": 62,
-          "scorer": "Ederson",
+          "scorer": "Éderson",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -164801,7 +164801,7 @@
         },
         {
           "minute": 65,
-          "scorer": "de Ketelaere",
+          "scorer": "Charles de Ketelaere",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -166976,7 +166976,7 @@
       "isFinished": true,
       "goalsLoaded": true,
       "note": null,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/2026f/f_2026-08-05st.html#sb",
       "goals": [
         {
           "minute": 3,
@@ -167056,12 +167056,12 @@
       "awayTeam": "Malmö FF",
       "homeScore": 2,
       "awayScore": 0,
-      "halftimeHome": null,
-      "halftimeAway": null,
+      "halftimeHome": 1,
+      "halftimeAway": 0,
       "isFinished": true,
       "goalsLoaded": true,
       "note": "UWCL-Qualifikation, 2. Runde – Finale",
-      "sourceUrl": null,
+      "sourceUrl": "https://frauen.eintracht.de/",
       "goals": [
         {
           "minute": 39,

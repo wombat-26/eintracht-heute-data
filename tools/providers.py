@@ -34,6 +34,11 @@ _TEAM_MAP = {
     "VfL Bochum 1848": "VfL Bochum",
     "1. FC Heidenheim 1846": "1. FC Heidenheim",
     "FC Schalke 04": "Schalke 04",
+    # OpenLigaDB fuehrt Bielefeld als "DSC Arminia Bielefeld", der Seed als
+    # "Arminia Bielefeld" (35 Spiele). Ohne die Zuordnung erzeugt der
+    # Slug-Generator "dscarmin" statt "arminiab" - jedes Bielefeld-Spiel
+    # laege danach doppelt vor.
+    "DSC Arminia Bielefeld": "Arminia Bielefeld",
 }
 
 
@@ -65,6 +70,24 @@ def competition_from(league_name):
     return "other"
 
 
+def _normalisiere_name(roh):
+    """"Koch, Robin" -> "Robin Koch".
+
+    Der Seed nutzt durchgaengig "Vorname Nachname" - keiner der 2881 Namen
+    enthaelt ein Komma. OpenLigaDB liefert teils die umgekehrte Form; wo der
+    Sync ergaenzen darf, soll das Ergebnis nicht aus dem Rahmen fallen.
+    Nur der eindeutige Fall wird gedreht: genau ein Komma, beide Teile
+    nicht leer.
+    """
+    if not roh or not roh.strip():
+        return "–"
+    teile = roh.split(",")
+    if len(teile) != 2:
+        return roh.strip()
+    nach, vor = teile[0].strip(), teile[1].strip()
+    return f"{vor} {nach}" if nach and vor else roh.strip()
+
+
 def _parse_goals(goals):
     """OpenLigaDB liefert je Tor den neuen Spielstand - daraus ableiten,
     fuer welches Team es fiel (welcher Wert sich erhoeht hat)."""
@@ -76,10 +99,9 @@ def _parse_goals(goals):
         s2 = g.get("scoreTeam2") if g.get("scoreTeam2") is not None else prev2
         for_home = s1 > prev1
         prev1, prev2 = s1, s2
-        name = g.get("goalGetterName") or ""
         out.append({
             "minute": g.get("matchMinute"),
-            "scorer": name if name.strip() else "–",
+            "scorer": _normalisiere_name(g.get("goalGetterName")),
             "forHome": bool(for_home),
             "isPenalty": bool(g.get("isPenalty")),
             "isOwnGoal": bool(g.get("isOwnGoal")),
