@@ -20,8 +20,16 @@ from seedkit import (merge, validate, content_hash, canon_dump, MATCH_FIELDS,
 import providers
 
 # gender ergibt sich allein aus dem abgefragten Liga-Kuerzel.
+#
+# "dfb" ist der DFB-Pokal der Maenner. Erst ab 2026 abgefragt, aus demselben
+# Grund wie bei bl1: Abgeschlossene Runden stehen kuratiert im Seed, und
+# OpenLigaDB weicht bei alten Spielzeiten in Terminen und Vereinsschreibweisen
+# ab - was ueber die Match-ID Dubletten erzeugt. Optional, weil die Eintracht
+# nach einem Pokal-Aus in der Saison gar nicht mehr vorkommt; eine leere
+# Antwort ist dann der Normalfall.
 LIGEN = [
     {"shortcut": "bl1",  "gender": "men",   "first": 2003, "optional": False},
+    {"shortcut": "dfb",  "gender": "men",   "first": 2026, "optional": True},
     {"shortcut": "ffb1", "gender": "women", "first": 2026, "optional": True},
     {"shortcut": "wsc",  "gender": "women", "first": 2026, "optional": True},
 ]
