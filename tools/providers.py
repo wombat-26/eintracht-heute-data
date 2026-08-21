@@ -39,6 +39,9 @@ _TEAM_MAP = {
     # Slug-Generator "dscarmin" statt "arminiab" - jedes Bielefeld-Spiel
     # laege danach doppelt vor.
     "DSC Arminia Bielefeld": "Arminia Bielefeld",
+    # Gleiches Muster bei den Sechzigern: OpenLigaDB schreibt
+    # "TSV 1860 München", der Seed fuehrt sie als "1860 München" (46 Spiele).
+    "TSV 1860 München": "1860 München",
 }
 
 
