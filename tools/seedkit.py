@@ -14,6 +14,18 @@ GOAL_FIELDS = ["minute","scorer","forHome","isPenalty","isOwnGoal","order"]
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$")
 ID_RE   = re.compile(r"^\d{8}-[a-z]{1,8}-[a-z]{1,8}$")
 
+# ---------- Abgekuerzte Vornamen ----------
+# Steht hier statt in providers.py, weil upsert() die Zerlegung ebenfalls
+# braucht - providers importiert seedkit, umgekehrt waere es zirkulaer.
+# Gegenstueck: OpenLigaDBProvider.zerlegeAbkuerzung(_:) in Swift.
+ABK_RE = re.compile(r"^([A-ZÄÖÜ])\.\s*(\S.*)$")
+
+
+def zerlege_abkuerzung(name):
+    """Zerlegt "C. Uzun" in ("C", "Uzun") - None, wenn nicht abgekuerzt."""
+    m = ABK_RE.match(name or "")
+    return (m.group(1), m.group(2).strip()) if m else None
+
 # ---------- ID / Slug (identisch zu OpenLigaDBProvider.makeSeedCompatibleID) ----------
 def slug(s: str) -> str:
     return re.sub(r"[^a-z]", "", s.lower())[:8]
@@ -154,7 +166,26 @@ def upsert(existing, incoming):
         # zusaetzlich `len(ing) >= len(old)` - damit ersetzte jeder Lauf
         # gepflegte Namen, sobald die API gleich viele Tore kannte.
         # Ergaenzt wird nur noch, wo ueberhaupt keine Namen stehen.
-        replace = (not old) or (new_named and not old_named)
+        #
+        # Zwei Ausnahmen kamen mit dem Pokal-Sync dazu:
+        #
+        #  - war_unbeendet: Bei einem laufenden Spiel waechst die Torliste
+        #    noch. Ohne diese Bedingung fror sie auf dem Stand des ersten
+        #    Laufs ein. Kuratierte Torschuetzen kann es fuer eine unbeendete
+        #    Partie nicht geben (eintracht-archiv.de fuehrt nur
+        #    abgeschlossene Spiele), das Ueberschreiben ist also gefahrlos.
+        #    Bewusst der Zustand VOR dem Merge, damit auch der letzte Lauf
+        #    nach Abpfiff noch greift.
+        #  - weniger Abkuerzungen: Ein frueherer Lauf hat "C. Uzun"
+        #    hinterlassen, dieser loest den Namen auf. Der kuratierte Bestand
+        #    enthaelt keine einzige Abkuerzung, gepflegte Namen koennen dabei
+        #    also nicht verloren gehen.
+        war_unbeendet = not existing.get("isFinished")
+        abk = lambda gs: sum(1 for g in gs
+                             if zerlege_abkuerzung(g.get("scorer") or ""))
+        replace = ((not old) or (new_named and not old_named)
+                   or war_unbeendet
+                   or abk(ing) < abk(old))
         if replace:
             m["goals"] = ing
             m["goalsLoaded"] = True

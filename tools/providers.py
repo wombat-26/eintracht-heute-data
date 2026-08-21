@@ -5,9 +5,9 @@ Bildet OpenLigaDBProvider.swift und ESPNProvider.swift 1:1 nach - inklusive
 Teamnamen-Normalisierung, ID-Erzeugung und der Auswahl des Endergebnisses.
 Weicht das Python hier ab, driften Server- und Geraetestand auseinander.
 """
-import json, re, urllib.request, urllib.error
+import json, urllib.request, urllib.error
 from datetime import datetime, timedelta
-from seedkit import slug, make_id, utc_to_berlin_str
+from seedkit import slug, make_id, utc_to_berlin_str, zerlege_abkuerzung
 
 OLDB_BASE = "https://api.openligadb.de"
 ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
@@ -105,8 +105,6 @@ _SCORER_ALIAS = {
     # 20128: "Can Uzun",
 }
 
-_ABK_RE = re.compile(r"^([A-ZÄÖÜ])\.\s*(\S.*)$")
-
 
 def loese_abkuerzung(name, getter_id=None, roster=None):
     """Macht aus "C. Uzun" wieder "Can Uzun".
@@ -133,13 +131,21 @@ def loese_abkuerzung(name, getter_id=None, roster=None):
 
     if not roster:
         return name
-    m = _ABK_RE.match(name)
-    if not m:
+    zerlegt = zerlege_abkuerzung(name)
+    if not zerlegt:
         return name
-    initial, nachname = m.group(1), m.group(2).strip()
+    initial, nachname = zerlegt
 
+    # Selbst abgekuerzte Eintraege scheiden als Ziel aus. Sonst ist ein
+    # abgekuerzter Name sein eigener Treffer: "A. Amaimouni-Echghouyab"
+    # beginnt mit "A" und endet auf " Amaimouni-Echghouyab", passt also auf
+    # sich selbst. Steht er durch einen frueheren Lauf bereits im Bestand,
+    # gibt es zwei Kandidaten - der Fall gilt als mehrdeutig und nichts wird
+    # aufgeloest. Der Bestand vergiftet sich also selbst, und zwar dauerhaft,
+    # weil der Upsert vorhandene Torschuetzen aus dem Netz nicht ersetzt.
     treffer = {r for r in roster
-               if r.startswith(initial) and r.endswith(" " + nachname)}
+               if r.startswith(initial) and r.endswith(" " + nachname)
+               and zerlege_abkuerzung(r) is None}
     return treffer.pop() if len(treffer) == 1 else name
 
 
