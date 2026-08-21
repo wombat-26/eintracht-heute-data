@@ -2,8 +2,14 @@ name: Seed aktualisieren
 
 on:
   schedule:
-    # 07:20 und 23:20 Berliner Sommerzeit
-    - cron: '20 5,21 * * *'
+    # 07:20, 21:20 und 23:20 Berliner Sommerzeit (Cron laeuft in UTC).
+    # Im Winter verschiebt sich alles um eine Stunde nach vorn, also auf
+    # 06:20, 20:20 und 22:20 - fuer eine Datenpflege unerheblich.
+    #
+    # Der Lauf um 21:20 faengt Abendspiele ab, die um 20:45 angepfiffen
+    # werden: Um 23:20 sind sie zwar sicher abgepfiffen, aber dann liegt
+    # das Ergebnis den halben Abend brach.
+    - cron: '20 5,19,21 * * *'
   workflow_dispatch:
     inputs:
       full_backfill:
