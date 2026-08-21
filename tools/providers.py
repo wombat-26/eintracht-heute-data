@@ -5,7 +5,7 @@ Bildet OpenLigaDBProvider.swift und ESPNProvider.swift 1:1 nach - inklusive
 Teamnamen-Normalisierung, ID-Erzeugung und der Auswahl des Endergebnisses.
 Weicht das Python hier ab, driften Server- und Geraetestand auseinander.
 """
-import json, urllib.request, urllib.error
+import json, re, urllib.request, urllib.error
 from datetime import datetime, timedelta
 from seedkit import slug, make_id, utc_to_berlin_str
 
@@ -91,7 +91,59 @@ def _normalisiere_name(roh):
     return f"{vor} {nach}" if nach and vor else roh.strip()
 
 
-def _parse_goals(goals):
+# Explizite Zuordnung fuer abgekuerzte Vornamen, die die Automatik unten
+# nicht aufloesen kann - etwa weil der Spieler im Bestand noch gar nicht
+# vorkommt oder zwei Namensvettern denselben Anfangsbuchstaben haben.
+#
+# Schluessel ist die goalGetterID von OpenLigaDB, nicht der Namensstring:
+# Die ID ist je Spieler stabil und eindeutig, waehrend derselbe Spieler mal
+# als "C. Uzun", mal als "Uzun, C." und mal ausgeschrieben ankommt.
+#
+# Leer ist der Normalfall. Ein Eintrag ist nur noetig, wenn nach einem Lauf
+# ein abgekuerzter Name im Seed steht (pruefbar mit check_abbreviations.py).
+_SCORER_ALIAS = {
+    # 20128: "Can Uzun",
+}
+
+_ABK_RE = re.compile(r"^([A-ZÄÖÜ])\.\s*(\S.*)$")
+
+
+def loese_abkuerzung(name, getter_id=None, roster=None):
+    """Macht aus "C. Uzun" wieder "Can Uzun".
+
+    OpenLigaDB kuerzt Vornamen uneinheitlich ab - derselbe Spieler steht mal
+    voll, mal abgekuerzt da. Der Seed fuehrt durchgaengig ausgeschriebene
+    Namen; ohne Aufloesung stuenden in der Spielersuche zwei Eintraege fuer
+    denselben Mann nebeneinander. Genau das Problem, das bei "Boateng" schon
+    einmal von Hand aufgeraeumt werden musste.
+
+    Zwei Stufen, explizit vor automatisch:
+      1. _SCORER_ALIAS ueber die goalGetterID - hat immer Vorrang.
+      2. Eindeutiger Treffer im Bestand: Gibt es dort GENAU EINEN Namen, der
+         auf denselben Nachnamen endet und mit demselben Buchstaben beginnt,
+         wird er uebernommen.
+
+    Bei mehreren Kandidaten bleibt die Abkuerzung stehen. Ein abgekuerzter,
+    aber richtiger Name ist harmloser als ein geratener falscher - und faellt
+    in der Pruefung auf, wo ein falsch aufgeloester stillschweigend
+    durchginge.
+    """
+    if getter_id is not None and getter_id in _SCORER_ALIAS:
+        return _SCORER_ALIAS[getter_id]
+
+    if not roster:
+        return name
+    m = _ABK_RE.match(name)
+    if not m:
+        return name
+    initial, nachname = m.group(1), m.group(2).strip()
+
+    treffer = {r for r in roster
+               if r.startswith(initial) and r.endswith(" " + nachname)}
+    return treffer.pop() if len(treffer) == 1 else name
+
+
+def _parse_goals(goals, roster=None):
     """OpenLigaDB liefert je Tor den neuen Spielstand - daraus ableiten,
     fuer welches Team es fiel (welcher Wert sich erhoeht hat)."""
     if not goals:
@@ -102,9 +154,13 @@ def _parse_goals(goals):
         s2 = g.get("scoreTeam2") if g.get("scoreTeam2") is not None else prev2
         for_home = s1 > prev1
         prev1, prev2 = s1, s2
+        # Erst die Komma-Form drehen, dann die Abkuerzung aufloesen -
+        # "Uzun, C." muss beide Schritte durchlaufen.
+        name = _normalisiere_name(g.get("goalGetterName"))
+        name = loese_abkuerzung(name, g.get("goalGetterID"), roster)
         out.append({
             "minute": g.get("matchMinute"),
-            "scorer": _normalisiere_name(g.get("goalGetterName")),
+            "scorer": name,
             "forHome": bool(for_home),
             "isPenalty": bool(g.get("isPenalty")),
             "isOwnGoal": bool(g.get("isOwnGoal")),
@@ -113,8 +169,13 @@ def _parse_goals(goals):
     return out
 
 
-def openligadb(league, season, gender, fallback_competition=None):
-    """Alle Eintracht-Spiele einer Liga-Saison als Seed-Dicts."""
+def openligadb(league, season, gender, fallback_competition=None, roster=None):
+    """Alle Eintracht-Spiele einer Liga-Saison als Seed-Dicts.
+
+    `roster` ist die Menge der bereits bekannten, ausgeschriebenen
+    Torschuetzennamen - siehe loese_abkuerzung(). Ohne sie greift nur die
+    explizite Alias-Tabelle.
+    """
     raw = _get(f"{OLDB_BASE}/getmatchdata/{league}/{season}")
     label = f"{season}/{str(season + 1)[-2:]}"
     out = []
@@ -159,7 +220,7 @@ def openligadb(league, season, gender, fallback_competition=None):
             "isFinished": bool(m.get("matchIsFinished")),
             "goalsLoaded": False,
             "note": None, "sourceUrl": None,
-            "goals": _parse_goals(m.get("goals")),
+            "goals": _parse_goals(m.get("goals"), roster),
             "gender": gender,
         })
     return out

@@ -53,6 +53,20 @@ jobs:
         working-directory: tools
         run: python validate_seed.py ../data/seed_matches.json --min-count 3500
 
+      # Bewusst nicht blockierend: Ein abgekuerzter Vorname ist kosmetisch,
+      # kein Datenfehler. providers.loese_abkuerzung() faengt den Regelfall
+      # ab; was uebrig bleibt, gehoert in _SCORER_ALIAS - soll aber keinen
+      # Seed-Update aufhalten. Treffer stehen in der Job-Zusammenfassung.
+      - name: Abgekuerzte Torschuetzennamen melden
+        if: steps.update.outputs.changed == 'true'
+        continue-on-error: true
+        working-directory: tools
+        run: |
+          echo '### Abgekuerzte Namen' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          python check_abbreviations.py ../data/seed_matches.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
       - name: Commit
         if: steps.update.outputs.changed == 'true'
         run: |

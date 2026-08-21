@@ -41,14 +41,34 @@ def aktuelle_saison(heute=None):
     return heute.year if heute.month >= 8 else heute.year - 1
 
 
-def sammle(saisons, espn_tage, log):
+def roster(seed, gender):
+    """Bereits bekannte, ausgeschriebene Torschuetzennamen eines Geschlechts.
+
+    Grundlage fuer providers.loese_abkuerzung(). Nach Geschlecht getrennt,
+    damit ein abgekuerzter Herrenname nicht auf eine gleichnamige Spielerin
+    trifft - "E. Baum" haette sonst "Lisa Baum" als Kandidatin.
+    """
+    namen = set()
+    for m in seed:
+        if m.get("gender") != gender:
+            continue
+        for g in m.get("goals") or []:
+            s = (g.get("scorer") or "").strip()
+            if s and " " in s:
+                namen.add(s)
+    return namen
+
+
+def sammle(saisons, espn_tage, log, seed=None):
     gefunden = []
+    rosters = {g: roster(seed or [], g) for g in ("men", "women")}
     for cfg in LIGEN:
         for s in saisons:
             if s < cfg["first"]:
                 continue
             try:
-                roh = providers.openligadb(cfg["shortcut"], s, cfg["gender"])
+                roh = providers.openligadb(cfg["shortcut"], s, cfg["gender"],
+                                           roster=rosters.get(cfg["gender"]))
             except Exception as e:
                 stufe = "Hinweis" if cfg["optional"] else "FEHLER"
                 log(f"  {stufe}: {cfg['shortcut']}/{s} nicht abrufbar – {e}")
@@ -118,7 +138,7 @@ def main():
                      for d in range(-args.espn_back, args.espn_forward + 1)]
         log(f"Quellen: Saisons {saisons[0]}–{saisons[-1]}, "
             f"ESPN {espn_tage[0]}–{espn_tage[-1]}")
-        gefunden = sammle(saisons, espn_tage, log)
+        gefunden = sammle(saisons, espn_tage, log, seed)
 
     log(f"Insgesamt {len(gefunden)} Datensaetze von den Quellen")
 
