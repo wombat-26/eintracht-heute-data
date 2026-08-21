@@ -167091,15 +167091,104 @@
       "matchday": 1,
       "homeTeam": "SC St. Tönis",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 0,
+      "awayScore": 11,
+      "halftimeHome": 0,
+      "halftimeAway": 10,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 4,
+          "scorer": "Jonathan Burkardt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 10,
+          "scorer": "Robin Koch",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 17,
+          "scorer": "Ayoube Amaimouni-Echghouyab",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 29,
+          "scorer": "Jonathan Burkardt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 34,
+          "scorer": "Can Uzun",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 36,
+          "scorer": "Can Uzun",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 41,
+          "scorer": "Jonathan Burkardt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        },
+        {
+          "minute": 44,
+          "scorer": "Elias Baum",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 7
+        },
+        {
+          "minute": 46,
+          "scorer": "Younes Ebnoutalib",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 8
+        },
+        {
+          "minute": 50,
+          "scorer": "Mario Götze",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 9
+        },
+        {
+          "minute": 87,
+          "scorer": "Farès Chaïbi",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 10
+        }
+      ],
       "gender": "men"
     },
     {
