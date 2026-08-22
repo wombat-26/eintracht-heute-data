@@ -167200,15 +167200,32 @@
       "matchday": 1,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "1. FC Köln",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 2,
+      "awayScore": 0,
+      "halftimeHome": 2,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 12,
+          "scorer": "Laura Freigang",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 45,
+          "scorer": "Laura Freigang",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
       "gender": "women"
     },
     {
