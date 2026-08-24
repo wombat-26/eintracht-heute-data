@@ -167229,6 +167229,26 @@
       "gender": "women"
     },
     {
+      "id": "20260826-eintrach-parissai",
+      "date": "2026-08-26T19:00:00",
+      "kickoffText": "19:00",
+      "competition": "championsLeague",
+      "season": "2026/27",
+      "matchday": null,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "Paris Saint-Germain",
+      "homeScore": null,
+      "awayScore": null,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": false,
+      "goalsLoaded": false,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "women"
+    },
+    {
       "id": "20260829-fcunionb-eintrach",
       "date": "2026-08-29T15:30:00",
       "kickoffText": "15:30",
