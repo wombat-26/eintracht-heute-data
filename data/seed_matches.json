@@ -167237,15 +167237,32 @@
       "matchday": null,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "Paris Saint-Germain",
-      "homeScore": null,
-      "awayScore": null,
+      "homeScore": 1,
+      "awayScore": 1,
       "halftimeHome": null,
       "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 4,
+          "scorer": "Larissa Mühlhaus",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 7,
+          "scorer": "Naomie Feller",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
       "gender": "women"
     },
     {
