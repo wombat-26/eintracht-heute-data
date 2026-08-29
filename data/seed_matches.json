@@ -167274,15 +167274,64 @@
       "matchday": 1,
       "homeTeam": "1. FC Union Berlin",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 3,
+      "awayScore": 3,
+      "halftimeHome": 1,
+      "halftimeAway": 2,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 3,
+          "scorer": "Emmanuel Latte Lath",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 10,
+          "scorer": "Younes Ebnoutalib",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 11,
+          "scorer": "Younes Ebnoutalib",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 67,
+          "scorer": "Younes Ebnoutalib",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 79,
+          "scorer": "Leopold Querfeld",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 92,
+          "scorer": "T. Skarke",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        }
+      ],
       "gender": "men"
     },
     {
