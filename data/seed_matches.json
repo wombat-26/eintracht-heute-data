@@ -167343,15 +167343,32 @@
       "matchday": 2,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "1. FC Nürnberg",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 1,
+      "awayScore": 1,
+      "halftimeHome": 0,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 32,
+          "scorer": "L. Lapassouse",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 86,
+          "scorer": "D. Tolhoek",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
       "gender": "women"
     },
     {
