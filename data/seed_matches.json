@@ -167380,15 +167380,64 @@
       "matchday": null,
       "homeTeam": "Paris Saint-Germain",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
+      "homeScore": 5,
+      "awayScore": 1,
       "halftimeHome": null,
       "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 36,
+          "scorer": "Merveille Kanjinga",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 76,
+          "scorer": "Rebecka Blomqvist",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 95,
+          "scorer": "Merveille Kanjinga",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 105,
+          "scorer": "Sakina Karchaoui",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 113,
+          "scorer": "Sakina Karchaoui",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 120,
+          "scorer": "Rasheedat Ajibade",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        }
+      ],
       "gender": "women"
     },
     {
