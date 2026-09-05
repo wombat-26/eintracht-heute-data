@@ -167681,6 +167681,26 @@
       "gender": "women"
     },
     {
+      "id": "20261027-hamburge-eintrach",
+      "date": "2026-10-27T15:30:00",
+      "kickoffText": "15:30",
+      "competition": "dfbPokal",
+      "season": "2026/27",
+      "matchday": 2,
+      "homeTeam": "Hamburger SV",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": null,
+      "awayScore": null,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": false,
+      "goalsLoaded": false,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "men"
+    },
+    {
       "id": "20261031-eintrach-hamburge",
       "date": "2026-10-31T15:30:00",
       "kickoffText": "15:30",
