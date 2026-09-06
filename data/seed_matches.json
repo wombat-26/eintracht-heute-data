@@ -167449,15 +167449,56 @@
       "matchday": 2,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "FC Augsburg",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 1,
+      "awayScore": 4,
+      "halftimeHome": 1,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 6,
+          "scorer": "Jonathan Burkardt",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 46,
+          "scorer": "Elias Baum",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 1
+        },
+        {
+          "minute": 47,
+          "scorer": "R. Fellhauer",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 65,
+          "scorer": "Alexis Claude-Maurice",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 89,
+          "scorer": "F. Rieder",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
       "gender": "men"
     },
     {
