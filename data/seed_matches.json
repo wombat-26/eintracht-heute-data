@@ -167632,8 +167632,8 @@
     },
     {
       "id": "20261010-rbleipzi-eintrach",
-      "date": "2026-10-10T15:30:00",
-      "kickoffText": "15:30",
+      "date": "2026-10-10T18:30:00",
+      "kickoffText": "18:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 5,
@@ -167651,9 +167651,9 @@
       "gender": "men"
     },
     {
-      "id": "20261017-eintrach-fckln",
-      "date": "2026-10-17T15:30:00",
-      "kickoffText": "15:30",
+      "id": "20261016-eintrach-fckln",
+      "date": "2026-10-16T20:30:00",
+      "kickoffText": "20:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 6,
@@ -167692,8 +167692,8 @@
     },
     {
       "id": "20261024-borussia-eintrach",
-      "date": "2026-10-24T15:30:00",
-      "kickoffText": "15:30",
+      "date": "2026-10-24T18:30:00",
+      "kickoffText": "18:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 7,
@@ -167732,8 +167732,8 @@
     },
     {
       "id": "20261027-hamburge-eintrach",
-      "date": "2026-10-27T15:30:00",
-      "kickoffText": "15:30",
+      "date": "2026-10-27T18:00:00",
+      "kickoffText": "18:00",
       "competition": "dfbPokal",
       "season": "2026/27",
       "matchday": 2,
@@ -167751,9 +167751,9 @@
       "gender": "men"
     },
     {
-      "id": "20261031-eintrach-hamburge",
-      "date": "2026-10-31T15:30:00",
-      "kickoffText": "15:30",
+      "id": "20261101-eintrach-hamburge",
+      "date": "2026-11-01T17:30:00",
+      "kickoffText": "17:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 8,
@@ -167872,8 +167872,8 @@
     },
     {
       "id": "20261128-vfbstutt-eintrach",
-      "date": "2026-11-28T15:30:00",
-      "kickoffText": "15:30",
+      "date": "2026-11-28T18:30:00",
+      "kickoffText": "18:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 11,
