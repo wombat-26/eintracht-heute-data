@@ -167539,15 +167539,48 @@
       "matchday": 3,
       "homeTeam": "1. FSV Mainz 05",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 1,
+      "awayScore": 3,
+      "halftimeHome": 0,
+      "halftimeAway": 2,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 9,
+          "scorer": "Can Uzun",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 46,
+          "scorer": "Jonathan Burkardt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 60,
+          "scorer": "Can Uzun",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 89,
+          "scorer": "Phillip Tietz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
       "gender": "men"
     },
     {
