@@ -1,8 +1,9 @@
 # eintracht-heute-data
 
 Zentral gepflegte Spieldaten für die App **EintrachtHeute**. Eine GitHub
-Action fragt zweimal täglich OpenLigaDB und ESPN ab, merged die Ergebnisse in
-`data/seed_matches.json` und veröffentlicht sie als Release-Assets.
+Action fragt dreimal täglich OpenLigaDB, ESPN und das DFB-Datencenter ab,
+merged die Ergebnisse in `data/seed_matches.json` und veröffentlicht sie als
+Release-Assets.
 
 Zweck: Neuinstallationen bringen alle vergangenen Spiele mit, und nicht jedes
 Gerät fragt die Quell-APIs einzeln ab.
@@ -23,7 +24,8 @@ Lauf ersetzt — die URLs bleiben dadurch stabil.
 ```
 data/       seed_matches.json (Wahrheitsquelle) + generierte Artefakte
 tools/      seedkit.py · providers.py · update_seed.py · validate_seed.py
-tests/      Fixtures aus echten API-Antworten
+            check_abbreviations.py · canonicalize_ids.py · test_dfb_parser.py
+tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 ```
 
 ## Sechs Regeln, an die sich die Pipeline hält
@@ -131,3 +133,41 @@ python3 update_seed.py --offline-fixture ../tests/fixtures/fetched_ffb1.json \
 
 Einmalig nach dem Anlegen: Action manuell über *Actions → Seed aktualisieren →
 Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuft.
+
+## Änderungen
+
+Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
+sie sind Daten, keine Änderung am Verhalten.
+
+### 15.09.2026 — Torschützinnen aus dem DFB-Datencenter
+
+Neue Zweitquelle `providers.dfb_frauen_bundesliga()` für die
+Frauen-Bundesliga, weil OpenLigaDB dort keine Torschützinnen führt. Holt je
+Saison einmal den Vereinsspielplan und danach nur für Spiele mit Torlücke die
+Schema-Seite. Legt nie ein Spiel an, fällt bei Ausfall weich aus, gedeckelt
+auf 10 Detailseiten je Lauf. Dazu `tools/test_dfb_parser.py` mit vier
+gespeicherten HTML-Abzügen. Datumsdreher-Abschnitt auf „an der Quelle behoben"
+aktualisiert.
+
+### 01.09.2026 — Heartbeat
+
+`heartbeat.yml`, damit GitHub den Cron nicht wegen Inaktivität des Repos
+abschaltet.
+
+### 21.08.2026 — Pokal, Namen, dritter Lauf
+
+DFB-Pokal der Männer (`dfb`) mit abgefragt. Abgekürzte Vornamen werden über
+den Bestand aufgelöst (`loese_abkuerzung()`), und der Merge überschreibt
+gepflegte Namen nicht mehr, ersetzt aber Abkürzungen und wachsende Torlisten
+laufender Spiele. TSV 1860 München der Seed-Schreibweise zugeordnet. Dritter
+Cron-Lauf um 21:20, damit Abendspiele nicht bis Mitternacht brachliegen.
+
+### 09.08.2026 — Handgepflegte Torschützennamen
+
+Die von Hand vereinheitlichten Namen aus eintracht-archiv.de in den Seed
+übernommen.
+
+### 07.08.2026 — Erste Fassung
+
+Datenmodell, Provider für OpenLigaDB und ESPN, Merge- und Validierungslogik,
+GitHub Action, Release-Assets. Seed-IDs kanonisiert.
