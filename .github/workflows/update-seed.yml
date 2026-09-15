@@ -75,7 +75,18 @@ jobs:
 
   update:
     needs: gate
-    if: needs.gate.outputs.run == 'true'
+    # Uebersprungen wird NUR bei einem klaren "nein" des Gates. Faellt der
+    # Job aus - Sparse-Checkout scheitert, Python fehlt, Seed unlesbar -,
+    # steht in outputs.run ein leerer String, und der Lauf findet statt.
+    # Die Datenpflege darf nicht daran haengen, dass eine vorgeschaltete
+    # Optimierung funktioniert.
+    #
+    # !cancelled() ist dafuer noetig und kein Beiwerk: Ohne eine
+    # Statusfunktion in der Bedingung ueberspringt GitHub jeden Job, dessen
+    # needs fehlgeschlagen ist - die Bedingung wird dann gar nicht erst
+    # ausgewertet. Nur "run != 'false'" haette den Fehlerfall also genau
+    # nicht abgedeckt.
+    if: ${{ !cancelled() && needs.gate.outputs.run != 'false' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
