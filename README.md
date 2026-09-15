@@ -49,18 +49,70 @@ tests/      Fixtures aus echten API-Antworten
 | `ffb1` | Frauen-Bundesliga | women |
 | `wsc` | DFB Frauen Supercup | women |
 | ESPN `uefa.wchampions[_qual]` | UEFA Women's Champions League | women |
+| DFB-Datencenter | Torschützinnen Frauen-Bundesliga | women |
 
 Nicht abgedeckt und weiterhin nur im Seed: DFB-Pokal (Männer und Frauen),
 Europapokal der Männer, Champions League der Männer. Für `dfb`, `ucl` und
 `BLSupercup` gäbe es OpenLigaDB-Kürzel — bewusst noch nicht aktiviert.
 
+## DFB-Datencenter als Zweitquelle
+
+OpenLigaDB liefert für die Frauen-Bundesliga keine Torschützinnen. Was dort
+steht, hat jemand von Hand eingetragen.
+`providers.dfb_frauen_bundesliga()` holt sie stattdessen aus dem
+[DFB-Datencenter](https://datencenter.dfb.de) — kein Key, kein JavaScript,
+Namen immer ausgeschrieben.
+
+Nachteil gegenüber der Handarbeit: Das Datencenter füllt die Ereignisliste mit
+Verzug. In einer Stichprobe über die ersten vier Spieltage 2026/27 lagen
+Partien ab acht Tagen vollständig vor, eine zwei Tage alte noch gar nicht. Bei
+drei Läufen täglich holt die Pipeline das von selbst nach.
+
+Drei Eigenschaften, die den Zuschnitt bestimmen:
+
+- **Legt nie ein Spiel an.** Der Provider bekommt nur Partien, die nach dem
+  Merge dieses Laufs ohnehin im Seed stünden, und gibt sie unverändert mit
+  gefüllter Torliste zurück. Eine abweichende Vereinsschreibweise im
+  Datencenter kann damit keine Dublette erzeugen; der schlimmste Fall ist ein
+  Spiel ohne Namen.
+- **Fällt weich aus.** HTML-Scraping bricht, wenn der DFB sein Layout ändert.
+  Fehlende Torschützinnen sind keine kaputten Daten — der Lauf wird deshalb
+  nicht rot (Regel 4 zielt auf Schäden, nicht auf ausgebliebene Ergänzungen).
+- **Gedeckelt auf 10 Detailseiten je Lauf** (`DFB_MAX_DETAIL`). Der
+  Vereinsspielplan kostet eine Anfrage und liefert die ganze Saison mit Datum
+  und Ergebnis; nur die Torliste steht auf der jeweiligen Schema-Seite.
+
+Der Wettbewerbs-Slug trägt den Sponsornamen (`google-pixel-frauen-bundesliga`,
+davor Flyeralarm). Neuer Vertrag → in `providers.DFB_FRAUEN_WETTBEWERBE` vorne
+ergänzen. Der Saison-Slug wird nicht gebaut, sondern aus dem Auswahlfeld der
+Seite nachgezogen, weil sich sein Format 2023 geändert hat (`2022-23` →
+`google-pixel-frauen-bundesliga-2024-2025`).
+
+Geprüft und verworfen: ESPN (kennt keine deutsche Frauenliga — nur `eng.w.1`,
+`esp.w.1`, `fra.w.1`, `ned.w.1`, `aus.w.1` und die UWCL), TheSportsDB (für
+Deutschland nur Bundesliga, 2. Bundesliga und die beiden DFB-Pokale),
+Sofascore (403 für alles, was nicht wie ein Browser aussieht), api-football.com
+(kann es, aber der kostenlose Plan ist auf ältere Saisons beschränkt).
+
+Parser-Test ohne Netz, gegen gespeicherte Abzüge:
+
+```bash
+cd tools && python3 test_dfb_parser.py
+```
+
 ## Datumsdreher
 
-OpenLigaDB datiert bei `ffb1/2026` fünf Spieltage falsch (9, 17, 23, 24, 25) —
-Tag und Monat sind vertauscht. `seedkit.spieltag_plausibilitaet()` erkennt das
-über Anker: Spieltage mit Tag > 12 können nicht gedreht sein und dienen als
-Stützstellen. Ein kippbarer Spieltag gilt als gedreht, wenn sein Datum nicht
-zwischen die Nachbaranker passt, das gedrehte aber schon.
+**An der Quelle behoben (Stand 15.09.2026).** OpenLigaDB datierte bei
+`ffb1/2026` fünf Spieltage falsch (9, 17, 23, 24, 25) — Tag und Monat waren
+vertauscht. Die Einträge sind inzwischen korrigiert, `ffb1/2026` liefert alle
+26 Termine richtig, und der Filter verwirft nichts mehr.
+
+`seedkit.spieltag_plausibilitaet()` bleibt als Netz bestehen, denn die Ursache
+war nicht einmalig: Ein Importlauf kann denselben Fehler jederzeit wieder
+erzeugen. Die Erkennung läuft über Anker — Spieltage mit Tag > 12 können nicht
+gedreht sein und dienen als Stützstellen. Ein kippbarer Spieltag gilt als
+gedreht, wenn sein Datum nicht zwischen die Nachbaranker passt, das gedrehte
+aber schon.
 
 **Ein reiner Monotonie-Test genügt nicht** — springt ein Dreher nach vorn
 (07.02. → 02.07.), erscheinen alle folgenden, korrekten Spieltage als Verstoß.

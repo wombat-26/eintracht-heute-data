@@ -16,7 +16,7 @@ import argparse, json, gzip, hashlib, os, sys, time
 from datetime import datetime, timezone, timedelta, date
 
 from seedkit import (merge, validate, content_hash, canon_dump, MATCH_FIELDS,
-                     spieltag_plausibilitaet)
+                     spieltag_plausibilitaet, zerlege_abkuerzung)
 import providers
 
 # gender ergibt sich allein aus dem abgefragten Liga-Kuerzel.
@@ -34,6 +34,24 @@ LIGEN = [
     {"shortcut": "wsc",  "gender": "women", "first": 2026, "optional": True},
 ]
 ESPN_SLUGS = ["uefa.wchampions_qual", "uefa.wchampions"]
+
+# DFB-Datencenter als Zweitquelle fuer die Frauen-Bundesliga.
+#
+# OpenLigaDB liefert fuer ffb1 seit 2026 nur noch Ergebnisse, keine
+# Torschuetzinnen mehr. Das Datencenter fuellt genau diese Luecke und legt
+# dabei nie ein Spiel an - es sieht ausschliesslich Partien, die nach dem
+# Merge dieses Laufs ohnehin im Seed stuenden (siehe
+# providers.dfb_frauen_bundesliga). Faellt die Quelle aus, bleibt das
+# Ergebnis ohne Namen; das ist kein Datenfehler und faerbt den Lauf nicht rot.
+#
+# Erst ab 2026, weil aeltere Saisons ihre Torschuetzinnen kuratiert aus
+# eintracht-archiv.de haben - dieselbe Begruendung wie bei bl1 und dfb.
+DFB_FRAUEN_AB = 2026
+# Detailseiten je Lauf. Ein Rueckstand (etwa nach einem laengeren Ausfall)
+# verteilt sich damit ueber mehrere Laeufe, statt das Datencenter in einem
+# Schwung mit einer ganzen Saison zu belegen. Bei drei Laeufen taeglich sind
+# 10 mehr als genug: Pro Spieltag faellt genau ein Spiel an.
+DFB_MAX_DETAIL = 10
 
 
 def aktuelle_saison(heute=None):
@@ -57,6 +75,49 @@ def roster(seed, gender):
             if s and " " in s:
                 namen.add(s)
     return namen
+
+
+def frauen_torluecken(matches, saison):
+    """Frauen-Bundesligaspiele einer Saison mit fehlender oder mangelhafter
+    Torliste. -> (kandidaten, unvollstaendig)
+
+    OpenLigaDB liefert fuer ffb1 keine Torschuetzinnen. Was dort steht, hat
+    ein Mensch von Hand eingetragen - deshalb sind die beiden Faelle, die das
+    Datencenter beheben kann:
+
+      1. Torliste leer. Der Normalfall.
+      2. Abgekuerzte Vornamen ("D. Tolhoek") oder Platzhalter. Das
+         Datencenter schreibt Namen aus, und upsert() ersetzt eine Torliste,
+         sobald die neue weniger Abkuerzungen enthaelt.
+
+    Der dritte denkbare Fall - weniger Eintraege als Tore im Endstand - geht
+    NICHT in die Kandidaten. upsert() ersetzt eine vorhandene, benannte
+    Torliste nicht, auch keine halbe; ein Abruf verbraeuchte also in jedem
+    Lauf eine Detailseite, ohne je etwas zu aendern. Solche Spiele kommen
+    stattdessen als zweite Liste zurueck und werden protokolliert: Sie
+    gehoeren an der Quelle korrigiert, nicht hier.
+
+    Torlose Spiele fallen ganz heraus - bei einem 0:0 gibt es nichts
+    nachzutragen.
+    """
+    label = f"{saison}/{str(saison + 1)[-2:]}"
+    kandidaten, unvollstaendig = {}, []
+    for m in matches:
+        if (m.get("gender") != "women" or m.get("competition") != "bundesliga"
+                or m.get("season") != label or m.get("homeScore") is None):
+            continue
+        tore = (m.get("homeScore") or 0) + (m.get("awayScore") or 0)
+        if tore == 0:
+            continue
+        gs = m.get("goals") or []
+        namen_unklar = any(zerlege_abkuerzung(g.get("scorer") or "")
+                           or not (g.get("scorer") or "").strip()
+                           or g.get("scorer") == "–" for g in gs)
+        if not gs or namen_unklar:
+            kandidaten[m["id"]] = m
+        elif len(gs) < tore:
+            unvollstaendig.append(f"{m['id']} ({len(gs)} von {tore} Toren)")
+    return kandidaten, unvollstaendig
 
 
 def sammle(saisons, espn_tage, log, seed=None):
@@ -94,6 +155,36 @@ def sammle(saisons, espn_tage, log, seed=None):
                 log(f"  ESPN {sl} {tag}: {len(treffer)} Spiele")
             gefunden += treffer
             time.sleep(0.3)
+
+    # DFB-Datencenter zuletzt: Welche Spiele Tore brauchen, steht erst fest,
+    # wenn die Ergebnisse dieses Laufs beruecksichtigt sind. Der Probe-Merge
+    # nutzt dieselbe upsert-Semantik wie der echte weiter unten, damit die
+    # Vorauswahl nicht auf einer eigenen, abweichenden Regel beruht.
+    # prune_moved bleibt aus: Hier wird nichts geschrieben, und das
+    # Entfernen verschobener Platzhalter gehoert in den echten Merge.
+    if seed is not None:
+        vorschau, _ = merge(seed, gefunden, prune_moved=False)
+        for s in saisons:
+            if s < DFB_FRAUEN_AB:
+                continue
+            kandidaten, unvollstaendig = frauen_torluecken(vorschau, s)
+            if unvollstaendig:
+                # Der Upsert ruehrt eine vorhandene, benannte Torliste nicht
+                # an - auch keine halbe. Das ist hier nur zu melden, nicht zu
+                # beheben.
+                log(f"  PRUEFEN: unvollstaendige Torlisten, die automatisch "
+                    f"nicht gefuellt werden: {', '.join(unvollstaendig)}")
+            if not kandidaten:
+                continue
+            log(f"  {len(kandidaten)} Frauen-Spiele ohne oder mit unklarer "
+                f"Torliste (Saison {s})")
+            try:
+                gefunden += providers.dfb_frauen_bundesliga(
+                    s, kandidaten, log=log, max_detail=DFB_MAX_DETAIL)
+            except Exception as e:
+                # Bewusst kein raise: Eine ausgefallene Zweitquelle ist ein
+                # Ergebnis ohne Namen, kein kaputter Seed.
+                log(f"  Hinweis: DFB-Datencenter/{s} nicht nutzbar – {e}")
     return gefunden
 
 
