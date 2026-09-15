@@ -2,7 +2,7 @@ name: Seed aktualisieren
 
 on:
   schedule:
-    # 07:20, 21:20 und 23:20 Berliner Sommerzeit (Cron laeuft in UTC).
+    # --- Grundlaeufe: 07:20, 21:20 und 23:20 Berliner Sommerzeit ---
     # Im Winter verschiebt sich alles um eine Stunde nach vorn, also auf
     # 06:20, 20:20 und 22:20 - fuer eine Datenpflege unerheblich.
     #
@@ -10,6 +10,19 @@ on:
     # werden: Um 23:20 sind sie zwar sicher abgepfiffen, aber dann liegt
     # das Ergebnis den halben Abend brach.
     - cron: '20 5,19,21 * * *'
+
+    # --- Livefenster: halbstuendlich, solange Eintracht spielt ---
+    # Cron kennt nur die Uhr, nicht den Spielplan. Diese drei Eintraege
+    # decken deshalb grosszuegige Fenster ab; ob dahinter Arbeit steckt,
+    # entscheidet der Job "gate" anhand des Seeds. Laeuft kein Spiel, ist
+    # der Lauf nach Sekunden vorbei.
+    #
+    # Die Fenster sind eine Stunde breiter als noetig, weil Cron in UTC
+    # laeuft und Berlin zwischen UTC+1 und UTC+2 wechselt. Sie decken damit
+    # sommers wie winters Freitagabend, Samstag ab Mittag und Sonntag ab.
+    - cron: '0,30 16-23 * * 5'
+    - cron: '0,30 9-23 * * 6'
+    - cron: '0,30 9-22 * * 0'
   workflow_dispatch:
     inputs:
       full_backfill:
@@ -31,7 +44,38 @@ permissions:
   contents: write
 
 jobs:
+  # Vorgeschalteter Job statt einer Bedingung an jedem Schritt: Nur so laesst
+  # sich der eigentliche Lauf als Ganzes ueberspringen. Kostet einen
+  # Job-Start, spart bei einem Lauf ohne Spiel aber Checkout, Python-Setup
+  # und rund sechzig Abfragen an OpenLigaDB, ESPN und den DFB.
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.pruefen.outputs.run }}
+      grund: ${{ steps.pruefen.outputs.grund }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            data/seed_matches.json
+            tools/live_gate.py
+          sparse-checkout-cone-mode: false
+
+      - name: Laeuft gerade ein Spiel?
+        id: pruefen
+        env:
+          # github.event.schedule enthaelt den Cron-Ausdruck, der den Lauf
+          # ausgeloest hat - daran erkennt das Skript die Grundlaeufe, die
+          # immer durchlaufen muessen.
+          GATE_CRON: ${{ github.event.schedule }}
+        run: python3 tools/live_gate.py --seed data/seed_matches.json
+
+      - name: Zusammenfassung
+        run: echo "${{ steps.pruefen.outputs.grund }}" >> $GITHUB_STEP_SUMMARY
+
   update:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
