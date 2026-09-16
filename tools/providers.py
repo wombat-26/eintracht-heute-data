@@ -633,3 +633,115 @@ def dfb_torschuetzen(saison, kandidaten, competition, gender,
         protokoll(f"  DFB-Datencenter: {offen} Spiele bleiben offen "
                   f"(Grenze {max_detail} Detailseiten je Lauf).")
     return out
+
+
+# ---------- eintracht-archiv.de ----------
+#
+# Quellenlink fuer die Spielkarte ("Daten: eintracht-archiv.de").
+#
+# Hier ist nichts zu recherchieren: Die URL ergibt sich aus Datum und
+# Geschlecht. Von den 3486 im Seed vorhandenen Links folgen 3471 exakt
+# diesem Muster:
+#
+#   Maenner  https://www.eintracht-archiv.de/<saison>/<JJJJ-MM-TT>st.html
+#   Frauen   https://www.eintracht-archiv.de/<saison>f/f_<JJJJ-MM-TT>st.html
+#
+# <saison> ist das Startjahr der Saison, also 2026 fuer alles ab Juli 2026.
+# Der Wettbewerb spielt keine Rolle, Pokal- und Europapokalspiele liegen im
+# selben Ordner.
+#
+# Die elf Abweichler sind alle aelter als 1980 und betreffen Partien direkt
+# an der Saisongrenze, die im Ordner der Vorsaison liegen (etwa 1970-07-29
+# unter /1969/). Deshalb wird beide Ordner probiert.
+#
+# Warum ueberhaupt pruefen statt die URL blind einzutragen: Die Seiten
+# entstehen von Hand und mit Verzug. Am 16.09.2026 lagen die Spiele bis zum
+# 30.08. vor, alles danach lieferte 404. Ein blind gesetzter Link zeigte
+# also auf eine Fehlerseite.
+
+ARCHIV_BASIS = "https://www.eintracht-archiv.de"
+
+
+def archiv_urls(datum, gender):
+    """Mögliche Archiv-URLs eines Spiels, wahrscheinlichste zuerst."""
+    jahr, monat = int(datum[:4]), int(datum[5:7])
+    tag = datum[:10]
+    saisons = [jahr if monat >= 7 else jahr - 1]
+    # Partien direkt an der Saisongrenze liegen vereinzelt im Ordner der
+    # Vorsaison - zweite Moeglichkeit, aber nur fuer Juli und August.
+    if monat in (7, 8):
+        saisons.append(saisons[0] - 1)
+    if gender == "women":
+        return [f"{ARCHIV_BASIS}/{s}f/f_{tag}st.html" for s in saisons]
+    return [f"{ARCHIV_BASIS}/{s}/{tag}st.html" for s in saisons]
+
+
+def _archiv_seite_passt(seiten_html, datum, gegner):
+    """Steht auf der Seite wirklich dieses Spiel?
+
+    Geprueft wird das Datum in deutscher Schreibweise und der Gegner. Ohne
+    diese Kontrolle wuerde jede Seite, die der Server mit 200 beantwortet,
+    als Treffer durchgehen.
+
+    Entities muessen dabei aufgeloest werden: Die Seiten schreiben Umlaute
+    als &ouml; und Aehnliches, ein roher Textvergleich fand "Köln" und
+    "Nürnberg" deshalb nicht.
+    """
+    klar = _text(seiten_html)
+    tag, monat, jahr = datum[8:10], datum[5:7], datum[:4]
+    if f"{tag}.{monat}.{jahr}" not in klar:
+        return False
+    # Laengstes Wort des Gegnernamens als Probe - "1. FC" und "SV" stehen
+    # auf jeder zweiten Seite, "Nürnberg" oder "Tönis" nicht.
+    wort = max(re.findall(r"[\wÄÖÜäöüß-]{4,}", gegner or ""), key=len, default="")
+    return not wort or wort.lower() in klar.lower()
+
+
+def archiv_links(kandidaten, log=None, max_pruefungen=25, pause=0.5):
+    """Ergaenzt fehlende Quellenlinks. -> Liste angereicherter Spiel-Dicts.
+
+    `kandidaten` ist {id: Spiel-Dict}. Wie beim Datencenter kommen Kopien
+    dieser Dicts zurueck, veraendert ist nur sourceUrl - der Upsert setzt
+    das Feld ohnehin nur, wenn es gefuellt ankommt.
+
+    Nicht gefundene Spiele bleiben unangetastet und werden beim naechsten
+    Lauf erneut versucht; genau dafuer laeuft die Pruefung wiederholt.
+    """
+    protokoll = log or (lambda s: None)
+    out, geprueft = [], 0
+    for mid, m in sorted(kandidaten.items(), key=lambda kv: kv[1].get("date", "")):
+        if geprueft >= max_pruefungen:
+            protokoll(f"  eintracht-archiv: Grenze von {max_pruefungen} Pruefungen "
+                      f"erreicht, Rest beim naechsten Lauf.")
+            break
+        datum = (m.get("date") or "")[:10]
+        if len(datum) != 10:
+            continue
+        gegner = (m.get("awayTeam") if TEAM_NEEDLE in (m.get("homeTeam") or "").lower()
+                  else m.get("homeTeam"))
+        gefunden = None
+        for url in archiv_urls(datum, m.get("gender")):
+            geprueft += 1
+            try:
+                seite = _dfb_html(url, timeout=25)
+            except urllib.error.HTTPError as e:
+                if e.code != 404:
+                    protokoll(f"  Hinweis: eintracht-archiv {url} – HTTP {e.code}")
+                continue
+            except (urllib.error.URLError, OSError) as e:
+                protokoll(f"  Hinweis: eintracht-archiv {url} – {e}")
+                continue
+            finally:
+                time.sleep(pause)
+            if _archiv_seite_passt(seite, datum, gegner):
+                gefunden = url
+                break
+            protokoll(f"  PRUEFEN: {url} antwortet, zeigt aber nicht "
+                      f"{datum} gegen {gegner} – nicht uebernommen.")
+        if not gefunden:
+            continue
+        angereichert = dict(m)
+        angereichert["sourceUrl"] = gefunden
+        out.append(angereichert)
+        protokoll(f"  Archivlink {mid}: {gefunden}")
+    return out

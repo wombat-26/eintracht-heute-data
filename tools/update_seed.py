@@ -61,6 +61,19 @@ DFB_AB_SAISON = 2026
 # Datencenter in einem Schwung mit einer ganzen Saison zu belegen.
 DFB_MAX_DETAIL = 10
 
+# Quellenlinks auf eintracht-archiv.de.
+#
+# Die URL ergibt sich aus Datum und Geschlecht (siehe providers.archiv_urls),
+# zu recherchieren ist nichts. Geprueft werden muss trotzdem: Die Seiten
+# entstehen von Hand und mit Verzug, ein blind gesetzter Link zeigte sonst
+# auf eine 404-Seite.
+#
+# Deshalb laeuft das nicht bei jedem Lauf mit, sondern nur, wenn
+# --archiv-links gesetzt ist - im Workflow der Lauf am 1. und 15. Jeder
+# Versuch kostet eine Anfrage, und ein Spiel, dessen Seite noch fehlt,
+# bleibt bis zum naechsten Mal offen.
+ARCHIV_MAX_PRUEFUNGEN = 25
+
 
 def aktuelle_saison(heute=None):
     heute = heute or date.today()
@@ -130,7 +143,26 @@ def torluecken(matches, saison, competition, gender):
     return kandidaten, unvollstaendig
 
 
-def sammle(saisons, espn_tage, log, seed=None):
+def archivluecken(matches, saison, heute=None):
+    """Spiele einer Saison ohne Quellenlink, deren Archivseite existieren kann.
+
+    Geschlecht und Wettbewerb spielen keine Rolle - das Archiv fuehrt alles
+    unter demselben Datumsschema.
+
+    Kuenftige Partien fallen heraus: Die Seite entsteht erst nach dem Spiel,
+    ein Versuch waere garantiert vergeblich. Alles andere bleibt Kandidat,
+    auch ueber mehrere Laeufe hinweg, weil das Archiv von Hand gepflegt wird
+    und Tage bis Wochen hinterherhaengt.
+    """
+    heute = (heute or date.today()).isoformat()
+    label = f"{saison}/{str(saison + 1)[-2:]}"
+    return {m["id"]: m for m in matches
+            if m.get("season") == label
+            and not (m.get("sourceUrl") or "").strip()
+            and m.get("date", "")[:10] <= heute}
+
+
+def sammle(saisons, espn_tage, log, seed=None, archiv=False):
     gefunden = []
     rosters = {g: roster(seed or [], g) for g in ("men", "women")}
     for cfg in LIGEN:
@@ -198,6 +230,22 @@ def sammle(saisons, espn_tage, log, seed=None):
                     # ein Ergebnis ohne Namen, kein kaputter Seed.
                     log(f"  Hinweis: DFB-Datencenter/{competition}/{gender}/{s} "
                         f"nicht nutzbar – {e}")
+
+        if archiv:
+            for s in saisons:
+                kandidaten = archivluecken(vorschau, s)
+                if not kandidaten:
+                    continue
+                log(f"  {len(kandidaten)} gespielte Partien ohne Quellenlink "
+                    f"(Saison {s})")
+                try:
+                    gefunden += providers.archiv_links(
+                        kandidaten, log=log,
+                        max_pruefungen=ARCHIV_MAX_PRUEFUNGEN)
+                except Exception as e:
+                    # Wie beim Datencenter: ein fehlender Link ist kein
+                    # kaputter Seed.
+                    log(f"  Hinweis: eintracht-archiv/{s} nicht nutzbar – {e}")
     return gefunden
 
 
@@ -212,6 +260,10 @@ def main():
                     help="alle Saisons ab first statt nur der laufenden")
     ap.add_argument("--offline-fixture",
                     help="statt der APIs diese JSON-Datei als Quelle nutzen (Tests)")
+    ap.add_argument("--archiv-links", action="store_true",
+                    help="fehlende Quellenlinks auf eintracht-archiv.de suchen "
+                         "(kostet eine Anfrage je offenem Spiel - im Workflow "
+                         "nur am 1. und 15.)")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -242,7 +294,8 @@ def main():
                      for d in range(-args.espn_back, args.espn_forward + 1)]
         log(f"Quellen: Saisons {saisons[0]}–{saisons[-1]}, "
             f"ESPN {espn_tage[0]}–{espn_tage[-1]}")
-        gefunden = sammle(saisons, espn_tage, log, seed)
+        gefunden = sammle(saisons, espn_tage, log, seed,
+                          archiv=args.archiv_links)
 
     log(f"Insgesamt {len(gefunden)} Datensaetze von den Quellen")
 

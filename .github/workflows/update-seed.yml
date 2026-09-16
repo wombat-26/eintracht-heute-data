@@ -23,6 +23,15 @@ on:
     - cron: '0,30 16-23 * * 5'
     - cron: '0,30 9-23 * * 6'
     - cron: '0,30 9-22 * * 0'
+
+    # --- Quellenlinks: am 1. und 15. jeden Monats ---
+    # Sucht fuer gespielte Partien der laufenden Saison die Seite auf
+    # eintracht-archiv.de. Alle vierzehn Tage, weil das Archiv von Hand
+    # gepflegt wird und Tage bis Wochen hinterherhaengt - haeufiger zu
+    # fragen bringt nichts, seltener laesst Luecken zu lange stehen.
+    # (Cron kennt kein "alle 14 Tage"; der 1. und der 15. kommen dem am
+    # naechsten und liegen immer im selben Monat.)
+    - cron: '40 4 1,15 * *'
   workflow_dispatch:
     inputs:
       full_backfill:
@@ -31,6 +40,10 @@ on:
         default: false
       dry_run:
         description: 'Nur prüfen, nichts schreiben'
+        type: boolean
+        default: false
+      archiv_links:
+        description: 'Fehlende Quellenlinks auf eintracht-archiv.de suchen'
         type: boolean
         default: false
 
@@ -104,7 +117,8 @@ jobs:
             --out-dir ../data \
             --window-days 120 \
             ${{ inputs.full_backfill && '--full-backfill' || '' }} \
-            ${{ inputs.dry_run && '--dry-run' || '' }}
+            ${{ inputs.dry_run && '--dry-run' || '' }} \
+            ${{ (github.event.schedule == '40 4 1,15 * *' || inputs.archiv_links) && '--archiv-links' || '' }}
 
       # Zweite, unabhängige Prüfung: update_seed.py validiert bereits vor dem
       # Schreiben, aber ein separater Lauf gegen die geschriebene Datei fängt

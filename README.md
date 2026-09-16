@@ -52,6 +52,7 @@ tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 | `wsc` | DFB Frauen Supercup | women |
 | ESPN `uefa.wchampions[_qual]` | UEFA Women's Champions League | women |
 | DFB-Datencenter | Torschützen: Bundesliga (Frauen und Männer), DFB-Pokal | beide |
+| eintracht-archiv.de | Quellenlinks (`sourceUrl`), 1. und 15. des Monats | beide |
 
 Nicht abgedeckt und weiterhin nur im Seed: DFB-Pokal (Männer und Frauen),
 Europapokal der Männer, Champions League der Männer. Für `dfb`, `ucl` und
@@ -148,6 +149,14 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
+
+### 16.09.2026 — Quellenlinks automatisch ergänzen
+
+Neuer Lauf am 1. und 15. jeden Monats (`--archiv-links`): Für gespielte
+Partien der laufenden Saison ohne `sourceUrl` wird die Seite auf
+eintracht-archiv.de gesucht. Die URL ergibt sich aus Datum und Geschlecht,
+zu recherchieren ist nichts — geprüft wird trotzdem, weil das Archiv von
+Hand gepflegt wird und Tage bis Wochen hinterherhängt.
 
 ### 16.09.2026 — Torschützen auch bei den Männern korrigieren
 

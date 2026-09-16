@@ -34,7 +34,13 @@ UNBEKANNT_VON, UNBEKANNT_BIS = 12, 23
 # Die taeglichen Grundlaeufe laufen immer, unabhaengig davon, ob gespielt
 # wird. Sie holen Ansetzungen, Torschuetzinnen und alles, was nach dem
 # Schlusspfiff noch nachgetragen wird.
-BASIS_CRONS = {"20 5,19,21 * * *"}
+BASIS_CRONS = {
+    "20 5,19,21 * * *",
+    # Der Lauf am 1. und 15. sucht fehlende Quellenlinks auf
+    # eintracht-archiv.de. Er haengt nicht an einem Spiel und muss deshalb
+    # unabhaengig vom Livefenster durchlaufen.
+    "40 4 1,15 * *",
+}
 
 
 def laufende_spiele(matches, jetzt):
