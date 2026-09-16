@@ -367,8 +367,16 @@ DFB_TURBO = {"Turbo-Frame": "spielplan"}
 
 # Reihenfolge = Rateversuch. Neuer Sponsor: vorne ergaenzen, alte Eintraege
 # stehen lassen (aeltere Saisons liegen weiterhin unter ihrem Slug).
-DFB_FRAUEN_WETTBEWERBE = ("google-pixel-frauen-bundesliga", "frauen-bundesliga")
-DFB_TEAM_FRAUEN = "eintracht-frankfurt-31426"
+#
+# Schluessel ist das Paar aus Wettbewerb und Geschlecht, genau wie im Seed.
+# Der Wert ist (Wettbewerbs-Slugs, Team-Slug): Die Frauen haengen am Verein
+# mit numerischer ID, die Maenner nicht - warum, weiss nur der DFB.
+DFB_QUELLEN = {
+    ("bundesliga", "women"): (("google-pixel-frauen-bundesliga", "frauen-bundesliga"),
+                              "eintracht-frankfurt-31426"),
+    ("bundesliga", "men"):   (("bundesliga",), "eintracht-frankfurt"),
+    ("dfbPokal", "men"):     (("dfb-pokal",), "eintracht-frankfurt"),
+}
 
 
 def _dfb_html(url, extra=None, timeout=30):
@@ -392,16 +400,16 @@ def _dfb_saison_passt(saison_slug, saison):
     return bool(m) and int(m.group(1)) == saison
 
 
-def dfb_spielplan_seite(saison, wettbewerbe=DFB_FRAUEN_WETTBEWERBE,
-                        team=DFB_TEAM_FRAUEN):
+def dfb_spielplan_seite(saison, wettbewerbe, team):
     """Holt die Vereinsspielplan-Seite einer Saison. -> (html, url) oder (None, None).
 
     Der Saison-Slug wird nicht gebaut, sondern erraten und dann korrigiert:
-    Beim ersten Versuch steht der heute uebliche Aufbau
-    "<wettbewerb>-<jahr>-<jahr+1>". Schlaegt der fehl, liefert der DFB
-    trotzdem eine Seite - und die enthaelt im Saison-Auswahlfeld die
-    tatsaechlich gueltigen Slugs. Aus denen wird der passende nachgezogen.
-    Das faengt Formatwechsel ab: Bis 2022/23 hiessen sie schlicht "2022-23".
+    Der DFB fuehrt drei Formate nebeneinander - "bundesliga-2026-2027" bei
+    den Frauen, "2026-2027" bei den Maennern und "2026-27" im Pokal.
+    Schlaegt der erste Versuch fehl, liefert der DFB trotzdem eine Seite, und
+    die enthaelt im Saison-Auswahlfeld die tatsaechlich gueltigen Slugs. Aus
+    denen wird der passende nachgezogen. Das faengt auch Formatwechsel ab:
+    Bei den Frauen hiessen sie bis 2022/23 schlicht "2022-23".
     """
     for w in wettbewerbe:
         offen = [f"{w}-{saison}-{saison + 1}",
@@ -493,7 +501,7 @@ _DFB_TITEL = re.compile(r'm-MatchDetails-history-title[^>]*>(.*?)</div>', re.S)
 _DFB_ITEM = re.compile(r'm-MatchDetails-history-item">(.*?)(?=m-MatchDetails-history-item">|\Z)', re.S)
 _DFB_SEITE = re.compile(r'm-MatchDetails-history-event--(home|away)( is-empty)?"')
 _DFB_SEGMENT = re.compile(r'm-MatchDetails-history-event-text-segment">(.*?)</div>', re.S)
-_DFB_MINUTE = re.compile(r"m-MatchDetails-history-minute\">\s*(\d+)")
+_DFB_MINUTE = re.compile(r"m-MatchDetails-history-minute\">\s*(\d+)(?:\+(\d+))?")
 
 
 def dfb_tore(spiel_html):
@@ -510,7 +518,7 @@ def dfb_tore(spiel_html):
     geprueft, 122 Tore, keine andere Variante).
 
     Zum Eigentor: In den geprueften Spielen kam keines vor, die Zuordnung
-    von forHome ist dort also ungetestet. dfb_frauen_bundesliga() meldet
+    von forHome ist dort also ungetestet. dfb_torschuetzen() meldet
     jedes gefundene Eigentor im Protokoll, damit der erste echte Fall
     auffaellt statt still falsch zu landen.
     """
@@ -543,9 +551,12 @@ def dfb_tore(spiel_html):
             scorer = re.sub(r"\(.*?\)|\d+\s*:\s*\d+", " ", text).strip()
         minute = _DFB_MINUTE.search(item)
         out.append({
-            # Nachspielzeit steht als "90+3" - die erste Zahl ist die, die
-            # auch der Seed fuehrt.
-            "minute": int(minute.group(1)) if minute else None,
+            # Nachspielzeit steht als "90+2". Der Seed fuehrt eine einzelne
+            # Zahl, und OpenLigaDB zaehlt dafuer durch (92). Beide Teile
+            # werden deshalb addiert - sonst waere ein Tor in der
+            # Nachspielzeit nach einem DFB-Abgleich ploetzlich in der 90.
+            # gefallen, also schlechter als vorher.
+            "minute": (int(minute.group(1)) + int(minute.group(2) or 0)) if minute else None,
             "scorer": scorer or "–",
             "forHome": aktiv[0] == "home",
             "isPenalty": "lfmeter" in text,
@@ -555,32 +566,40 @@ def dfb_tore(spiel_html):
     return out
 
 
-def dfb_frauen_bundesliga(saison, kandidaten, log=None, max_detail=10,
-                          wettbewerbe=DFB_FRAUEN_WETTBEWERBE,
-                          team=DFB_TEAM_FRAUEN, pause=0.8):
-    """Traegt Torschuetzinnen fuer bereits bekannte Spiele nach.
+def dfb_torschuetzen(saison, kandidaten, competition, gender,
+                     log=None, max_detail=10, pause=0.8):
+    """Traegt Torschuetzen fuer bereits bekannte Spiele nach.
 
-    `kandidaten` ist {id: Spiel-Dict} und enthaelt genau die Partien, denen
-    Tore fehlen. Zurueck kommen Kopien dieser Dicts mit gefuellter Torliste,
-    sonst unveraendert - Datum, Vereinsnamen und Ergebnis bleiben also die
-    des Seeds. Dadurch kann der Upsert nichts ausser den Toren anfassen und
-    ein abweichend geschriebener Vereinsname erzeugt keine Aenderung, die
-    sich bei jedem Lauf hin und her schiebt.
+    `kandidaten` ist {id: Spiel-Dict} und enthaelt genau die Partien, deren
+    Torliste fehlt oder abgekuerzte Vornamen enthaelt. Zurueck kommen Kopien
+    dieser Dicts mit gefuellter Torliste, sonst unveraendert - Datum,
+    Vereinsnamen und Ergebnis bleiben also die des Seeds. Dadurch kann der
+    Upsert nichts ausser den Toren anfassen, und ein abweichend
+    geschriebener Vereinsname erzeugt keine Aenderung, die sich bei jedem
+    Lauf hin und her schiebt.
+
+    `competition` und `gender` waehlen ueber DFB_QUELLEN den Wettbewerbs-
+    und Team-Slug. Ist das Paar dort nicht eingetragen, passiert nichts:
+    Der Europapokal der Maenner etwa liegt nicht beim DFB.
 
     `max_detail` begrenzt die Detailseiten pro Lauf. Ein Rueckstand
     verteilt sich damit ueber mehrere Laeufe, statt das Datencenter in einem
-    Schwung mit 26 Anfragen zu belegen.
+    Schwung mit einer ganzen Saison zu belegen.
     """
     protokoll = log or (lambda s: None)
     if not kandidaten:
         return []
-
-    seite, quelle = dfb_spielplan_seite(saison, wettbewerbe, team)
-    if not seite:
-        protokoll(f"  Hinweis: DFB-Datencenter – kein Spielplan fuer {saison} "
-                  f"gefunden. Wettbewerbs-Slug in DFB_FRAUEN_WETTBEWERBE pruefen.")
+    quelle = DFB_QUELLEN.get((competition, gender))
+    if not quelle:
         return []
-    protokoll(f"  DFB-Datencenter: {quelle}")
+    wettbewerbe, team = quelle
+
+    seite, url = dfb_spielplan_seite(saison, wettbewerbe, team)
+    if not seite:
+        protokoll(f"  Hinweis: DFB-Datencenter – kein Spielplan fuer "
+                  f"{competition}/{gender} {saison}. Slug in DFB_QUELLEN pruefen.")
+        return []
+    protokoll(f"  DFB-Datencenter: {url}")
 
     out, offen = [], 0
     for f in dfb_fixtures(seite):

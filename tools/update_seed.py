@@ -35,22 +35,30 @@ LIGEN = [
 ]
 ESPN_SLUGS = ["uefa.wchampions_qual", "uefa.wchampions"]
 
-# DFB-Datencenter als Zweitquelle fuer die Frauen-Bundesliga.
+# DFB-Datencenter als Zweitquelle fuer Torschuetzen.
 #
-# OpenLigaDB liefert fuer ffb1 seit 2026 nur noch Ergebnisse, keine
-# Torschuetzinnen mehr. Das Datencenter fuellt genau diese Luecke und legt
-# dabei nie ein Spiel an - es sieht ausschliesslich Partien, die nach dem
-# Merge dieses Laufs ohnehin im Seed stuenden (siehe
-# providers.dfb_frauen_bundesliga). Faellt die Quelle aus, bleibt das
-# Ergebnis ohne Namen; das ist kein Datenfehler und faerbt den Lauf nicht rot.
+# Zwei Luecken, die es schliesst. Bei den Frauen fuehrt OpenLigaDB gar keine
+# Torschuetzinnen - was dort steht, hat ein Mensch von Hand eingetragen. Bei
+# den Maennern kuerzt OpenLigaDB Vornamen von Spielern ab, die nicht im
+# gepflegten Bestand stehen ("T. Skarke"); loese_abkuerzung() kommt da nicht
+# weiter, weil es nur aufloesen kann, was der Seed schon kennt. Das
+# Datencenter schreibt Namen immer aus.
 #
-# Erst ab 2026, weil aeltere Saisons ihre Torschuetzinnen kuratiert aus
+# Welche Wettbewerbe abgedeckt sind, steht in providers.DFB_QUELLEN:
+# Bundesliga (Frauen und Maenner) und DFB-Pokal der Maenner. Der Europapokal
+# liegt nicht beim DFB, die UWCL kommt von ESPN.
+#
+# Der Provider legt nie ein Spiel an - er sieht ausschliesslich Partien, die
+# nach dem Merge dieses Laufs ohnehin im Seed stuenden. Faellt die Quelle
+# aus, bleibt das Ergebnis ohne Namen; das ist kein Datenfehler und faerbt
+# den Lauf nicht rot.
+#
+# Erst ab 2026, weil aeltere Saisons ihre Torschuetzen kuratiert aus
 # eintracht-archiv.de haben - dieselbe Begruendung wie bei bl1 und dfb.
-DFB_FRAUEN_AB = 2026
-# Detailseiten je Lauf. Ein Rueckstand (etwa nach einem laengeren Ausfall)
-# verteilt sich damit ueber mehrere Laeufe, statt das Datencenter in einem
-# Schwung mit einer ganzen Saison zu belegen. Bei drei Laeufen taeglich sind
-# 10 mehr als genug: Pro Spieltag faellt genau ein Spiel an.
+DFB_AB_SAISON = 2026
+# Detailseiten je Lauf und Wettbewerb. Ein Rueckstand (etwa nach einem
+# laengeren Ausfall) verteilt sich damit ueber mehrere Laeufe, statt das
+# Datencenter in einem Schwung mit einer ganzen Saison zu belegen.
 DFB_MAX_DETAIL = 10
 
 
@@ -77,18 +85,20 @@ def roster(seed, gender):
     return namen
 
 
-def frauen_torluecken(matches, saison):
-    """Frauen-Bundesligaspiele einer Saison mit fehlender oder mangelhafter
-    Torliste. -> (kandidaten, unvollstaendig)
+def torluecken(matches, saison, competition, gender):
+    """Spiele eines Wettbewerbs mit fehlender oder mangelhafter Torliste.
+    -> (kandidaten, unvollstaendig)
 
-    OpenLigaDB liefert fuer ffb1 keine Torschuetzinnen. Was dort steht, hat
-    ein Mensch von Hand eingetragen - deshalb sind die beiden Faelle, die das
-    Datencenter beheben kann:
+    Zwei Faelle, beide vom Datencenter behebbar:
 
-      1. Torliste leer. Der Normalfall.
-      2. Abgekuerzte Vornamen ("D. Tolhoek") oder Platzhalter. Das
-         Datencenter schreibt Namen aus, und upsert() ersetzt eine Torliste,
-         sobald die neue weniger Abkuerzungen enthaelt.
+      1. Ergebnis da, Torliste leer. Bei den Frauen der Normalfall -
+         OpenLigaDB fuehrt dort keine Torschuetzinnen.
+      2. Abgekuerzte Vornamen ("T. Skarke", "R. Fellhauer"). Das betrifft
+         vor allem die Maenner: OpenLigaDB kuerzt bei Spielern, die nicht im
+         gepflegten Bestand stehen, und loese_abkuerzung() kann nur
+         aufloesen, was der Seed schon kennt. Das Datencenter schreibt Namen
+         immer aus, und upsert() ersetzt eine Torliste, sobald die neue
+         weniger Abkuerzungen enthaelt.
 
     Der dritte denkbare Fall - weniger Eintraege als Tore im Endstand - geht
     NICHT in die Kandidaten. upsert() ersetzt eine vorhandene, benannte
@@ -103,7 +113,7 @@ def frauen_torluecken(matches, saison):
     label = f"{saison}/{str(saison + 1)[-2:]}"
     kandidaten, unvollstaendig = {}, []
     for m in matches:
-        if (m.get("gender") != "women" or m.get("competition") != "bundesliga"
+        if (m.get("gender") != gender or m.get("competition") != competition
                 or m.get("season") != label or m.get("homeScore") is None):
             continue
         tore = (m.get("homeScore") or 0) + (m.get("awayScore") or 0)
@@ -165,26 +175,29 @@ def sammle(saisons, espn_tage, log, seed=None):
     if seed is not None:
         vorschau, _ = merge(seed, gefunden, prune_moved=False)
         for s in saisons:
-            if s < DFB_FRAUEN_AB:
+            if s < DFB_AB_SAISON:
                 continue
-            kandidaten, unvollstaendig = frauen_torluecken(vorschau, s)
-            if unvollstaendig:
-                # Der Upsert ruehrt eine vorhandene, benannte Torliste nicht
-                # an - auch keine halbe. Das ist hier nur zu melden, nicht zu
-                # beheben.
-                log(f"  PRUEFEN: unvollstaendige Torlisten, die automatisch "
-                    f"nicht gefuellt werden: {', '.join(unvollstaendig)}")
-            if not kandidaten:
-                continue
-            log(f"  {len(kandidaten)} Frauen-Spiele ohne oder mit unklarer "
-                f"Torliste (Saison {s})")
-            try:
-                gefunden += providers.dfb_frauen_bundesliga(
-                    s, kandidaten, log=log, max_detail=DFB_MAX_DETAIL)
-            except Exception as e:
-                # Bewusst kein raise: Eine ausgefallene Zweitquelle ist ein
-                # Ergebnis ohne Namen, kein kaputter Seed.
-                log(f"  Hinweis: DFB-Datencenter/{s} nicht nutzbar – {e}")
+            for (competition, gender) in providers.DFB_QUELLEN:
+                kandidaten, unvollstaendig = torluecken(vorschau, s, competition, gender)
+                if unvollstaendig:
+                    # Der Upsert ruehrt eine vorhandene, benannte Torliste
+                    # nicht an - auch keine halbe. Das ist hier nur zu
+                    # melden, nicht zu beheben.
+                    log(f"  PRUEFEN: unvollstaendige Torlisten, die automatisch "
+                        f"nicht gefuellt werden: {', '.join(unvollstaendig)}")
+                if not kandidaten:
+                    continue
+                log(f"  {len(kandidaten)} Spiele ohne oder mit unklarer "
+                    f"Torliste ({competition}/{gender} {s})")
+                try:
+                    gefunden += providers.dfb_torschuetzen(
+                        s, kandidaten, competition, gender,
+                        log=log, max_detail=DFB_MAX_DETAIL)
+                except Exception as e:
+                    # Bewusst kein raise: Eine ausgefallene Zweitquelle ist
+                    # ein Ergebnis ohne Namen, kein kaputter Seed.
+                    log(f"  Hinweis: DFB-Datencenter/{competition}/{gender}/{s} "
+                        f"nicht nutzbar – {e}")
     return gefunden
 
 

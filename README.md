@@ -51,7 +51,7 @@ tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 | `ffb1` | Frauen-Bundesliga | women |
 | `wsc` | DFB Frauen Supercup | women |
 | ESPN `uefa.wchampions[_qual]` | UEFA Women's Champions League | women |
-| DFB-Datencenter | Torschützinnen Frauen-Bundesliga | women |
+| DFB-Datencenter | Torschützen: Bundesliga (Frauen und Männer), DFB-Pokal | beide |
 
 Nicht abgedeckt und weiterhin nur im Seed: DFB-Pokal (Männer und Frauen),
 Europapokal der Männer, Champions League der Männer. Für `dfb`, `ucl` und
@@ -59,16 +59,25 @@ Europapokal der Männer, Champions League der Männer. Für `dfb`, `ucl` und
 
 ## DFB-Datencenter als Zweitquelle
 
-OpenLigaDB liefert für die Frauen-Bundesliga keine Torschützinnen. Was dort
-steht, hat jemand von Hand eingetragen.
-`providers.dfb_frauen_bundesliga()` holt sie stattdessen aus dem
-[DFB-Datencenter](https://datencenter.dfb.de) — kein Key, kein JavaScript,
-Namen immer ausgeschrieben.
+Das [DFB-Datencenter](https://datencenter.dfb.de) liefert Torschützen mit
+ausgeschriebenen Namen, ohne Key und ohne JavaScript. Es schließt zwei
+verschiedene Lücken:
 
-Nachteil gegenüber der Handarbeit: Das Datencenter füllt die Ereignisliste mit
-Verzug. In einer Stichprobe über die ersten vier Spieltage 2026/27 lagen
-Partien ab acht Tagen vollständig vor, eine zwei Tage alte noch gar nicht. Bei
-drei Läufen täglich holt die Pipeline das von selbst nach.
+- **Frauen:** OpenLigaDB führt für die Frauen-Bundesliga überhaupt keine
+  Torschützinnen. Was dort steht, hat jemand von Hand eingetragen.
+- **Männer:** OpenLigaDB kürzt Vornamen von Spielern ab, die nicht im
+  gepflegten Bestand stehen („T. Skarke", „R. Fellhauer").
+  `loese_abkuerzung()` kommt da nicht weiter, weil es nur auflösen kann, was
+  der Seed schon kennt.
+
+Abgedeckt sind laut `providers.DFB_QUELLEN` die Bundesliga (Frauen und
+Männer) und der DFB-Pokal der Männer. Der Europapokal liegt nicht beim DFB,
+die UWCL kommt von ESPN.
+
+Nachteil gegenüber der Handarbeit: Das Datencenter füllt die Ereignisliste
+mit Verzug. In einer Stichprobe über die ersten vier Spieltage 2026/27 lagen
+Partien ab acht Tagen vollständig vor, eine zwei Tage alte noch gar nicht.
+Bei drei Läufen täglich holt die Pipeline das von selbst nach.
 
 Drei Eigenschaften, die den Zuschnitt bestimmen:
 
@@ -84,11 +93,12 @@ Drei Eigenschaften, die den Zuschnitt bestimmen:
   Vereinsspielplan kostet eine Anfrage und liefert die ganze Saison mit Datum
   und Ergebnis; nur die Torliste steht auf der jeweiligen Schema-Seite.
 
-Der Wettbewerbs-Slug trägt den Sponsornamen (`google-pixel-frauen-bundesliga`,
-davor Flyeralarm). Neuer Vertrag → in `providers.DFB_FRAUEN_WETTBEWERBE` vorne
-ergänzen. Der Saison-Slug wird nicht gebaut, sondern aus dem Auswahlfeld der
-Seite nachgezogen, weil sich sein Format 2023 geändert hat (`2022-23` →
-`google-pixel-frauen-bundesliga-2024-2025`).
+Der Wettbewerbs-Slug der Frauen trägt den Sponsornamen
+(`google-pixel-frauen-bundesliga`, davor Flyeralarm). Neuer Vertrag → in
+`providers.DFB_QUELLEN` vorne ergänzen. Der Saison-Slug wird nicht gebaut,
+sondern aus dem Auswahlfeld der Seite nachgezogen, denn der DFB führt drei
+Formate nebeneinander: `google-pixel-frauen-bundesliga-2026-2027` bei den
+Frauen, `2026-2027` bei den Männern, `2026-27` im Pokal.
 
 Geprüft und verworfen: ESPN (kennt keine deutsche Frauenliga — nur `eng.w.1`,
 `esp.w.1`, `fra.w.1`, `ned.w.1`, `aus.w.1` und die UWCL), TheSportsDB (für
@@ -138,6 +148,21 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
+
+### 16.09.2026 — Torschützen auch bei den Männern korrigieren
+
+Die DFB-Quelle deckt jetzt Bundesliga (Frauen und Männer) und DFB-Pokal ab,
+gesteuert über `providers.DFB_QUELLEN`. Damit werden auch abgekürzte Vornamen
+aus OpenLigaDB („T. Skarke") ausgeschrieben, die `loese_abkuerzung()` nicht
+auflösen kann. Nachspielzeit wird als `90+2` → 92 gelesen statt auf 90
+abgeschnitten.
+
+### 16.09.2026 — Halbstündliche Läufe während der Spiele
+
+Drei Wochenend-Cronfenster plus vorgeschalteter `gate`-Job, der im Seed
+nachsieht, ob gerade gespielt wird (`tools/live_gate.py`). Livefenster ist
+Anpfiff + 15 bis Anpfiff + 165 Minuten. Der Seed-Job läuft bei einem Ausfall
+des Gates trotzdem.
 
 ### 15.09.2026 — Torschützinnen aus dem DFB-Datencenter
 

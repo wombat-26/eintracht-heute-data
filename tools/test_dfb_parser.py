@@ -87,6 +87,17 @@ def main():
     fehler += pruefe([t["minute"] for t in tore_b] == sorted(t["minute"] for t in tore_b),
                      "Tore in zeitlicher Reihenfolge")
 
+    # --- Nachspielzeit: "90+2" muss 92 ergeben, nicht 90 ---
+    # OpenLigaDB zaehlt durch. Wuerde hier abgeschnitten, waere ein Tor nach
+    # einem DFB-Abgleich schlechter datiert als vorher.
+    print("Spielschema mit Tor in der Nachspielzeit (Union – Eintracht 3:3)")
+    tore_n = providers.dfb_tore(lies("dfb_spiel_nachspielzeit.html"))
+    fehler += pruefe(len(tore_n) == 6, f"6 Tore (gefunden: {len(tore_n)})")
+    fehler += pruefe([t["minute"] for t in tore_n] == [3, 10, 11, 67, 79, 92],
+                     f"Minuten {[t['minute'] for t in tore_n]}")
+    fehler += pruefe(any(t["scorer"] == "Tim Skarke" for t in tore_n),
+                     "abgekuerzter Vorname ausgeschrieben (T. Skarke → Tim Skarke)")
+
     # --- Die Saison-Slugs aus dem Auswahlfeld, Grundlage der Slug-Suche ---
     print("Saison-Erkennung")
     fehler += pruefe(providers._dfb_saison_passt("google-pixel-frauen-bundesliga-2026-2027", 2026),
