@@ -167325,7 +167325,7 @@
         },
         {
           "minute": 92,
-          "scorer": "T. Skarke",
+          "scorer": "Tim Skarke",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -167468,15 +167468,15 @@
         },
         {
           "minute": 46,
-          "scorer": "Elias Baum",
+          "scorer": "Arijon Ibrahimovic",
           "forHome": false,
           "isPenalty": false,
-          "isOwnGoal": true,
+          "isOwnGoal": false,
           "order": 1
         },
         {
           "minute": 47,
-          "scorer": "R. Fellhauer",
+          "scorer": "Robin Fellhauer",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -167492,7 +167492,7 @@
         },
         {
           "minute": 89,
-          "scorer": "F. Rieder",
+          "scorer": "Fabian Rieder",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
