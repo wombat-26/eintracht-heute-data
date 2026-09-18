@@ -167661,15 +167661,56 @@
       "matchday": 5,
       "homeTeam": "1. FSV Mainz 05",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 2,
+      "awayScore": 3,
+      "halftimeHome": 2,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 6,
+          "scorer": "Kara Bathmann",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 30,
+          "scorer": "Sabina Jackson",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 58,
+          "scorer": "Marthine Östenstad",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 65,
+          "scorer": "Johanna Berg",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 3
+        },
+        {
+          "minute": 70,
+          "scorer": "Rebecka Blomqvist",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
       "gender": "women"
     },
     {
