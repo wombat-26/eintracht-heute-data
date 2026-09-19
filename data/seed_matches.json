@@ -167723,10 +167723,10 @@
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "SC Freiburg",
       "homeScore": 2,
-      "awayScore": 1,
-      "halftimeHome": 1,
-      "halftimeAway": 0,
-      "isFinished": false,
+      "awayScore": 2,
+      "halftimeHome": 2,
+      "halftimeAway": 1,
+      "isFinished": true,
       "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
@@ -167754,6 +167754,14 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 2
+        },
+        {
+          "minute": 48,
+          "scorer": "Yuito Suzuki",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
         }
       ],
       "gender": "men"
