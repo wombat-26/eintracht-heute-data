@@ -167722,15 +167722,40 @@
       "matchday": 4,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "SC Freiburg",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
+      "homeScore": 2,
+      "awayScore": 1,
+      "halftimeHome": 1,
+      "halftimeAway": 0,
       "isFinished": false,
-      "goalsLoaded": false,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 10,
+          "scorer": "Younes Ebnoutalib",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 34,
+          "scorer": "Derry Scherhant",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 36,
+          "scorer": "Jonathan Burkardt",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
       "gender": "men"
     },
     {
