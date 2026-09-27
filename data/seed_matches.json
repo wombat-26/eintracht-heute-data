@@ -167780,10 +167780,67 @@
       "halftimeHome": null,
       "halftimeAway": null,
       "isFinished": true,
-      "goalsLoaded": false,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 13,
+          "scorer": "Danique Tolhoek",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 19,
+          "scorer": "Larissa Mühlhaus",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 53,
+          "scorer": "Larissa Mühlhaus",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 65,
+          "scorer": "Danique Tolhoek",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 68,
+          "scorer": "Vivienne Lia",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 80,
+          "scorer": "Tamina Steiner",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 90,
+          "scorer": "Amanda Ilestedt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        }
+      ],
       "gender": "women"
     },
     {
@@ -167945,6 +168002,26 @@
       "sourceUrl": null,
       "goals": [],
       "gender": "men"
+    },
+    {
+      "id": "20261102-fcnrnber-eintrach",
+      "date": "2026-11-02T00:00:00",
+      "kickoffText": "00:00",
+      "competition": "dfbPokal",
+      "season": "2026/27",
+      "matchday": null,
+      "homeTeam": "1. FC Nürnberg",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": null,
+      "awayScore": null,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": false,
+      "goalsLoaded": false,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "women"
     },
     {
       "id": "20261107-scpaderb-eintrach",
