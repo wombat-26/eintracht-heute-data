@@ -167767,6 +167767,26 @@
       "gender": "men"
     },
     {
+      "id": "20260927-karlsruh-eintrach",
+      "date": "2026-09-27T14:00:00",
+      "kickoffText": "14:00",
+      "competition": "dfbPokal",
+      "season": "2026/27",
+      "matchday": null,
+      "homeTeam": "Karlsruher SC",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": null,
+      "awayScore": null,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": false,
+      "goalsLoaded": false,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "women"
+    },
+    {
       "id": "20261004-eintrach-fcbayern",
       "date": "2026-10-04T15:30:00",
       "kickoffText": "15:30",
