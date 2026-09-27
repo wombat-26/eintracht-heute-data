@@ -53,6 +53,7 @@ tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 | ESPN `uefa.wchampions[_qual]` | UEFA Women's Champions League | women |
 | DFB-Datencenter | Torschützen: Bundesliga (Frauen und Männer), DFB-Pokal | beide |
 | eintracht-archiv.de | Quellenlinks (`sourceUrl`), 1. und 15. des Monats | beide |
+| DFB-Datencenter | DFB-Pokal der Frauen (Primärquelle, legt Spiele an) | women |
 
 Nicht abgedeckt und weiterhin nur im Seed: DFB-Pokal (Männer und Frauen),
 Europapokal der Männer, Champions League der Männer. Für `dfb`, `ucl` und
@@ -149,6 +150,14 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
+
+### 27.09.2026 — DFB-Pokal der Frauen
+
+Der Wettbewerb kam bisher aus keiner Quelle: OpenLigaDB führt ihn nicht (832
+Ligen geprüft), ESPN kennt keine deutsche Frauenliga, eintracht-archiv.de
+trägt erst Tage später nach. Das Datencenter ist dafür jetzt Primärquelle
+und legt die Spiele an (`providers.dfb_spiele`), statt nur Tore zu
+ergänzen. Slug: `dfb-pokal-1132`, Saisonformat `2026-27`.
 
 ### 16.09.2026 — Quellenlinks automatisch ergänzen
 

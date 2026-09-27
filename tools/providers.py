@@ -376,6 +376,7 @@ DFB_QUELLEN = {
                               "eintracht-frankfurt-31426"),
     ("bundesliga", "men"):   (("bundesliga",), "eintracht-frankfurt"),
     ("dfbPokal", "men"):     (("dfb-pokal",), "eintracht-frankfurt"),
+    ("dfbPokal", "women"):   (("dfb-pokal-1132",), "eintracht-frankfurt-31426"),
 }
 
 
@@ -744,4 +745,73 @@ def archiv_links(kandidaten, log=None, max_pruefungen=25, pause=0.5):
         angereichert["sourceUrl"] = gefunden
         out.append(angereichert)
         protokoll(f"  Archivlink {mid}: {gefunden}")
+    return out
+
+
+# DFB-Pokal der Frauen: einzige Partie, die sonst gar nicht ankaeme.
+#
+# OpenLigaDB fuehrt den Wettbewerb nicht (832 Ligen durchgesehen, fuer 2026
+# gibt es ffb1, ffb2, wsc und fna - keinen Frauenpokal), ESPN kennt keine
+# deutsche Frauenliga, und eintracht-archiv.de traegt erst Tage spaeter nach.
+# Ohne diese Quelle fehlte das Spiel bis zum naechsten Seed-Nachtrag von Hand
+# komplett in der App.
+#
+# Deshalb ist das Datencenter hier ausnahmsweise Primaerquelle und legt
+# Spiele an, statt nur Tore zu ergaenzen. Der Slug ist nicht zu erraten
+# (dfb-pokal-1132), die Saison laeuft im Pokalformat "2026-27".
+DFB_PRIMAERQUELLEN = {
+    ("dfbPokal", "women"): (("dfb-pokal-1132",), "eintracht-frankfurt-31426"),
+}
+
+
+def dfb_spiele(saison, competition, gender, log=None):
+    """Spielplan eines Wettbewerbs als vollstaendige Datensaetze.
+
+    Im Gegensatz zu dfb_torschuetzen() legt diese Funktion Spiele an. Sie
+    liest nur die Spielplanseite - eine Anfrage fuer die ganze Saison, mit
+    Datum, Anstosszeit, Vereinen und Ergebnis. Die Torliste bleibt leer und
+    wird anschliessend vom ueblichen Weg ueber DFB_QUELLEN nachgetragen.
+
+    Halbzeitstand gibt es hier nicht: Die Spielplanzeile fuehrt ihn nicht,
+    und dafuer jede Detailseite zu holen, waere der Ausbeute nicht wert.
+    """
+    protokoll = log or (lambda s: None)
+    quelle = DFB_PRIMAERQUELLEN.get((competition, gender))
+    if not quelle:
+        return []
+    wettbewerbe, team = quelle
+    seite, url = dfb_spielplan_seite(saison, wettbewerbe, team)
+    if not seite:
+        protokoll(f"  Hinweis: DFB-Datencenter – kein Spielplan fuer "
+                  f"{competition}/{gender} {saison}. Slug in "
+                  f"DFB_PRIMAERQUELLEN pruefen.")
+        return []
+
+    out = []
+    for f in dfb_fixtures(seite):
+        if not f["homeTeam"] or not f["awayTeam"]:
+            continue
+        out.append({
+            "id": make_id(f["date"], f["homeTeam"], f["awayTeam"]),
+            "date": f["date"],
+            "kickoffText": f["kickoffText"],
+            "competition": competition,
+            "season": _season_label(f["date"]),
+            # Das Datencenter zaehlt Runden ("1-hauptrunde"), keine
+            # Spieltage - und der Seed fuehrt bei Pokalspielen ohnehin
+            # matchday: null.
+            "matchday": None,
+            "homeTeam": f["homeTeam"], "awayTeam": f["awayTeam"],
+            "homeScore": f["homeScore"], "awayScore": f["awayScore"],
+            "halftimeHome": None, "halftimeAway": None,
+            # Das Datencenter tickert nicht mit: Bis zum Abpfiff steht dort
+            # "-:-". Ein vorhandenes Ergebnis heisst deshalb, dass die Partie
+            # durch ist.
+            "isFinished": f["homeScore"] is not None,
+            "goalsLoaded": False,
+            "note": None, "sourceUrl": None,
+            "goals": [],
+            "gender": gender,
+        })
+    protokoll(f"  DFB {competition}/{gender}/{saison}: {len(out)} Spiele ({url})")
     return out

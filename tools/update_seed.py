@@ -198,6 +198,21 @@ def sammle(saisons, espn_tage, log, seed=None, archiv=False):
             gefunden += treffer
             time.sleep(0.3)
 
+    # Der DFB-Pokal der Frauen kommt sonst nirgends her: OpenLigaDB fuehrt
+    # ihn nicht, ESPN kennt keine deutsche Frauenliga, und eintracht-archiv.de
+    # traegt erst Tage spaeter nach. Das Datencenter ist hier deshalb
+    # Primaerquelle und legt die Spiele an - anders als weiter unten, wo es
+    # nur Torschuetzen zu bereits bekannten Partien ergaenzt.
+    for s in saisons:
+        if s < DFB_AB_SAISON:
+            continue
+        for (competition, gender) in providers.DFB_PRIMAERQUELLEN:
+            try:
+                gefunden += providers.dfb_spiele(s, competition, gender, log=log)
+            except Exception as e:
+                log(f"  Hinweis: DFB-Spielplan/{competition}/{gender}/{s} "
+                    f"nicht nutzbar – {e}")
+
     # DFB-Datencenter zuletzt: Welche Spiele Tore brauchen, steht erst fest,
     # wenn die Ergebnisse dieses Laufs beruecksichtigt sind. Der Probe-Merge
     # nutzt dieselbe upsert-Semantik wie der echte weiter unten, damit die
