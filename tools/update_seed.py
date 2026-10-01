@@ -33,7 +33,19 @@ LIGEN = [
     {"shortcut": "ffb1", "gender": "women", "first": 2026, "optional": True},
     {"shortcut": "wsc",  "gender": "women", "first": 2026, "optional": True},
 ]
-ESPN_SLUGS = ["uefa.wchampions_qual", "uefa.wchampions"]
+# ESPN-Wettbewerbe als Paar aus Slug und Wettbewerb im Seed.
+#
+# Frueher eine reine Slug-Liste, weil nur die Women's Champions League
+# angebunden war und providers.espn() "championsLeague" als Standard setzt.
+# Seit 2025/26 gibt es mit dem UEFA Women's Europa Cup einen zweiten
+# europaeischen Frauenwettbewerb - wer in der CL-Qualifikation ausscheidet,
+# landet dort. Er laeuft im Seed als "europacup", die App beschriftet das
+# neutral als "Europapokal".
+ESPN_SLUGS = [
+    ("uefa.wchampions_qual", "championsLeague"),
+    ("uefa.wchampions",      "championsLeague"),
+    ("uefa.w.europa",        "europacup"),
+]
 
 # DFB-Datencenter als Zweitquelle fuer Torschuetzen.
 #
@@ -187,9 +199,9 @@ def sammle(saisons, espn_tage, log, seed=None, archiv=False):
             time.sleep(0.5)
 
     for tag in espn_tage:
-        for sl in ESPN_SLUGS:
+        for sl, wettbewerb in ESPN_SLUGS:
             try:
-                treffer = providers.espn(sl, tag, "women")
+                treffer = providers.espn(sl, tag, "women", competition=wettbewerb)
             except Exception as e:
                 log(f"  Hinweis: ESPN {sl}/{tag} – {e}")
                 continue

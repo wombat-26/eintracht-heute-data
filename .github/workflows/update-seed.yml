@@ -155,8 +155,34 @@ jobs:
       # Tag, dessen Assets bei jedem Lauf ersetzt werden. Dadurch bleiben die
       # Download-URLs stabil (/releases/latest/download/<datei>), und die
       # Pages-Nutzungsbedingungen greifen nicht.
+      # Veroeffentlicht wird auch dann, wenn der Seed ausserhalb dieses Laufs
+      # geaendert wurde - durch einen Handnachtrag oder einen lokalen
+      # Nachhol-Lauf. Bisher hing der Upload allein an "changed": Ein von
+      # Hand committeter Seed galt beim naechsten Lauf als unveraendert und
+      # kam nie im Release an, bis zufaellig eine andere Aenderung ihn
+      # mitnahm. Die Apps lesen ausschliesslich das Release.
+      #
+      # Verglichen wird das Manifest im Repo mit dem im Release. Es enthaelt
+      # die Pruefsummen von Fenster und Vollbestand, deckt also jede
+      # inhaltliche Aenderung ab. Fehlt das Release oder ist es nicht
+      # lesbar, gilt es als veraltet.
+      - name: Release-Stand pruefen
+        id: release
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ziel="$RUNNER_TEMP/release"
+          if gh release download data -p manifest.json -D "$ziel" --clobber 2>/dev/null \
+             && cmp -s "$ziel/manifest.json" data/manifest.json; then
+            echo "veraltet=false" >> $GITHUB_OUTPUT
+          else
+            echo "veraltet=true" >> $GITHUB_OUTPUT
+            echo "Release weicht vom Repo ab – wird neu veroeffentlicht." >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Release-Assets aktualisieren
-        if: steps.update.outputs.changed == 'true'
+        if: steps.update.outputs.changed == 'true' || steps.release.outputs.veraltet == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

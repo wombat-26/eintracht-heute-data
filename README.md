@@ -51,6 +51,7 @@ tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 | `ffb1` | Frauen-Bundesliga | women |
 | `wsc` | DFB Frauen Supercup | women |
 | ESPN `uefa.wchampions[_qual]` | UEFA Women's Champions League | women |
+| ESPN `uefa.w.europa` | UEFA Women's Europa Cup (im Seed `europacup`) | women |
 | DFB-Datencenter | Torschützen: Bundesliga (Frauen und Männer), DFB-Pokal | beide |
 | eintracht-archiv.de | Quellenlinks (`sourceUrl`), 1. und 15. des Monats | beide |
 | DFB-Datencenter | DFB-Pokal der Frauen (Primärquelle, legt Spiele an) | women |
@@ -150,6 +151,16 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
+
+### 01.10.2026 — UEFA Women's Europa Cup
+
+Neuer ESPN-Slug `uefa.w.europa`, im Seed als `europacup`. `ESPN_SLUGS` führt
+dafür jetzt Paare aus Slug und Wettbewerb. Die beiden Qualifikationsspiele
+gegen FH (23.09. und 30.09.) einmalig per `--espn-back 9` nachgeholt.
+
+Release-Assets werden jetzt auch veröffentlicht, wenn der Seed außerhalb
+eines Bot-Laufs geändert wurde (Handnachtrag, lokaler Nachhol-Lauf). Bisher
+hing der Upload allein daran, dass der Lauf selbst etwas änderte.
 
 ### 27.09.2026 — DFB-Pokal der Frauen
 
