@@ -167767,6 +167767,35 @@
       "gender": "men"
     },
     {
+      "id": "20260923-fh-eintrach",
+      "date": "2026-09-23T18:00:00",
+      "kickoffText": "18:00",
+      "competition": "europacup",
+      "season": "2026/27",
+      "matchday": null,
+      "homeTeam": "FH",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": 0,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 60,
+          "scorer": "Rebecka Blomqvist",
+          "forHome": false,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 0
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20260927-karlsruh-eintrach",
       "date": "2026-09-27T14:00:00",
       "kickoffText": "14:00",
@@ -167839,6 +167868,67 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 6
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20260930-eintrach-fh",
+      "date": "2026-09-30T18:30:00",
+      "kickoffText": "18:30",
+      "competition": "europacup",
+      "season": "2026/27",
+      "matchday": null,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "FH",
+      "homeScore": 4,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 12,
+          "scorer": "Nia Christopher",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 46,
+          "scorer": "Larissa Mühlhaus",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 56,
+          "scorer": "Laura Freigang",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 62,
+          "scorer": "Hanna Bennison",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 79,
+          "scorer": "Hayley Raso",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
         }
       ],
       "gender": "women"
