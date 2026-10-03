@@ -86,6 +86,22 @@ DFB_MAX_DETAIL = 10
 # bleibt bis zum naechsten Mal offen.
 ARCHIV_MAX_PRUEFUNGEN = 25
 
+# OpenLigaDB-Ligen, deren Datensaetze gegen den DFB-Spielplan geprueft
+# werden (providers.dfb_abgleich). Die Frauen-Bundesliga, weil OpenLigaDB
+# dort nachweislich unzuverlaessig ist. Fuer die Maenner genuegt eine Zeile
+# mehr - DFB_QUELLEN kennt sie schon.
+DFB_ABGLEICH = {"ffb1": ("bundesliga", "women")}
+
+
+def melde(text):
+    """Schreibt eine Zeile zusaetzlich in die Job-Zusammenfassung von GitHub
+    Actions. Was dort steht, sieht man auf der Uebersichtsseite des Laufs,
+    ohne das Protokoll aufzuklappen."""
+    ziel = os.environ.get("GITHUB_STEP_SUMMARY")
+    if ziel:
+        with open(ziel, "a", encoding="utf-8") as f:
+            f.write(text + "\n")
+
 
 def aktuelle_saison(heute=None):
     heute = heute or date.today()
@@ -195,6 +211,24 @@ def sammle(saisons, espn_tage, log, seed=None, archiv=False):
                 log(f"  {cfg['shortcut']}/{s}: {len(verworfen)} Spiele mit vertauschtem "
                     f"Tag/Monat verworfen (Spieltage {verdaechtig})")
             log(f"  {cfg['shortcut']}/{s}: {len(ok)} Spiele")
+
+            abgleich = DFB_ABGLEICH.get(cfg["shortcut"])
+            if abgleich and s >= DFB_AB_SAISON:
+                try:
+                    abw = providers.dfb_abgleich(s, ok, *abgleich, log=log)
+                except Exception as e:
+                    abw = []
+                    log(f"  Hinweis: Abgleich {cfg['shortcut']}/{s} – {e}")
+                if abw:
+                    melde(f"### PRUEFEN: {cfg['shortcut']}/{s} weicht vom DFB ab")
+                    melde("| Spiel | Feld | OpenLigaDB | DFB |")
+                    melde("| --- | --- | --- | --- |")
+                for mid, art, ist, soll in abw:
+                    log(f"  PRUEFEN: {mid} {art} – OpenLigaDB {ist}, DFB {soll}")
+                    melde(f"| {mid} | {art} | {ist} | {soll} |")
+                if not abw:
+                    log(f"  {cfg['shortcut']}/{s}: mit DFB abgeglichen, keine Abweichung")
+
             gefunden += ok
             time.sleep(0.5)
 

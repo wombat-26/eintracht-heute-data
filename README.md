@@ -152,6 +152,21 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
 
+### 03.10.2026 — Frauen-Bundesliga gegen den DFB prüfen
+
+OpenLigaDB ist bei den Frauen unzuverlässig. Jeder `ffb1`-Datensatz wird
+jetzt gegen den DFB-Spielplan geprüft (`providers.dfb_abgleich`): Termin,
+Ergebnis und ob es die Paarung an diesem Spieltag gibt. Abweichungen stehen
+als PRUEFEN-Zeile im Protokoll und als Tabelle in der Job-Zusammenfassung.
+Nur Meldung, keine Korrektur — die App fragt OpenLigaDB selbst ab, behoben
+werden muss es dort.
+
+Nicht terminierte Spieltage zeigt der DFB als Zeitraum (`11.12. ~ 14.12.2026`).
+Ein OpenLigaDB-Platzhalter in diesem Zeitraum gilt nicht als Abweichung.
+
+Anlass: Eintracht – FC Bayern München stand bei OpenLigaDB auf Sonntag 15:30,
+gespielt wurde Samstag 17:55.
+
 ### 01.10.2026 — UEFA Women's Europa Cup
 
 Neuer ESPN-Slug `uefa.w.europa`, im Seed als `europacup`. `ESPN_SLUGS` führt

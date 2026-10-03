@@ -98,6 +98,69 @@ def main():
     fehler += pruefe(any(t["scorer"] == "Tim Skarke" for t in tore_n),
                      "abgekuerzter Vorname ausgeschrieben (T. Skarke → Tim Skarke)")
 
+    # --- Abgleich OpenLigaDB gegen DFB ---
+    # Grundlage ist der gespeicherte Spielplan. Daraus werden "OpenLigaDB"-
+    # Datensaetze gebaut und gezielt verfaelscht; der Abgleich muss genau
+    # die Verfaelschung melden und sonst schweigen.
+    print("Abgleich gegen den DFB-Spielplan")
+    from seedkit import make_id
+    zeilen = providers.dfb_fixtures(lies("dfb_spielplan_2026.html"))
+
+    def als_openligadb(f, **aenderung):
+        m = {"id": make_id(f["date"], f["homeTeam"], f["awayTeam"]),
+             "date": f["date"], "matchday": f["matchday"],
+             "homeTeam": f["homeTeam"], "awayTeam": f["awayTeam"],
+             "homeScore": f["homeScore"], "awayScore": f["awayScore"]}
+        m.update(aenderung)
+        return m
+
+    sauber = [als_openligadb(f) for f in zeilen]
+    fehler += pruefe(providers.dfb_abweichungen(sauber, zeilen) == [],
+                     "identische Daten: keine Meldung")
+
+    gespielt = next(f for f in zeilen if f["homeScore"] is not None)
+    offen = next(f for f in zeilen if f["homeScore"] is None)
+
+    abw = providers.dfb_abweichungen(
+        [als_openligadb(offen, date=offen["date"][:10] + "T15:30:00")], zeilen)
+    fehler += pruefe(len(abw) == 1 and abw[0][1] == "Termin",
+                     f"falsche Anstosszeit gemeldet ({abw})")
+
+    abw = providers.dfb_abweichungen(
+        [als_openligadb(gespielt, homeScore=gespielt["homeScore"] + 1)], zeilen)
+    fehler += pruefe(len(abw) == 1 and abw[0][1] == "Ergebnis",
+                     f"falsches Ergebnis gemeldet ({abw})")
+
+    abw = providers.dfb_abweichungen(
+        [als_openligadb(offen, awayTeam="Phantom FC")], zeilen)
+    fehler += pruefe(len(abw) == 1 and abw[0][1] == "Paarung",
+                     f"unbekannte Paarung gemeldet ({abw})")
+
+    # Nicht terminierte Spieltage: Platzhalter im Zeitraum ist in Ordnung,
+    # ausserhalb nicht.
+    zr = next((f for f in zeilen if f.get("zeitraum")), None)
+    fehler += pruefe(zr is not None, "Zeitraum im Spielplan erkannt"
+                     + (f" ({zr['zeitraum'][0]} bis {zr['zeitraum'][1]})" if zr else ""))
+    if zr:
+        von, bis = zr["zeitraum"]
+        fehler += pruefe(providers.dfb_abweichungen(
+            [als_openligadb(zr, date=von + "T15:30:00")], zeilen) == [],
+            "Platzhalter im Zeitraum ist keine Abweichung")
+        abw = providers.dfb_abweichungen(
+            [als_openligadb(zr, date="2027-06-30T15:30:00")], zeilen)
+        fehler += pruefe(len(abw) == 1 and abw[0][1] == "Termin",
+                         "Platzhalter ausserhalb des Zeitraums gemeldet")
+
+    # Keine Meldung, wenn eine Seite nur das Datum kennt ...
+    abw = providers.dfb_abweichungen(
+        [als_openligadb(offen, date=offen["date"][:10] + "T00:00:00")], zeilen)
+    fehler += pruefe(abw == [], "fehlende Uhrzeit ist keine Abweichung")
+    # ... und keine, wenn OpenLigaDB einen Zwischenstand fuehrt und der DFB
+    # noch "-:-" zeigt.
+    abw = providers.dfb_abweichungen(
+        [als_openligadb(offen, homeScore=1, awayScore=0)], zeilen)
+    fehler += pruefe(abw == [], "Zwischenstand ohne DFB-Ergebnis ist keine Abweichung")
+
     # --- Die Saison-Slugs aus dem Auswahlfeld, Grundlage der Slug-Suche ---
     print("Saison-Erkennung")
     fehler += pruefe(providers._dfb_saison_passt("google-pixel-frauen-bundesliga-2026-2027", 2026),

@@ -9,7 +9,7 @@ Weicht das Python hier ab, driften Server- und Geraetestand auseinander.
 Das Datencenter hat bewusst kein Swift-Gegenstueck: Es ist HTML, kein JSON,
 und gehoert damit in die Pipeline, nicht aufs Geraet.
 """
-import json, re, time, urllib.request, urllib.error
+import functools, json, re, time, urllib.request, urllib.error
 import html as html_mod
 from datetime import datetime, timedelta
 from seedkit import slug, make_id, utc_to_berlin_str, zerlege_abkuerzung
@@ -401,6 +401,11 @@ def _dfb_saison_passt(saison_slug, saison):
     return bool(m) and int(m.group(1)) == saison
 
 
+# Innerhalb eines Laufs nur einmal je Saison und Wettbewerb abrufen:
+# Terminabgleich und Tor-Nachtrag brauchen dieselbe Seite. Der Cache lebt
+# nur so lange wie der Prozess, ein Lauf sieht also immer den aktuellen
+# Stand.
+@functools.lru_cache(maxsize=16)
 def dfb_spielplan_seite(saison, wettbewerbe, team):
     """Holt die Vereinsspielplan-Seite einer Saison. -> (html, url) oder (None, None).
 
@@ -437,6 +442,10 @@ def dfb_spielplan_seite(saison, wettbewerbe, team):
 
 
 _DFB_ZEILE = re.compile(r'id="match_(\d+)"(.*?)(?=id="match_\d+"|\Z)', re.S)
+# Noch nicht terminierte Spieltage zeigt der DFB als Zeitraum:
+# "11.12. ~ 14.12.2026". Der Anfang traegt kein Jahr, deshalb griff
+# _DFB_DATUM bisher das Ende des Zeitraums.
+_DFB_ZEITRAUM = re.compile(r"(\d{2})\.(\d{2})\.\s*~\s*(\d{2})\.(\d{2})\.(\d{4})")
 _DFB_DATUM = re.compile(r"(\d{2})\.(\d{2})\.(\d{4})(?:\s+(\d{2}):(\d{2}))?")
 _DFB_LINK = re.compile(r'href="(https://datencenter\.dfb\.de/datencenter/[^"]+?-\d{5,7})"')
 _DFB_SPIELTAG = re.compile(r"/(\d+)-spieltag/")
@@ -468,6 +477,14 @@ def dfb_fixtures(seiten_html):
         d = _DFB_DATUM.search(zeile)
         if not d:
             continue
+        zeitraum = None
+        z = _DFB_ZEITRAUM.search(_text(zeile))
+        if z:
+            t1, m1, t2, m2, j2 = z.groups()
+            # Ueber den Jahreswechsel ("30.12. ~ 02.01.2027") gehoert der
+            # Anfang ins Vorjahr.
+            j1 = int(j2) - 1 if int(m1) > int(m2) else int(j2)
+            zeitraum = (f"{j1}-{m1}-{t1}", f"{j2}-{m2}-{t2}")
         tag, monat, jahr, std, minute = d.groups()
         std, minute = std or "00", minute or "00"
         link = _DFB_LINK.search(zeile)
@@ -493,6 +510,11 @@ def dfb_fixtures(seiten_html):
             "awayScore": gast,
             "matchday": int(spieltag.group(1)) if spieltag else None,
             "url": link.group(1) if link else None,
+            # (von, bis) als ISO-Datum, solange der Spieltag nicht
+            # terminiert ist; sonst None. "date" steht dann weiterhin auf dem
+            # Ende des Zeitraums, damit sich fuer bestehende Aufrufer nichts
+            # aendert.
+            "zeitraum": zeitraum,
         })
     return out
 
@@ -815,3 +837,107 @@ def dfb_spiele(saison, competition, gender, log=None):
         })
     protokoll(f"  DFB {competition}/{gender}/{saison}: {len(out)} Spiele ({url})")
     return out
+
+
+# ---------- Abgleich OpenLigaDB gegen DFB ----------
+#
+# OpenLigaDB ist bei den Frauen unzuverlaessig: Torschuetzinnen fehlen ganz,
+# ein ganzer Import kam mit vertauschtem Tag und Monat, und Ansetzungen
+# hinken hinterher. Am 03.10.2026 stand Eintracht – FC Bayern München
+# (6. Spieltag) dort noch auf Sonntag 15:30, gespielt wurde Samstag 17:55.
+# Aufgefallen ist das erst, als die App den falschen Tag zeigte - und das
+# Gate haette am Spieltag keinen Live-Lauf durchgelassen, weil es den Seed
+# nach Spielen von heute fragt.
+#
+# Deshalb wird jeder OpenLigaDB-Datensatz gegen den DFB-Spielplan geprueft,
+# die verbindliche Quelle. Die Seite laedt die Pipeline ohnehin; der
+# Abgleich kostet hoechstens eine Anfrage, meist keine (lru_cache oben).
+# Geprueft wird, was diese eine Seite hergibt:
+#
+#   Termin    Datum und Anstoss
+#   Ergebnis  sobald beide Quellen eines fuehren
+#   Paarung   gibt es das Spiel an diesem Spieltag beim DFB ueberhaupt?
+#
+# Torschuetzinnen nicht: Dafuer braeuchte es je Spiel eine Detailseite. Die
+# kommen ohnehin vom DFB, sobald OpenLigaDB keine oder abgekuerzte fuehrt.
+#
+# Bewusst nur Meldung, keine Korrektur: Die App fragt OpenLigaDB selbst ab.
+# Ein abweichender Termin im Seed wuerde dort als verschobener Platzhalter
+# wieder entfernt. Behoben werden muss es an der Quelle.
+
+
+def dfb_abweichungen(fetched, dfb_zeilen):
+    """Vergleicht OpenLigaDB-Datensaetze mit dem DFB-Spielplan.
+    -> [(id, art, openligadb, dfb), ...]
+
+    Zugeordnet wird ueber Spieltag und Paarung, nicht ueber die ID - die
+    enthaelt das Datum, und genau das ist womoeglich falsch.
+
+    Steht bei einer Seite noch keine Uhrzeit (00:00), wird nur das Datum
+    verglichen; sonst meldete jeder Spieltag, den der DFB schon terminiert
+    hat und OpenLigaDB noch nicht, eine Abweichung, die keine ist.
+
+    Ein Ergebnis wird nur verglichen, wenn beide eines fuehren. Waehrend
+    eines Spiels zeigt OpenLigaDB den Zwischenstand, der DFB noch "-:-" -
+    das ist keine Abweichung.
+    """
+    def paarung(datum, heim, gast):
+        return make_id(datum, heim, gast).split("-", 1)[1]
+
+    dfb, spieltage = {}, set()
+    for f in dfb_zeilen:
+        if f.get("matchday") is None or not f.get("homeTeam") or not f.get("awayTeam"):
+            continue
+        dfb[(f["matchday"], paarung(f["date"], f["homeTeam"], f["awayTeam"]))] = f
+        spieltage.add(f["matchday"])
+
+    out = []
+    for m in fetched:
+        tag = m.get("matchday")
+        f = dfb.get((tag, paarung(m["date"], m["homeTeam"], m["awayTeam"])))
+        if f is None:
+            # Nur melden, wenn der DFB diesen Spieltag ueberhaupt fuehrt -
+            # sonst waere es eine Luecke beim DFB, nicht bei OpenLigaDB.
+            if tag in spieltage:
+                out.append((m["id"], "Paarung",
+                            f"{tag}. Spieltag {m['homeTeam']} – {m['awayTeam']}",
+                            "an diesem Spieltag nicht vorhanden"))
+            continue
+
+        ist, soll = m["date"][:16], f["date"][:16]
+        if f.get("zeitraum"):
+            # Spieltag beim DFB noch nicht terminiert. OpenLigaDB setzt solche
+            # Spiele als Platzhalter auf einen Tag im Zeitraum (meist Sonntag
+            # 15:30) - das ist keine Abweichung, ein Tag ausserhalb schon.
+            von, bis = f["zeitraum"]
+            if not (von <= ist[:10] <= bis):
+                out.append((m["id"], "Termin", ist.replace("T", " "),
+                            f"{von} bis {bis}, noch nicht terminiert"))
+        else:
+            ohne_uhrzeit = soll.endswith("T00:00") or ist.endswith("T00:00")
+            if (soll[:10] != ist[:10]) if ohne_uhrzeit else (soll != ist):
+                out.append((m["id"], "Termin", ist.replace("T", " "), soll.replace("T", " ")))
+
+        if (m.get("homeScore") is not None and f.get("homeScore") is not None
+                and (m["homeScore"], m.get("awayScore")) != (f["homeScore"], f["awayScore"])):
+            out.append((m["id"], "Ergebnis",
+                        f"{m['homeScore']}:{m['awayScore']}",
+                        f"{f['homeScore']}:{f['awayScore']}"))
+    return out
+
+
+def dfb_abgleich(saison, fetched, competition, gender, log=None):
+    """Holt den DFB-Spielplan und vergleicht. Ein nicht erreichbarer DFB ist
+    ein Hinweis, kein Fehler - ein ausgefallener Abgleich darf den Lauf nicht
+    scheitern lassen."""
+    protokoll = log or (lambda s: None)
+    quelle = DFB_QUELLEN.get((competition, gender))
+    if not quelle or not fetched:
+        return []
+    wettbewerbe, team = quelle
+    seite, _ = dfb_spielplan_seite(saison, wettbewerbe, team)
+    if not seite:
+        protokoll(f"  Hinweis: Abgleich {competition}/{gender} {saison} nicht "
+                  f"moeglich – DFB-Spielplan nicht erreichbar.")
+        return []
+    return dfb_abweichungen(fetched, dfb_fixtures(seite))
