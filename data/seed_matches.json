@@ -167946,7 +167946,7 @@
       "awayScore": 1,
       "halftimeHome": 0,
       "halftimeAway": 1,
-      "isFinished": false,
+      "isFinished": true,
       "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
@@ -167958,14 +167958,6 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 0
-        },
-        {
-          "minute": 18,
-          "scorer": "Klara Bühl",
-          "forHome": false,
-          "isPenalty": false,
-          "isOwnGoal": false,
-          "order": 1
         }
       ],
       "gender": "women"
