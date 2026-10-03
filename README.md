@@ -159,9 +159,17 @@ geprüft: Name, Mannschaft, Minute (eine Minute Toleranz) und Anzahl. Akzente
 zählen nicht als Abweichung („Erëleta" = „Ereleta"). Was geprüft ist, steht
 in `data/dfb_torpruefung.json`; neu geprüft wird nur, wenn sich die Torliste
 ändert oder der DFB beim letzten Mal noch keine Ereignisse hatte (dann
-höchstens einmal täglich). Höchstens vier Detailseiten je Lauf. Gemeldete
-Abweichungen erscheinen bei jedem Lauf wieder, aus dem Prüfstand und ohne
-erneute Anfrage, bis die Torliste an der Quelle korrigiert ist.
+höchstens einmal täglich). Höchstens vier Detailseiten je Lauf.
+
+Bei einer Abweichung gilt der DFB: Seine Torliste ersetzt die im Seed, die
+Job-Zusammenfassung zeigt vorher und nachher. Das hält, weil `upsert()` eine
+benannte Torliste eines beendeten Spiels nicht mehr überschreibt. Übernommen
+wird nur, wenn die DFB-Liste zum Endstand passt und kein Eigentor enthält;
+sonst wird nur gemeldet.
+
+Termine und Ergebnisse bleiben dagegen reine Meldung. Die App fragt
+OpenLigaDB für die Frauen selbst ab; ein Termin, der im Seed vom DFB käme,
+erzeugte nach Abpfiff ein zweites Spiel unter der OpenLigaDB-ID.
 
 Der Termin- und Ergebnisabgleich läuft jetzt auch für die Männer-Bundesliga.
 Der DFB-Pokal bleibt außen vor: Pokalrunden führt der DFB nicht als Spieltag.

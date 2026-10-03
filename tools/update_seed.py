@@ -16,7 +16,7 @@ import argparse, json, gzip, hashlib, os, sys, time
 from datetime import datetime, timezone, timedelta, date
 
 from seedkit import (merge, validate, content_hash, canon_dump, MATCH_FIELDS,
-                     spieltag_plausibilitaet, zerlege_abkuerzung)
+                     spieltag_plausibilitaet, zerlege_abkuerzung, normalize_goals)
 import providers
 
 # gender ergibt sich allein aus dem abgefragten Liga-Kuerzel.
@@ -103,9 +103,16 @@ DFB_ABGLEICH = {"ffb1": ("bundesliga", "women"),
 # letzten Mal noch keine Ereignisse hatte; das holt er mit Tagen Verzug nach,
 # deshalb dann hoechstens einmal pro Tag erneut.
 #
-# Eine gemeldete Abweichung wird bei jedem Lauf wieder gemeldet, aber aus
-# dem Pruefstand, ohne erneute Anfrage - bis die Torliste sich aendert, weil
-# sie an der Quelle korrigiert wurde.
+# Bei einer Abweichung gilt der DFB: Seine Torliste ersetzt die im Seed.
+# Das haelt auch ueber spaetere Laeufe, weil upsert() eine benannte
+# Torliste eines beendeten Spiels nicht mehr ueberschreibt - ein erneuter
+# OpenLigaDB-Abruf mit dem alten Namen aendert also nichts mehr.
+#
+# Uebernommen wird nur, wenn die DFB-Liste zum Ergebnis passt (Tore je
+# Mannschaft gleich dem Endstand) und kein Eigentor enthaelt; bei Eigentoren
+# ist die Zuordnung zur Mannschaft im DFB-Parser noch ungetestet. Sonst wird
+# nur gemeldet, und zwar bei jedem Lauf wieder, aus dem Pruefstand und ohne
+# erneute Anfrage, bis sich die Torliste aendert.
 TORPRUEFUNG = {("bundesliga", "women")}
 TORPRUEFUNG_MAX = 4          # Detailseiten je Lauf
 PRUEFSTAND_DATEI = "dfb_torpruefung.json"
@@ -118,15 +125,18 @@ def _torsignatur(tore):
 
 
 def torpruefung(matches, stand, saison, log, heute=None):
-    """Prueft Torlisten gegen den DFB. -> (neuer_stand, meldungen)
+    """Prueft Torlisten gegen den DFB. -> (neuer_stand, meldungen, korrekturen)
+
+    Korrigiert `matches` an Ort und Stelle, wo der DFB uebernommen wird.
 
     `stand` ist der Inhalt von PRUEFSTAND_DATEI: {id: {"sig", "status",
-    "tag", "meldungen"}}. status ist "ok", "abweichung" oder "offen" (der
-    DFB hatte noch keine Ereignisse).
+    "tag", "meldungen"}}. status ist "ok", "korrigiert" (DFB uebernommen),
+    "abweichung" (nur gemeldet, DFB-Liste passte nicht zum Ergebnis) oder
+    "offen" (der DFB hatte noch keine Ereignisse).
     """
     heute = (heute or date.today()).isoformat()
     label = f"{saison}/{str(saison + 1)[-2:]}"
-    neu_stand, meldungen, abrufe = {}, [], 0
+    neu_stand, meldungen, korrekturen, abrufe = {}, [], [], 0
     urls = {}
 
     for m in matches:
@@ -169,18 +179,32 @@ def torpruefung(matches, stand, saison, log, heute=None):
             neu_stand[mid] = {"sig": sig, "status": "offen", "tag": heute}
             continue
         abw = providers.tore_abweichungen(m["goals"], dfb_tore)
-        if abw:
+        if not abw:
+            neu_stand[mid] = {"sig": sig, "status": "ok", "tag": heute}
+            continue
+
+        heim = sum(1 for g in dfb_tore if g["forHome"])
+        passt = (heim == m.get("homeScore")
+                 and len(dfb_tore) - heim == m.get("awayScore")
+                 and not any(g["isOwnGoal"] for g in dfb_tore))
+        if passt:
+            m["goals"] = normalize_goals(dfb_tore)
+            m["goalsLoaded"] = True
+            # Signatur der NEUEN Liste: Der naechste Lauf findet sie im Seed
+            # und prueft nicht erneut.
+            neu_stand[mid] = {"sig": _torsignatur(m["goals"]), "status": "korrigiert",
+                              "tag": heute, "meldungen": [list(x) for x in abw]}
+            korrekturen += [(mid, *x) for x in abw]
+        else:
             neu_stand[mid] = {"sig": sig, "status": "abweichung", "tag": heute,
                               "meldungen": [list(x) for x in abw]}
             meldungen += [(mid, *x) for x in abw]
-        else:
-            neu_stand[mid] = {"sig": sig, "status": "ok", "tag": heute}
 
     offen = sum(1 for v in neu_stand.values() if v["status"] == "offen")
     log(f"  Torpruefung {label}: {abrufe} Detailseiten, "
         f"{sum(1 for v in neu_stand.values() if v['status'] == 'ok')} ok, "
-        f"{offen} beim DFB noch ohne Ereignisse")
-    return neu_stand, meldungen
+        f"{offen} beim DFB noch ohne Ereignisse, {len({k[0] for k in korrekturen})} korrigiert")
+    return neu_stand, meldungen, korrekturen
 
 
 def melde(text):
@@ -476,12 +500,27 @@ def main():
         except (OSError, ValueError):
             pruefstand = {}
         try:
-            pruefstand_neu, tor_meldungen = torpruefung(
+            pruefstand_neu, tor_meldungen, tor_korrekturen = torpruefung(
                 neu, pruefstand, aktuelle_saison(), log)
         except Exception as e:
             # Wie alle DFB-Zugriffe: ein Ausfall ist ein Hinweis, kein Abbruch.
             log(f"  Hinweis: Torpruefung nicht moeglich – {e}")
-            pruefstand_neu, tor_meldungen = None, []
+            pruefstand_neu, tor_meldungen, tor_korrekturen = None, [], []
+        if tor_korrekturen:
+            # Erneut validieren: Die Korrektur hat Torlisten ersetzt.
+            fehler, warnungen = validate(neu)
+            if fehler:
+                log(f"ABBRUCH: {len(fehler)} Validierungsfehler nach der DFB-Korrektur.")
+                for e in fehler[:10]:
+                    log(f"  {e}")
+                return 1
+            stats["Torliste nach DFB"] += len({k[0] for k in tor_korrekturen})
+            melde("### Torschuetzinnen nach DFB korrigiert")
+            melde("| Spiel | Feld | vorher | DFB |")
+            melde("| --- | --- | --- | --- |")
+        for mid, art, ist, soll in tor_korrekturen:
+            log(f"  KORRIGIERT: {mid} {art} – vorher {ist}, jetzt DFB {soll}")
+            melde(f"| {mid} | {art} | {ist} | {soll} |")
         if tor_meldungen:
             melde("### PRUEFEN: Torschuetzinnen weichen vom DFB ab")
             melde("| Spiel | Feld | Seed (OpenLigaDB) | DFB |")
