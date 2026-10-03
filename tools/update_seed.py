@@ -88,9 +88,99 @@ ARCHIV_MAX_PRUEFUNGEN = 25
 
 # OpenLigaDB-Ligen, deren Datensaetze gegen den DFB-Spielplan geprueft
 # werden (providers.dfb_abgleich). Die Frauen-Bundesliga, weil OpenLigaDB
-# dort nachweislich unzuverlaessig ist. Fuer die Maenner genuegt eine Zeile
-# mehr - DFB_QUELLEN kennt sie schon.
-DFB_ABGLEICH = {"ffb1": ("bundesliga", "women")}
+# dort nachweislich unzuverlaessig ist, die Maenner-Bundesliga zur
+# Sicherheit. Der DFB-Pokal fehlt bewusst: Der Abgleich ordnet ueber den
+# Spieltag zu, und Pokalrunden fuehrt der DFB nicht als Spieltag.
+DFB_ABGLEICH = {"ffb1": ("bundesliga", "women"),
+               "bl1":  ("bundesliga", "men")}
+
+
+# Torschuetzinnen gegen den DFB pruefen (providers.tore_abweichungen).
+#
+# Jedes Ergebnis einmal: Welche Spiele mit welcher Torliste schon geprueft
+# sind, steht in PRUEFSTAND_DATEI neben dem Seed. Neu geprueft wird nur,
+# wenn sich die Torliste im Seed geaendert hat - oder wenn der DFB beim
+# letzten Mal noch keine Ereignisse hatte; das holt er mit Tagen Verzug nach,
+# deshalb dann hoechstens einmal pro Tag erneut.
+#
+# Eine gemeldete Abweichung wird bei jedem Lauf wieder gemeldet, aber aus
+# dem Pruefstand, ohne erneute Anfrage - bis die Torliste sich aendert, weil
+# sie an der Quelle korrigiert wurde.
+TORPRUEFUNG = {("bundesliga", "women")}
+TORPRUEFUNG_MAX = 4          # Detailseiten je Lauf
+PRUEFSTAND_DATEI = "dfb_torpruefung.json"
+
+
+def _torsignatur(tore):
+    roh = json.dumps([[g.get("minute"), g.get("scorer"), bool(g.get("forHome"))]
+                      for g in tore], ensure_ascii=False)
+    return hashlib.sha1(roh.encode()).hexdigest()[:12]
+
+
+def torpruefung(matches, stand, saison, log, heute=None):
+    """Prueft Torlisten gegen den DFB. -> (neuer_stand, meldungen)
+
+    `stand` ist der Inhalt von PRUEFSTAND_DATEI: {id: {"sig", "status",
+    "tag", "meldungen"}}. status ist "ok", "abweichung" oder "offen" (der
+    DFB hatte noch keine Ereignisse).
+    """
+    heute = (heute or date.today()).isoformat()
+    label = f"{saison}/{str(saison + 1)[-2:]}"
+    neu_stand, meldungen, abrufe = {}, [], 0
+    urls = {}
+
+    for m in matches:
+        art = (m.get("competition"), m.get("gender"))
+        if (art not in TORPRUEFUNG or m.get("season") != label
+                or not m.get("isFinished")
+                or (m.get("homeScore") or 0) + (m.get("awayScore") or 0) == 0
+                or not m.get("goals")):
+            continue
+        mid, sig = m["id"], _torsignatur(m["goals"])
+        alt = stand.get(mid)
+
+        faellig = (alt is None or alt.get("sig") != sig
+                   or (alt.get("status") == "offen" and alt.get("tag") != heute))
+        if not faellig or abrufe >= TORPRUEFUNG_MAX:
+            if alt is not None:
+                neu_stand[mid] = alt
+                if alt.get("status") == "abweichung" and alt.get("sig") == sig:
+                    meldungen += [(mid, *x) for x in alt.get("meldungen", [])]
+            continue
+
+        if art not in urls:
+            urls[art] = providers.dfb_spiel_urls(saison, *art)
+        url = urls[art].get(mid)
+        if not url:
+            # Keine DFB-Zeile zu dieser ID - meldet bereits der Abgleich
+            # (Termin oder Paarung).
+            continue
+        try:
+            dfb_tore = providers.dfb_tore(providers._dfb_html(url))
+        except Exception as e:
+            log(f"  Hinweis: Torpruefung {mid} – {e}")
+            if alt is not None:
+                neu_stand[mid] = alt
+            continue
+        abrufe += 1
+        time.sleep(0.8)
+
+        if not dfb_tore:
+            neu_stand[mid] = {"sig": sig, "status": "offen", "tag": heute}
+            continue
+        abw = providers.tore_abweichungen(m["goals"], dfb_tore)
+        if abw:
+            neu_stand[mid] = {"sig": sig, "status": "abweichung", "tag": heute,
+                              "meldungen": [list(x) for x in abw]}
+            meldungen += [(mid, *x) for x in abw]
+        else:
+            neu_stand[mid] = {"sig": sig, "status": "ok", "tag": heute}
+
+    offen = sum(1 for v in neu_stand.values() if v["status"] == "offen")
+    log(f"  Torpruefung {label}: {abrufe} Detailseiten, "
+        f"{sum(1 for v in neu_stand.values() if v['status'] == 'ok')} ok, "
+        f"{offen} beim DFB noch ohne Ereignisse")
+    return neu_stand, meldungen
 
 
 def melde(text):
@@ -373,6 +463,41 @@ def main():
     if len(neu) < len(seed) - 5:
         log(f"ABBRUCH: Spielzahl faellt von {len(seed)} auf {len(neu)}.")
         return 1
+
+    # --- Torschuetzinnen gegen den DFB ---
+    # Laeuft auf dem fertig gemergten Bestand: geprueft wird, was die App
+    # tatsaechlich bekommt, egal aus welcher Quelle es stammt.
+    pruefstand_neu = None
+    if not args.offline_fixture:
+        pfad = os.path.join(args.out_dir, PRUEFSTAND_DATEI)
+        try:
+            with open(pfad, encoding="utf-8") as f:
+                pruefstand = json.load(f)
+        except (OSError, ValueError):
+            pruefstand = {}
+        try:
+            pruefstand_neu, tor_meldungen = torpruefung(
+                neu, pruefstand, aktuelle_saison(), log)
+        except Exception as e:
+            # Wie alle DFB-Zugriffe: ein Ausfall ist ein Hinweis, kein Abbruch.
+            log(f"  Hinweis: Torpruefung nicht moeglich – {e}")
+            pruefstand_neu, tor_meldungen = None, []
+        if tor_meldungen:
+            melde("### PRUEFEN: Torschuetzinnen weichen vom DFB ab")
+            melde("| Spiel | Feld | Seed (OpenLigaDB) | DFB |")
+            melde("| --- | --- | --- | --- |")
+        for mid, art, ist, soll in tor_meldungen:
+            log(f"  PRUEFEN: {mid} {art} – Seed {ist}, DFB {soll}")
+            melde(f"| {mid} | {art} | {ist} | {soll} |")
+        if pruefstand_neu is not None and pruefstand_neu != pruefstand and not args.dry_run:
+            os.makedirs(args.out_dir, exist_ok=True)
+            with open(pfad, "w", encoding="utf-8") as f:
+                json.dump(pruefstand_neu, f, ensure_ascii=False, indent=1, sort_keys=True)
+                f.write("\n")
+            # Eigener Output, damit der Workflow den Pruefstand auch dann
+            # committet, wenn sich am Seed nichts geaendert hat - sonst
+            # wuerde jeder Lauf dieselben Seiten erneut holen.
+            _setze_output(pruefstand="true")
 
     # Vergleich ueber die vollstaendig serialisierte Datei, NICHT ueber
     # content_hash: Der deckt nur id, Ergebnis, Toranzahl, Notiz und

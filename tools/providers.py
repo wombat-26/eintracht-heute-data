@@ -941,3 +941,85 @@ def dfb_abgleich(saison, fetched, competition, gender, log=None):
                   f"moeglich – DFB-Spielplan nicht erreichbar.")
         return []
     return dfb_abweichungen(fetched, dfb_fixtures(seite))
+
+
+# ---------- Torschuetzinnen gegen den DFB pruefen ----------
+#
+# Ergaenzung zum Abgleich oben, der nur Termin, Ergebnis und Paarung sieht.
+# Fehlende oder abgekuerzte Namen ersetzt der Tor-Nachtrag ohnehin; ein
+# ausgeschriebener, aber falscher Name bei OpenLigaDB fiele ohne diesen
+# Vergleich nicht auf.
+#
+# Jede Pruefung kostet eine Detailseite. Welche Spiele schon geprueft sind,
+# merkt sich update_seed.py in data/dfb_torpruefung.json - hier steht nur der
+# Vergleich.
+
+import unicodedata
+
+
+def _name_norm(name):
+    """Vergleichsform eines Namens: ohne Akzente, ohne Gross/Klein, Leerraum
+    zusammengezogen.
+
+    Akzente muessen weg, weil die Quellen sie unterschiedlich setzen:
+    OpenLigaDB "Erëleta Memeti", DFB "Ereleta Memeti" - dieselbe Spielerin.
+    casefold macht aus "ß" ein "ss", "Lührßen" und "Lührssen" werden also
+    ebenfalls gleich.
+    """
+    zerlegt = unicodedata.normalize("NFKD", name or "")
+    ohne = "".join(c for c in zerlegt if not unicodedata.combining(c))
+    return " ".join(ohne.casefold().split())
+
+
+def tore_abweichungen(seed_tore, dfb_tore, minuten_toleranz=1):
+    """Vergleicht zwei Torlisten. -> [(art, seed, dfb), ...]
+
+    Bei gleicher Anzahl werden die Tore nach Minute gepaart und einzeln
+    verglichen: Name, Mannschaft, Minute. Eine Minute Unterschied gilt nicht
+    als Abweichung - die Quellen runden Nachspielzeit und Grenzfaelle
+    unterschiedlich.
+
+    Bei abweichender Anzahl wird nicht gepaart, sondern nur die Anzahl samt
+    beider Listen gemeldet: Eine Paarung nach Minute wuerde ab dem fehlenden
+    Tor alles verschieben und lauter Folgefehler melden.
+
+    Abgekuerzte Namen im Seed ("L. Freigang") sind kein Fall fuer diese
+    Pruefung - die ersetzt der Tor-Nachtrag ohnehin.
+    """
+    def zeile(g):
+        return f"{g.get('minute')}' {g.get('scorer')}"
+
+    def sortiert(tore):
+        return sorted(tore, key=lambda g: ((g.get("minute") or 0), g.get("order") or 0))
+
+    a, b = sortiert(seed_tore), sortiert(dfb_tore)
+    if len(a) != len(b):
+        return [("Anzahl Tore",
+                 f"{len(a)}: " + ", ".join(zeile(g) for g in a),
+                 f"{len(b)}: " + ", ".join(zeile(g) for g in b))]
+
+    out = []
+    for s, d in zip(a, b):
+        name_s, name_d = s.get("scorer") or "", d.get("scorer") or ""
+        if not zerlege_abkuerzung(name_s) and _name_norm(name_s) != _name_norm(name_d):
+            out.append(("Torschuetzin", zeile(s), zeile(d)))
+        if bool(s.get("forHome")) != bool(d.get("forHome")):
+            out.append(("Mannschaft", f"{zeile(s)} " + ("Heim" if s.get("forHome") else "Gast"),
+                        f"{zeile(d)} " + ("Heim" if d.get("forHome") else "Gast")))
+        ms, md = s.get("minute"), d.get("minute")
+        if ms is not None and md is not None and abs(ms - md) > minuten_toleranz:
+            out.append(("Minute", zeile(s), zeile(d)))
+    return out
+
+
+def dfb_spiel_urls(saison, competition, gender):
+    """Detailseiten aller Spiele eines Wettbewerbs, nach Seed-ID. Nutzt die
+    ohnehin geladene Spielplanseite (lru_cache), kostet also keine Anfrage."""
+    quelle = DFB_QUELLEN.get((competition, gender))
+    if not quelle:
+        return {}
+    seite, _ = dfb_spielplan_seite(saison, *quelle)
+    if not seite:
+        return {}
+    return {make_id(f["date"], f["homeTeam"], f["awayTeam"]): f["url"]
+            for f in dfb_fixtures(seite) if f.get("url")}

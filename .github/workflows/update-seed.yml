@@ -142,13 +142,18 @@ jobs:
           python check_abbreviations.py ../data/seed_matches.json >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
+      # Auch committen, wenn sich nur der Pruefstand der Torpruefung
+      # geaendert hat (data/dfb_torpruefung.json). Ohne Commit wuesste der
+      # naechste Lauf nicht, welche Spiele schon gegen den DFB geprueft sind,
+      # und holte dieselben Detailseiten erneut. Ins Release geht die Datei
+      # nicht - die Apps brauchen sie nicht.
       - name: Commit
-        if: steps.update.outputs.changed == 'true'
+        if: steps.update.outputs.changed == 'true' || steps.update.outputs.pruefstand == 'true'
         run: |
           git config user.name  'seed-bot'
           git config user.email 'seed-bot@users.noreply.github.com'
           git add data/
-          git commit -m "Seed: ${{ steps.update.outputs.summary }}"
+          git commit -m "${{ steps.update.outputs.changed == 'true' && format('Seed: {0}', steps.update.outputs.summary) || 'Torpruefung: Pruefstand aktualisiert' }}"
           git push
 
       # Release-Assets statt GitHub Pages: Ein einziges Release mit festem

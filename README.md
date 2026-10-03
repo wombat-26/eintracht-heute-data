@@ -152,6 +152,20 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
 
+### 03.10.2026 — Torschützinnen gegen den DFB prüfen, Männer im Abgleich
+
+Jedes Ergebnis der Frauen-Bundesliga wird einmal gegen die DFB-Detailseite
+geprüft: Name, Mannschaft, Minute (eine Minute Toleranz) und Anzahl. Akzente
+zählen nicht als Abweichung („Erëleta" = „Ereleta"). Was geprüft ist, steht
+in `data/dfb_torpruefung.json`; neu geprüft wird nur, wenn sich die Torliste
+ändert oder der DFB beim letzten Mal noch keine Ereignisse hatte (dann
+höchstens einmal täglich). Höchstens vier Detailseiten je Lauf. Gemeldete
+Abweichungen erscheinen bei jedem Lauf wieder, aus dem Prüfstand und ohne
+erneute Anfrage, bis die Torliste an der Quelle korrigiert ist.
+
+Der Termin- und Ergebnisabgleich läuft jetzt auch für die Männer-Bundesliga.
+Der DFB-Pokal bleibt außen vor: Pokalrunden führt der DFB nicht als Spieltag.
+
 ### 03.10.2026 — Frauen-Bundesliga gegen den DFB prüfen
 
 OpenLigaDB ist bei den Frauen unzuverlässig. Jeder `ffb1`-Datensatz wird

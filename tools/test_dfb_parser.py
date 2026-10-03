@@ -161,6 +161,53 @@ def main():
         [als_openligadb(offen, homeScore=1, awayScore=0)], zeilen)
     fehler += pruefe(abw == [], "Zwischenstand ohne DFB-Ergebnis ist keine Abweichung")
 
+    # --- Torschuetzinnen gegen den DFB ---
+    print("Torschuetzinnen gegen den DFB")
+    dfb_4_3 = providers.dfb_tore(lies("dfb_spiel_beide_seiten.html"))
+    seed_4_3 = [dict(g) for g in dfb_4_3]
+    fehler += pruefe(providers.tore_abweichungen(seed_4_3, dfb_4_3) == [],
+                     "identische Listen: keine Meldung")
+
+    # Die Quellen setzen Akzente unterschiedlich: OpenLigaDB "Erëleta",
+    # DFB "Ereleta". Das ist dieselbe Spielerin.
+    mit_akzent = [dict(g) for g in dfb_4_3]
+    for g in mit_akzent:
+        if g["scorer"] == "Ereleta Memeti":
+            g["scorer"] = "Erëleta Memeti"
+    fehler += pruefe(any(g["scorer"] == "Erëleta Memeti" for g in mit_akzent)
+                     and providers.tore_abweichungen(mit_akzent, dfb_4_3) == [],
+                     "Akzentunterschied ist keine Abweichung")
+
+    falsch = [dict(g) for g in dfb_4_3]
+    falsch[0]["scorer"] = "Laura Freigang"
+    abw = providers.tore_abweichungen(falsch, dfb_4_3)
+    fehler += pruefe(len(abw) == 1 and abw[0][0] == "Torschuetzin",
+                     f"falscher Name gemeldet ({abw})")
+
+    fehler += pruefe(len(providers.tore_abweichungen(seed_4_3[:-1], dfb_4_3)) == 1
+                     and providers.tore_abweichungen(seed_4_3[:-1], dfb_4_3)[0][0] == "Anzahl Tore",
+                     "fehlendes Tor als Anzahl gemeldet, nicht als Folgefehler")
+
+    seite = [dict(g) for g in dfb_4_3]
+    seite[0]["forHome"] = not seite[0]["forHome"]
+    abw = providers.tore_abweichungen(seite, dfb_4_3)
+    fehler += pruefe(len(abw) == 1 and abw[0][0] == "Mannschaft",
+                     "falsche Mannschaft gemeldet")
+
+    knapp = [dict(g) for g in dfb_4_3]
+    knapp[0]["minute"] += 1
+    weit = [dict(g) for g in dfb_4_3]
+    weit[0]["minute"] += 5
+    fehler += pruefe(providers.tore_abweichungen(knapp, dfb_4_3) == [],
+                     "eine Minute Unterschied ist keine Abweichung")
+    fehler += pruefe([a[0] for a in providers.tore_abweichungen(weit, dfb_4_3)] == ["Minute"],
+                     "fuenf Minuten Unterschied gemeldet")
+
+    kurz = [dict(g) for g in dfb_4_3]
+    kurz[0]["scorer"] = "E. Memeti"
+    fehler += pruefe(providers.tore_abweichungen(kurz, dfb_4_3) == [],
+                     "Abkuerzung ist Sache des Tor-Nachtrags, keine Meldung")
+
     # --- Die Saison-Slugs aus dem Auswahlfeld, Grundlage der Slug-Suche ---
     print("Saison-Erkennung")
     fehler += pruefe(providers._dfb_saison_passt("google-pixel-frauen-bundesliga-2026-2027", 2026),
