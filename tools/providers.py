@@ -154,15 +154,33 @@ def loese_abkuerzung(name, getter_id=None, roster=None):
     return treffer.pop() if len(treffer) == 1 else name
 
 
+def _torsumme(g):
+    """Spielstand nach dem Treffer als eine Zahl - steigt bei echten Toren
+    streng an."""
+    return (g.get("scoreTeam1") or 0) + (g.get("scoreTeam2") or 0)
+
+
 def _parse_goals(goals, roster=None):
     """OpenLigaDB liefert je Tor den neuen Spielstand - daraus ableiten,
-    fuer welches Team es fiel (welcher Wert sich erhoeht hat)."""
+    fuer welches Team es fiel (welcher Wert sich erhoeht hat).
+
+    Sortiert wird nach Torsumme, die Minute entscheidet nur bei Gleichstand.
+    Hat die Liste mehr Eintraege, als Tore gefallen sind, werden Eintraege
+    verworfen, die den Stand nicht erhoehen (Phantomtore, Dubletten) -
+    Anlass war ein nicht loeschbarer Rest "0:0, K. Buehl, 18." in Match
+    85755 am 03.10.2026. Nur bei Ueberzahl, weil ein solcher Eintrag auch
+    ein echtes Tor mit falsch erfasstem Stand sein kann (Match 77340,
+    Svanberg als 0:0). Muss mit parseGoals in OpenLigaDBProvider.swift
+    uebereinstimmen."""
     if not goals:
         return []
     out, prev1, prev2 = [], 0, 0
-    for g in sorted(goals, key=lambda x: (x.get("matchMinute") or 0)):
+    zu_viele = len(goals) > max(_torsumme(g) for g in goals)
+    for g in sorted(goals, key=lambda x: (_torsumme(x), x.get("matchMinute") or 0)):
         s1 = g.get("scoreTeam1") if g.get("scoreTeam1") is not None else prev1
         s2 = g.get("scoreTeam2") if g.get("scoreTeam2") is not None else prev2
+        if zu_viele and s1 + s2 <= prev1 + prev2:
+            continue
         for_home = s1 > prev1
         prev1, prev2 = s1, s2
         # Erst die Komma-Form drehen, dann die Abkuerzung aufloesen -
