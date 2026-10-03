@@ -18,5 +18,17 @@
   "sig": "88b665a34798",
   "status": "offen",
   "tag": "2026-10-03"
+ },
+ "20260918-fsvmainz-eintrach": {
+  "meldungen": [
+   [
+    "Torschuetzin",
+    "65' Johanna Berg",
+    "65' Nina Lührßen"
+   ]
+  ],
+  "sig": "f7995d09b053",
+  "status": "korrigiert",
+  "tag": "2026-10-03"
  }
 }

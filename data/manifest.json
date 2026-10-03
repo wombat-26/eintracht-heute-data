@@ -1,19 +1,19 @@
 {
   "schema": 1,
-  "version": "20261003-1046",
-  "generated": "2026-10-03T10:46:54Z",
+  "version": "20261003-1114",
+  "generated": "2026-10-03T11:14:23Z",
   "matchCount": 3555,
   "contentHash": "4882865314587279439",
   "window": {
     "url": "window.json.gz",
     "from": "2026-06-05",
-    "bytes": 3297,
-    "sha256": "f45ac05fc2d4629874ea1c1503d2a0c6f4c2e502de21ed95384bf967cd5c2d78"
+    "bytes": 3288,
+    "sha256": "179c5e0b3abf5c6e2c83c011fac61dbe68f5988b6c664198435265c5f4da15b6"
   },
   "full": {
     "url": "seed_matches.json.gz",
-    "bytes": 210259,
-    "sha256": "0ad05bbfbb958dada3e6ea65e0bd2eb8abb8c62b6ef8c3190b777e5970eede61"
+    "bytes": 210251,
+    "sha256": "89e44fcd13fd6e218c0b3110ce3029f8accb4bc7719023f00dd08bc6ef1c3f40"
   },
   "minSupportedBundle": "2026-01-01"
 }

@@ -167696,14 +167696,14 @@
         },
         {
           "minute": 65,
-          "scorer": "Johanna Berg",
+          "scorer": "Nina Lührßen",
           "forHome": false,
           "isPenalty": false,
-          "isOwnGoal": true,
+          "isOwnGoal": false,
           "order": 3
         },
         {
-          "minute": 70,
+          "minute": 71,
           "scorer": "Rebecka Blomqvist",
           "forHome": false,
           "isPenalty": false,
