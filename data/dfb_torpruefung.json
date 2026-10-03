@@ -1,0 +1,22 @@
+{
+ "20260822-eintrach-fckln": {
+  "sig": "a09f7276ed48",
+  "status": "ok",
+  "tag": "2026-10-03"
+ },
+ "20260830-eintrach-fcnrnber": {
+  "sig": "ede256b5a26f",
+  "status": "ok",
+  "tag": "2026-10-03"
+ },
+ "20260907-fcunionb-eintrach": {
+  "sig": "7afc8ef1ca9d",
+  "status": "ok",
+  "tag": "2026-10-03"
+ },
+ "20260913-eintrach-tsghoffe": {
+  "sig": "88b665a34798",
+  "status": "offen",
+  "tag": "2026-10-03"
+ }
+}
