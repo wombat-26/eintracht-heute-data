@@ -167942,15 +167942,32 @@
       "matchday": 6,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "FC Bayern München",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
+      "homeScore": 0,
+      "awayScore": 1,
+      "halftimeHome": 0,
+      "halftimeAway": 1,
       "isFinished": false,
-      "goalsLoaded": false,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 18,
+          "scorer": "Klara Bühl",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 18,
+          "scorer": "Klara Bühl",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
       "gender": "women"
     },
     {
