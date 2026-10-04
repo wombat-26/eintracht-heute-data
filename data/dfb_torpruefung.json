@@ -17,7 +17,7 @@
  "20260913-eintrach-tsghoffe": {
   "sig": "88b665a34798",
   "status": "offen",
-  "tag": "2026-10-03"
+  "tag": "2026-10-04"
  },
  "20260918-fsvmainz-eintrach": {
   "meldungen": [
@@ -33,7 +33,7 @@
  },
  "20261003-eintrach-fcbayern": {
   "sig": "8c04be068017",
-  "status": "offen",
-  "tag": "2026-10-03"
+  "status": "ok",
+  "tag": "2026-10-04"
  }
 }
