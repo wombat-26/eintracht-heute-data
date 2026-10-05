@@ -168083,6 +168083,26 @@
       "gender": "men"
     },
     {
+      "id": "20261101-fcnrnber-eintrach",
+      "date": "2026-11-01T14:00:00",
+      "kickoffText": "14:00",
+      "competition": "dfbPokal",
+      "season": "2026/27",
+      "matchday": null,
+      "homeTeam": "1. FC Nürnberg",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": null,
+      "awayScore": null,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": false,
+      "goalsLoaded": false,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "women"
+    },
+    {
       "id": "20261101-eintrach-hamburge",
       "date": "2026-11-01T17:30:00",
       "kickoffText": "17:30",
@@ -168101,26 +168121,6 @@
       "sourceUrl": null,
       "goals": [],
       "gender": "men"
-    },
-    {
-      "id": "20261102-fcnrnber-eintrach",
-      "date": "2026-11-02T00:00:00",
-      "kickoffText": "00:00",
-      "competition": "dfbPokal",
-      "season": "2026/27",
-      "matchday": null,
-      "homeTeam": "1. FC Nürnberg",
-      "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
-      "note": null,
-      "sourceUrl": null,
-      "goals": [],
-      "gender": "women"
     },
     {
       "id": "20261106-eintrach-vflwolfs",
