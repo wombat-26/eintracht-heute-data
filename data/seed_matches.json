@@ -167971,15 +167971,64 @@
       "matchday": 5,
       "homeTeam": "RB Leipzig",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 6,
+      "awayScore": 0,
+      "halftimeHome": 4,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 1,
+          "scorer": "Ezechiel Banzuzi",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 5,
+          "scorer": "Christopher Nkunku",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 41,
+          "scorer": "Christopher Nkunku",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 44,
+          "scorer": "Christopher Nkunku",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 54,
+          "scorer": "Antonio Nusa",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 89,
+          "scorer": "Tidiam Gomis",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        }
+      ],
       "gender": "men"
     },
     {
