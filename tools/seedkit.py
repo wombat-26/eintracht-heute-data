@@ -114,7 +114,13 @@ def content_hash(matches):
     for f in sorted(matches, key=lambda x: x["id"]):
         hs = str(f["homeScore"]) if f["homeScore"] is not None else "-"
         as_ = str(f["awayScore"]) if f["awayScore"] is not None else "-"
-        parts.append(f"{f['id']}|{hs}|{as_}|{len(f.get('goals') or [])}|{f.get('note') or ''}|{f.get('gender') or ''}")
+        # Torschuetzen mit Minute, in Dateireihenfolge - seit dem 15.10.2026,
+        # damit eine reine Namenskorrektur im Bundle-Seed einen Re-Import in
+        # der App ausloest. Muss Zeichen fuer Zeichen zu MatchStore passen.
+        tore = ",".join(
+            f"{g['minute'] if g.get('minute') is not None else '-'}~{g.get('scorer') or ''}"
+            for g in (f.get("goals") or []))
+        parts.append(f"{f['id']}|{hs}|{as_}|{len(f.get('goals') or [])}|{f.get('note') or ''}|{f.get('gender') or ''}|{tore}")
     combined = ";".join(parts)
     h = 0xcbf29ce484222325
     for b in combined.encode("utf-8"):

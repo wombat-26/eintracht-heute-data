@@ -152,6 +152,17 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
 
+### 15.10.2026 — contentHash mit Torschützen
+
+`seedkit.content_hash` (und `MatchStore.contentHash` in der App) umfasst
+jetzt auch Torschütze und Minute jedes Tors. Anlass: Neun Tore von Rasmus
+Kristensen standen unter Jørgen Kristensen. Eine reine Namenskorrektur
+änderte den Hash nicht, bestehende Installationen hätten den mitgelieferten
+Seed deshalb nicht neu importiert, und das Fenster deckt nur 120 Tage ab.
+
+Beide Implementierungen müssen Zeichen für Zeichen übereinstimmen. Die App
+importiert nach dem Update auf die neue Definition einmalig komplett neu.
+
 ### 03.10.2026 — Torschützinnen gegen den DFB prüfen, Männer im Abgleich
 
 Jedes Ergebnis der Frauen-Bundesliga wird einmal gegen die DFB-Detailseite

@@ -539,8 +539,9 @@ def main():
             _setze_output(pruefstand="true")
 
     # Vergleich ueber die vollstaendig serialisierte Datei, NICHT ueber
-    # content_hash: Der deckt nur id, Ergebnis, Toranzahl, Notiz und
-    # Geschlecht ab (so ist er in MatchStore definiert und muss es bleiben,
+    # content_hash: Der deckt nur id, Ergebnis, Toranzahl, Notiz,
+    # Geschlecht und Torschuetzen mit Minute ab (so ist er in MatchStore
+    # definiert und muss es bleiben,
     # damit die App denselben Wert berechnet). Terminverschiebungen,
     # praezisierte Anstosszeiten, Spieltagsnummern und Halbzeitstaende
     # aendern ihn nicht - genau die Faelle also, die zu Saisonbeginn am
