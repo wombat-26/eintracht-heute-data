@@ -168040,15 +168040,24 @@
       "matchday": 6,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "1. FC Köln",
-      "homeScore": 0,
+      "homeScore": 1,
       "awayScore": 0,
       "halftimeHome": 0,
       "halftimeAway": 0,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 77,
+          "scorer": "Younes Ebnoutalib",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        }
+      ],
       "gender": "men"
     },
     {
