@@ -168106,15 +168106,40 @@
       "matchday": 8,
       "homeTeam": "VfB Stuttgart",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 0,
+      "awayScore": 3,
+      "halftimeHome": 0,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 49,
+          "scorer": "Larissa Mühlhaus",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 73,
+          "scorer": "Laura Freigang",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 90,
+          "scorer": "Danique Tolhoek",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
       "gender": "women"
     },
     {
@@ -168126,15 +168151,24 @@
       "matchday": 7,
       "homeTeam": "Borussia Dortmund",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 1,
+      "awayScore": 0,
+      "halftimeHome": 0,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 80,
+          "scorer": "Maximilian Beier",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        }
+      ],
       "gender": "men"
     },
     {
