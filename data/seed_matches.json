@@ -168192,6 +168192,26 @@
       "gender": "men"
     },
     {
+      "id": "20261028-psveindh-eintrach",
+      "date": "2026-10-28T19:00:00",
+      "kickoffText": "19:00",
+      "competition": "europacup",
+      "season": "2026/27",
+      "matchday": null,
+      "homeTeam": "PSV Eindhoven",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": null,
+      "awayScore": null,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": false,
+      "goalsLoaded": false,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "women"
+    },
+    {
       "id": "20261101-fcnrnber-eintrach",
       "date": "2026-11-01T14:00:00",
       "kickoffText": "14:00",
