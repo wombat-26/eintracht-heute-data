@@ -167594,7 +167594,7 @@
       "awayTeam": "TSG Hoffenheim",
       "homeScore": 4,
       "awayScore": 2,
-      "halftimeHome": 0,
+      "halftimeHome": 1,
       "halftimeAway": 0,
       "isFinished": true,
       "goalsLoaded": true,
@@ -168180,15 +168180,48 @@
       "matchday": 2,
       "homeTeam": "Hamburger SV",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 1,
+      "awayScore": 3,
+      "halftimeHome": 0,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 57,
+          "scorer": "Robin Koch",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 71,
+          "scorer": "Jonathan Burkardt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 75,
+          "scorer": "Younes Ebnoutalib",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 79,
+          "scorer": "Terem Moffi",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
       "gender": "men"
     },
     {
