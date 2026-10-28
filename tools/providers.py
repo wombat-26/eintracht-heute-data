@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Datenquellen: OpenLigaDB (saisonweise), ESPN (tagesweise) und das
-DFB-Datencenter (Torschuetzinnen der Frauen-Bundesliga).
+DFB-Datencenter (Spielplan, nicht Torschuetzen).
 
 Bildet OpenLigaDBProvider.swift und ESPNProvider.swift 1:1 nach - inklusive
 Teamnamen-Normalisierung, ID-Erzeugung und der Auswahl des Endergebnisses.
@@ -347,31 +347,25 @@ def _espn_goals(details, home_team_id):
 
 # ---------- DFB-Datencenter ----------
 #
-# Zweitquelle, ausschliesslich fuer Torschuetzinnen der Frauen-Bundesliga.
+# Zwei Aufgaben, beide nur auf der Vereinsspielplan-Seite (eine Anfrage je
+# Saison und Wettbewerb, kein Abruf einzelner Spiele):
 #
-# Warum ueberhaupt: OpenLigaDB liefert fuer ffb1 seit 2026 nur noch
-# Ergebnisse. Namen und Minuten muessten sonst von Hand nachgetragen werden.
-# Geprueft und verworfen wurden ESPN (kennt gar keine deutsche Frauenliga -
-# nur eng.w.1, esp.w.1, fra.w.1, ned.w.1, aus.w.1 und die UWCL),
-# TheSportsDB (fuer Deutschland nur Bundesliga, 2. Bundesliga, DFB-Pokal und
-# DFB-Pokal Frauen) sowie Sofascore (403 fuer alles, was nicht wie ein
-# Browser aussieht). api-football.com kann es, aber der Free-Plan ist auf
-# aeltere Saisons beschraenkt.
+#  1. dfb_spiele(): der DFB-Pokal der Frauen, den sonst keine Quelle fuehrt.
+#  2. dfb_abgleich(): Termin, Ergebnis und Paarung der OpenLigaDB-Spiele.
 #
-# Zwei Einschraenkungen, die den Zuschnitt dieses Providers bestimmen:
+# Torschuetzen holt die Pipeline hier NICHT. Bis 28.10.2026 las ein Parser die
+# Detailseiten der Spiele aus; die Nutzungsbedingungen des Datencenters
+# untersagen Datencrawling und Datenscraping. Abgekuerzte Vornamen loest
+# jetzt wikidata_namen.py auf, ueber den Query Service von Wikidata (CC0).
 #
-#  1. Es ist HTML-Scraping. Ein Redesign beim DFB legt den Parser still.
-#     Deshalb faellt der Ausfall hier immer weich aus - fehlende
-#     Torschuetzinnen sind kein Grund, den Lauf rot zu faerben (Regel 4
-#     zielt auf kaputte Daten, nicht auf fehlende Ergaenzungen).
+# Zwei Einschraenkungen, die den Zuschnitt bestimmen:
+#
+#  1. Es ist HTML. Ein Redesign beim DFB legt den Parser still. Deshalb faellt
+#     der Ausfall immer weich aus - ein fehlender Abgleich ist kein Grund,
+#     den Lauf rot zu faerben (Regel 4 zielt auf kaputte Daten, nicht auf
+#     fehlende Ergaenzungen).
 #  2. Der Wettbewerbs-Slug traegt den Sponsornamen. Vor Google Pixel war es
 #     Flyeralarm, und der naechste Vertrag aendert ihn wieder.
-#
-# Wichtigste Eigenschaft: Dieser Provider legt NIE ein Spiel an. Er sieht
-# nur Partien, die ohnehin schon im Seed stehen, und gibt sie unveraendert
-# mit gefuellter Torliste zurueck. Damit kann eine abweichende
-# Vereinsschreibweise im Datencenter keine Dublette erzeugen - der schlimmste
-# Fall ist ein Spiel ohne Namen.
 
 DFB_BASE = "https://datencenter.dfb.de"
 DFB_HEADERS = {
@@ -420,7 +414,7 @@ def _dfb_saison_passt(saison_slug, saison):
 
 
 # Innerhalb eines Laufs nur einmal je Saison und Wettbewerb abrufen:
-# Terminabgleich und Tor-Nachtrag brauchen dieselbe Seite. Der Cache lebt
+# Terminabgleich und Pokal-Spielplan brauchen dieselbe Seite. Der Cache lebt
 # nur so lange wie der Prozess, ein Lauf sieht also immer den aktuellen
 # Stand.
 @functools.lru_cache(maxsize=16)
@@ -534,145 +528,6 @@ def dfb_fixtures(seiten_html):
             # aendert.
             "zeitraum": zeitraum,
         })
-    return out
-
-
-_DFB_BLOCK = re.compile(r'<div class="m-MatchDetails-history">(.*?)(?=<div class="m-MatchDetails-history">|\Z)', re.S)
-_DFB_TITEL = re.compile(r'm-MatchDetails-history-title[^>]*>(.*?)</div>', re.S)
-_DFB_ITEM = re.compile(r'm-MatchDetails-history-item">(.*?)(?=m-MatchDetails-history-item">|\Z)', re.S)
-_DFB_SEITE = re.compile(r'm-MatchDetails-history-event--(home|away)( is-empty)?"')
-_DFB_SEGMENT = re.compile(r'm-MatchDetails-history-event-text-segment">(.*?)</div>', re.S)
-_DFB_MINUTE = re.compile(r"m-MatchDetails-history-minute\">\s*(\d+)(?:\+(\d+))?")
-
-
-def dfb_tore(spiel_html):
-    """Torliste einer Spielschema-Seite in Seed-Form.
-
-    Aufbau der Quelle: Ein Block je Ereignisart ("Tore", "Karten",
-    "Wechsel"), darin ein Item je Ereignis mit zwei Spalten. Die Spalte der
-    unbeteiligten Mannschaft traegt `is-empty` - daraus ergibt sich forHome,
-    ohne die Vereinsnamen vergleichen zu muessen.
-
-    Elfmeter und Eigentore stehen als Klammerzusatz im Text ("(Elfmeter)"),
-    nicht als eigenes Symbol: Alle Tore nutzen dasselbe Icon
-    `m-MatchDetails-icon-goal--goal` (ueber 14 Spiele der Saison 2025/26
-    geprueft, 122 Tore, keine andere Variante).
-
-    Zum Eigentor: In den geprueften Spielen kam keines vor, die Zuordnung
-    von forHome ist dort also ungetestet. dfb_torschuetzen() meldet
-    jedes gefundene Eigentor im Protokoll, damit der erste echte Fall
-    auffaellt statt still falsch zu landen.
-    """
-    block = None
-    for kandidat in _DFB_BLOCK.findall(spiel_html):
-        titel = _DFB_TITEL.search(kandidat)
-        if titel and _text(titel.group(1)).lower().startswith("tore"):
-            block = kandidat
-            break
-    if not block:
-        return []
-
-    out = []
-    for item in _DFB_ITEM.findall(block):
-        seiten = _DFB_SEITE.findall(item)
-        aktiv = [s for s, leer in seiten if not leer]
-        if len(aktiv) != 1:
-            continue
-        seg = _DFB_SEGMENT.search(item)
-        if not seg:
-            continue
-        roh = seg.group(1)
-        name = _A_TEXT.search(roh)
-        text = _text(roh)
-        # Ohne Verlinkung (kommt bei Spielerinnen ohne DFB-Profil vor) bleibt
-        # nur der Text - Spielstand und Klammerzusatz herausschneiden.
-        if name:
-            scorer = _text(name.group(1))
-        else:
-            scorer = re.sub(r"\(.*?\)|\d+\s*:\s*\d+", " ", text).strip()
-        minute = _DFB_MINUTE.search(item)
-        out.append({
-            # Nachspielzeit steht als "90+2". Der Seed fuehrt eine einzelne
-            # Zahl, und OpenLigaDB zaehlt dafuer durch (92). Beide Teile
-            # werden deshalb addiert - sonst waere ein Tor in der
-            # Nachspielzeit nach einem DFB-Abgleich ploetzlich in der 90.
-            # gefallen, also schlechter als vorher.
-            "minute": (int(minute.group(1)) + int(minute.group(2) or 0)) if minute else None,
-            "scorer": scorer or "–",
-            "forHome": aktiv[0] == "home",
-            "isPenalty": "lfmeter" in text,
-            "isOwnGoal": "igentor" in text,
-            "order": len(out),
-        })
-    return out
-
-
-def dfb_torschuetzen(saison, kandidaten, competition, gender,
-                     log=None, max_detail=10, pause=0.8):
-    """Traegt Torschuetzen fuer bereits bekannte Spiele nach.
-
-    `kandidaten` ist {id: Spiel-Dict} und enthaelt genau die Partien, deren
-    Torliste fehlt oder abgekuerzte Vornamen enthaelt. Zurueck kommen Kopien
-    dieser Dicts mit gefuellter Torliste, sonst unveraendert - Datum,
-    Vereinsnamen und Ergebnis bleiben also die des Seeds. Dadurch kann der
-    Upsert nichts ausser den Toren anfassen, und ein abweichend
-    geschriebener Vereinsname erzeugt keine Aenderung, die sich bei jedem
-    Lauf hin und her schiebt.
-
-    `competition` und `gender` waehlen ueber DFB_QUELLEN den Wettbewerbs-
-    und Team-Slug. Ist das Paar dort nicht eingetragen, passiert nichts:
-    Der Europapokal der Maenner etwa liegt nicht beim DFB.
-
-    `max_detail` begrenzt die Detailseiten pro Lauf. Ein Rueckstand
-    verteilt sich damit ueber mehrere Laeufe, statt das Datencenter in einem
-    Schwung mit einer ganzen Saison zu belegen.
-    """
-    protokoll = log or (lambda s: None)
-    if not kandidaten:
-        return []
-    quelle = DFB_QUELLEN.get((competition, gender))
-    if not quelle:
-        return []
-    wettbewerbe, team = quelle
-
-    seite, url = dfb_spielplan_seite(saison, wettbewerbe, team)
-    if not seite:
-        protokoll(f"  Hinweis: DFB-Datencenter – kein Spielplan fuer "
-                  f"{competition}/{gender} {saison}. Slug in DFB_QUELLEN pruefen.")
-        return []
-    protokoll(f"  DFB-Datencenter: {url}")
-
-    out, offen = [], 0
-    for f in dfb_fixtures(seite):
-        if not f["url"] or f["homeScore"] is None:
-            continue
-        mid = make_id(f["date"], f["homeTeam"], f["awayTeam"])
-        ziel = kandidaten.get(mid)
-        if ziel is None:
-            continue
-        if len(out) >= max_detail:
-            offen += 1
-            continue
-        try:
-            tore = dfb_tore(_dfb_html(f["url"]))
-        except (urllib.error.HTTPError, urllib.error.URLError, OSError) as e:
-            protokoll(f"  Hinweis: DFB {f['dfbId']} nicht abrufbar – {e}")
-            continue
-        time.sleep(pause)
-        if not tore:
-            continue
-        angereichert = dict(ziel)
-        angereichert["goals"] = tore
-        angereichert["goalsLoaded"] = True
-        out.append(angereichert)
-        protokoll(f"  DFB {mid}: {len(tore)} Tore "
-                  f"({f['homeTeam']} – {f['awayTeam']} {f['homeScore']}:{f['awayScore']})")
-        if any(g["isOwnGoal"] for g in tore):
-            protokoll(f"  PRUEFEN: {mid} enthaelt ein Eigentor – Zuordnung "
-                      f"forHome ist fuer diesen Fall ungetestet.")
-    if offen:
-        protokoll(f"  DFB-Datencenter: {offen} Spiele bleiben offen "
-                  f"(Grenze {max_detail} Detailseiten je Lauf).")
     return out
 
 
@@ -807,10 +662,10 @@ DFB_PRIMAERQUELLEN = {
 def dfb_spiele(saison, competition, gender, log=None):
     """Spielplan eines Wettbewerbs als vollstaendige Datensaetze.
 
-    Im Gegensatz zu dfb_torschuetzen() legt diese Funktion Spiele an. Sie
-    liest nur die Spielplanseite - eine Anfrage fuer die ganze Saison, mit
-    Datum, Anstosszeit, Vereinen und Ergebnis. Die Torliste bleibt leer und
-    wird anschliessend vom ueblichen Weg ueber DFB_QUELLEN nachgetragen.
+    Diese Funktion legt Spiele an. Sie liest nur die Spielplanseite - eine
+    Anfrage fuer die ganze Saison, mit Datum, Anstosszeit, Vereinen und
+    Ergebnis. Die Torliste bleibt leer: Torschuetzen der Frauen kommen aus
+    keiner automatischen Quelle, sondern von eintracht-archiv.de.
 
     Halbzeitstand gibt es hier nicht: Die Spielplanzeile fuehrt ihn nicht,
     und dafuer jede Detailseite zu holen, waere der Ausbeute nicht wert.
@@ -876,8 +731,7 @@ def dfb_spiele(saison, competition, gender, log=None):
 #   Ergebnis  sobald beide Quellen eines fuehren
 #   Paarung   gibt es das Spiel an diesem Spieltag beim DFB ueberhaupt?
 #
-# Torschuetzinnen nicht: Dafuer braeuchte es je Spiel eine Detailseite. Die
-# kommen ohnehin vom DFB, sobald OpenLigaDB keine oder abgekuerzte fuehrt.
+# Torschuetzinnen nicht: Dafuer braeuchte es je Spiel eine Detailseite.
 #
 # Bewusst nur Meldung, keine Korrektur: Die App fragt OpenLigaDB selbst ab.
 # Ein abweichender Termin im Seed wuerde dort als verschobener Platzhalter
@@ -959,85 +813,3 @@ def dfb_abgleich(saison, fetched, competition, gender, log=None):
                   f"moeglich – DFB-Spielplan nicht erreichbar.")
         return []
     return dfb_abweichungen(fetched, dfb_fixtures(seite))
-
-
-# ---------- Torschuetzinnen gegen den DFB pruefen ----------
-#
-# Ergaenzung zum Abgleich oben, der nur Termin, Ergebnis und Paarung sieht.
-# Fehlende oder abgekuerzte Namen ersetzt der Tor-Nachtrag ohnehin; ein
-# ausgeschriebener, aber falscher Name bei OpenLigaDB fiele ohne diesen
-# Vergleich nicht auf.
-#
-# Jede Pruefung kostet eine Detailseite. Welche Spiele schon geprueft sind,
-# merkt sich update_seed.py in data/dfb_torpruefung.json - hier steht nur der
-# Vergleich.
-
-import unicodedata
-
-
-def _name_norm(name):
-    """Vergleichsform eines Namens: ohne Akzente, ohne Gross/Klein, Leerraum
-    zusammengezogen.
-
-    Akzente muessen weg, weil die Quellen sie unterschiedlich setzen:
-    OpenLigaDB "Erëleta Memeti", DFB "Ereleta Memeti" - dieselbe Spielerin.
-    casefold macht aus "ß" ein "ss", "Lührßen" und "Lührssen" werden also
-    ebenfalls gleich.
-    """
-    zerlegt = unicodedata.normalize("NFKD", name or "")
-    ohne = "".join(c for c in zerlegt if not unicodedata.combining(c))
-    return " ".join(ohne.casefold().split())
-
-
-def tore_abweichungen(seed_tore, dfb_tore, minuten_toleranz=1):
-    """Vergleicht zwei Torlisten. -> [(art, seed, dfb), ...]
-
-    Bei gleicher Anzahl werden die Tore nach Minute gepaart und einzeln
-    verglichen: Name, Mannschaft, Minute. Eine Minute Unterschied gilt nicht
-    als Abweichung - die Quellen runden Nachspielzeit und Grenzfaelle
-    unterschiedlich.
-
-    Bei abweichender Anzahl wird nicht gepaart, sondern nur die Anzahl samt
-    beider Listen gemeldet: Eine Paarung nach Minute wuerde ab dem fehlenden
-    Tor alles verschieben und lauter Folgefehler melden.
-
-    Abgekuerzte Namen im Seed ("L. Freigang") sind kein Fall fuer diese
-    Pruefung - die ersetzt der Tor-Nachtrag ohnehin.
-    """
-    def zeile(g):
-        return f"{g.get('minute')}' {g.get('scorer')}"
-
-    def sortiert(tore):
-        return sorted(tore, key=lambda g: ((g.get("minute") or 0), g.get("order") or 0))
-
-    a, b = sortiert(seed_tore), sortiert(dfb_tore)
-    if len(a) != len(b):
-        return [("Anzahl Tore",
-                 f"{len(a)}: " + ", ".join(zeile(g) for g in a),
-                 f"{len(b)}: " + ", ".join(zeile(g) for g in b))]
-
-    out = []
-    for s, d in zip(a, b):
-        name_s, name_d = s.get("scorer") or "", d.get("scorer") or ""
-        if not zerlege_abkuerzung(name_s) and _name_norm(name_s) != _name_norm(name_d):
-            out.append(("Torschuetzin", zeile(s), zeile(d)))
-        if bool(s.get("forHome")) != bool(d.get("forHome")):
-            out.append(("Mannschaft", f"{zeile(s)} " + ("Heim" if s.get("forHome") else "Gast"),
-                        f"{zeile(d)} " + ("Heim" if d.get("forHome") else "Gast")))
-        ms, md = s.get("minute"), d.get("minute")
-        if ms is not None and md is not None and abs(ms - md) > minuten_toleranz:
-            out.append(("Minute", zeile(s), zeile(d)))
-    return out
-
-
-def dfb_spiel_urls(saison, competition, gender):
-    """Detailseiten aller Spiele eines Wettbewerbs, nach Seed-ID. Nutzt die
-    ohnehin geladene Spielplanseite (lru_cache), kostet also keine Anfrage."""
-    quelle = DFB_QUELLEN.get((competition, gender))
-    if not quelle:
-        return {}
-    seite, _ = dfb_spielplan_seite(saison, *quelle)
-    if not seite:
-        return {}
-    return {make_id(f["date"], f["homeTeam"], f["awayTeam"]): f["url"]
-            for f in dfb_fixtures(seite) if f.get("url")}

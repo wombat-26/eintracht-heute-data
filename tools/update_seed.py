@@ -16,8 +16,9 @@ import argparse, json, gzip, hashlib, os, sys, time
 from datetime import datetime, timezone, timedelta, date
 
 from seedkit import (merge, validate, content_hash, canon_dump, MATCH_FIELDS,
-                     spieltag_plausibilitaet, zerlege_abkuerzung, normalize_goals)
+                     spieltag_plausibilitaet, zerlege_abkuerzung)
 import providers
+import wikidata_namen
 
 # gender ergibt sich allein aus dem abgefragten Liga-Kuerzel.
 #
@@ -47,31 +48,28 @@ ESPN_SLUGS = [
     ("uefa.w.europa",        "europacup"),
 ]
 
-# DFB-Datencenter als Zweitquelle fuer Torschuetzen.
+# DFB-Datencenter: Spielplan des DFB-Pokals der Frauen (providers.dfb_spiele)
+# und Abgleich von Terminen und Ergebnissen (providers.dfb_abgleich, siehe
+# DFB_ABGLEICH unten). Beides liest nur die Vereinsspielplan-Seite, eine
+# Anfrage je Saison und Wettbewerb.
 #
-# Zwei Luecken, die es schliesst. Bei den Frauen fuehrt OpenLigaDB gar keine
-# Torschuetzinnen - was dort steht, hat ein Mensch von Hand eingetragen. Bei
-# den Maennern kuerzt OpenLigaDB Vornamen von Spielern ab, die nicht im
-# gepflegten Bestand stehen ("T. Skarke"); loese_abkuerzung() kommt da nicht
-# weiter, weil es nur aufloesen kann, was der Seed schon kennt. Das
-# Datencenter schreibt Namen immer aus.
+# Torschuetzen holt die Pipeline dort nicht mehr. Abgekuerzte Vornamen aus
+# OpenLigaDB ("T. Moffi") loest wikidata_namen auf, siehe WIKIDATA_AB_SAISON.
+# Bei den Frauen fuehrt OpenLigaDB gar keine Torschuetzinnen; was dort im Seed
+# steht, kommt von eintracht-archiv.de.
 #
-# Welche Wettbewerbe abgedeckt sind, steht in providers.DFB_QUELLEN:
-# Bundesliga (Frauen und Maenner) und DFB-Pokal der Maenner. Der Europapokal
-# liegt nicht beim DFB, die UWCL kommt von ESPN.
+# Faellt die Quelle aus, bleibt der Abgleich aus - das ist kein Datenfehler
+# und faerbt den Lauf nicht rot.
 #
-# Der Provider legt nie ein Spiel an - er sieht ausschliesslich Partien, die
-# nach dem Merge dieses Laufs ohnehin im Seed stuenden. Faellt die Quelle
-# aus, bleibt das Ergebnis ohne Namen; das ist kein Datenfehler und faerbt
-# den Lauf nicht rot.
-#
-# Erst ab 2026, weil aeltere Saisons ihre Torschuetzen kuratiert aus
-# eintracht-archiv.de haben - dieselbe Begruendung wie bei bl1 und dfb.
+# Erst ab 2026, weil aeltere Saisons kuratiert aus eintracht-archiv.de stammen
+# - dieselbe Begruendung wie bei bl1 und dfb.
 DFB_AB_SAISON = 2026
-# Detailseiten je Lauf und Wettbewerb. Ein Rueckstand (etwa nach einem
-# laengeren Ausfall) verteilt sich damit ueber mehrere Laeufe, statt das
-# Datencenter in einem Schwung mit einer ganzen Saison zu belegen.
-DFB_MAX_DETAIL = 10
+
+# Abgekuerzte Torschuetzennamen ueber Wikidata ausschreiben
+# (wikidata_namen.py). Gleiche Grenze wie beim DFB und aus demselben Grund:
+# Aeltere Saisons haben ihre Namen kuratiert aus eintracht-archiv.de, da
+# gehoert nichts hinein, was eine Abfrage "errät".
+WIKIDATA_AB_SAISON = 2026
 
 # Quellenlinks auf eintracht-archiv.de.
 #
@@ -95,116 +93,25 @@ DFB_ABGLEICH = {"ffb1": ("bundesliga", "women"),
                "bl1":  ("bundesliga", "men")}
 
 
-# Torschuetzinnen gegen den DFB pruefen (providers.tore_abweichungen).
-#
-# Jedes Ergebnis einmal: Welche Spiele mit welcher Torliste schon geprueft
-# sind, steht in PRUEFSTAND_DATEI neben dem Seed. Neu geprueft wird nur,
-# wenn sich die Torliste im Seed geaendert hat - oder wenn der DFB beim
-# letzten Mal noch keine Ereignisse hatte; das holt er mit Tagen Verzug nach,
-# deshalb dann hoechstens einmal pro Tag erneut.
-#
-# Bei einer Abweichung gilt der DFB: Seine Torliste ersetzt die im Seed.
-# Das haelt auch ueber spaetere Laeufe, weil upsert() eine benannte
-# Torliste eines beendeten Spiels nicht mehr ueberschreibt - ein erneuter
-# OpenLigaDB-Abruf mit dem alten Namen aendert also nichts mehr.
-#
-# Uebernommen wird nur, wenn die DFB-Liste zum Ergebnis passt (Tore je
-# Mannschaft gleich dem Endstand) und kein Eigentor enthaelt; bei Eigentoren
-# ist die Zuordnung zur Mannschaft im DFB-Parser noch ungetestet. Sonst wird
-# nur gemeldet, und zwar bei jedem Lauf wieder, aus dem Pruefstand und ohne
-# erneute Anfrage, bis sich die Torliste aendert.
-TORPRUEFUNG = {("bundesliga", "women")}
-TORPRUEFUNG_MAX = 4          # Detailseiten je Lauf
-PRUEFSTAND_DATEI = "dfb_torpruefung.json"
+def wikidata_kandidaten(matches, ab_saison=WIKIDATA_AB_SAISON):
+    """Spiele neuerer Saisons mit mindestens einem abgekuerzten Torschuetzen,
+    neueste zuerst.
 
-
-def _torsignatur(tore):
-    roh = json.dumps([[g.get("minute"), g.get("scorer"), bool(g.get("forHome"))]
-                      for g in tore], ensure_ascii=False)
-    return hashlib.sha1(roh.encode()).hexdigest()[:12]
-
-
-def torpruefung(matches, stand, saison, log, heute=None):
-    """Prueft Torlisten gegen den DFB. -> (neuer_stand, meldungen, korrekturen)
-
-    Korrigiert `matches` an Ort und Stelle, wo der DFB uebernommen wird.
-
-    `stand` ist der Inhalt von PRUEFSTAND_DATEI: {id: {"sig", "status",
-    "tag", "meldungen"}}. status ist "ok", "korrigiert" (DFB uebernommen),
-    "abweichung" (nur gemeldet, DFB-Liste passte nicht zum Ergebnis) oder
-    "offen" (der DFB hatte noch keine Ereignisse).
+    Die Reihenfolge zaehlt, weil wikidata_namen.MAX_ABFRAGEN die Anfragen je
+    Lauf begrenzt: Bei einem Rueckstand kommen zuerst die Spiele dran, die
+    die App gerade anzeigt.
     """
-    heute = (heute or date.today()).isoformat()
-    label = f"{saison}/{str(saison + 1)[-2:]}"
-    neu_stand, meldungen, korrekturen, abrufe = {}, [], [], 0
-    urls = {}
-
+    out = []
     for m in matches:
-        art = (m.get("competition"), m.get("gender"))
-        if (art not in TORPRUEFUNG or m.get("season") != label
-                or not m.get("isFinished")
-                or (m.get("homeScore") or 0) + (m.get("awayScore") or 0) == 0
-                or not m.get("goals")):
-            continue
-        mid, sig = m["id"], _torsignatur(m["goals"])
-        alt = stand.get(mid)
-
-        faellig = (alt is None or alt.get("sig") != sig
-                   or (alt.get("status") == "offen" and alt.get("tag") != heute))
-        if not faellig or abrufe >= TORPRUEFUNG_MAX:
-            if alt is not None:
-                neu_stand[mid] = alt
-                if alt.get("status") == "abweichung" and alt.get("sig") == sig:
-                    meldungen += [(mid, *x) for x in alt.get("meldungen", [])]
-            continue
-
-        if art not in urls:
-            urls[art] = providers.dfb_spiel_urls(saison, *art)
-        url = urls[art].get(mid)
-        if not url:
-            # Keine DFB-Zeile zu dieser ID - meldet bereits der Abgleich
-            # (Termin oder Paarung).
-            continue
         try:
-            dfb_tore = providers.dfb_tore(providers._dfb_html(url))
-        except Exception as e:
-            log(f"  Hinweis: Torpruefung {mid} – {e}")
-            if alt is not None:
-                neu_stand[mid] = alt
+            start = int((m.get("season") or "")[:4])
+        except ValueError:
             continue
-        abrufe += 1
-        time.sleep(0.8)
-
-        if not dfb_tore:
-            neu_stand[mid] = {"sig": sig, "status": "offen", "tag": heute}
+        if start < ab_saison:
             continue
-        abw = providers.tore_abweichungen(m["goals"], dfb_tore)
-        if not abw:
-            neu_stand[mid] = {"sig": sig, "status": "ok", "tag": heute}
-            continue
-
-        heim = sum(1 for g in dfb_tore if g["forHome"])
-        passt = (heim == m.get("homeScore")
-                 and len(dfb_tore) - heim == m.get("awayScore")
-                 and not any(g["isOwnGoal"] for g in dfb_tore))
-        if passt:
-            m["goals"] = normalize_goals(dfb_tore)
-            m["goalsLoaded"] = True
-            # Signatur der NEUEN Liste: Der naechste Lauf findet sie im Seed
-            # und prueft nicht erneut.
-            neu_stand[mid] = {"sig": _torsignatur(m["goals"]), "status": "korrigiert",
-                              "tag": heute, "meldungen": [list(x) for x in abw]}
-            korrekturen += [(mid, *x) for x in abw]
-        else:
-            neu_stand[mid] = {"sig": sig, "status": "abweichung", "tag": heute,
-                              "meldungen": [list(x) for x in abw]}
-            meldungen += [(mid, *x) for x in abw]
-
-    offen = sum(1 for v in neu_stand.values() if v["status"] == "offen")
-    log(f"  Torpruefung {label}: {abrufe} Detailseiten, "
-        f"{sum(1 for v in neu_stand.values() if v['status'] == 'ok')} ok, "
-        f"{offen} beim DFB noch ohne Ereignisse, {len({k[0] for k in korrekturen})} korrigiert")
-    return neu_stand, meldungen, korrekturen
+        if any(zerlege_abkuerzung(g.get("scorer") or "") for g in m.get("goals") or []):
+            out.append(m)
+    return sorted(out, key=lambda m: m.get("date") or "", reverse=True)
 
 
 def melde(text):
@@ -238,51 +145,6 @@ def roster(seed, gender):
             if s and " " in s:
                 namen.add(s)
     return namen
-
-
-def torluecken(matches, saison, competition, gender):
-    """Spiele eines Wettbewerbs mit fehlender oder mangelhafter Torliste.
-    -> (kandidaten, unvollstaendig)
-
-    Zwei Faelle, beide vom Datencenter behebbar:
-
-      1. Ergebnis da, Torliste leer. Bei den Frauen der Normalfall -
-         OpenLigaDB fuehrt dort keine Torschuetzinnen.
-      2. Abgekuerzte Vornamen ("T. Skarke", "R. Fellhauer"). Das betrifft
-         vor allem die Maenner: OpenLigaDB kuerzt bei Spielern, die nicht im
-         gepflegten Bestand stehen, und loese_abkuerzung() kann nur
-         aufloesen, was der Seed schon kennt. Das Datencenter schreibt Namen
-         immer aus, und upsert() ersetzt eine Torliste, sobald die neue
-         weniger Abkuerzungen enthaelt.
-
-    Der dritte denkbare Fall - weniger Eintraege als Tore im Endstand - geht
-    NICHT in die Kandidaten. upsert() ersetzt eine vorhandene, benannte
-    Torliste nicht, auch keine halbe; ein Abruf verbraeuchte also in jedem
-    Lauf eine Detailseite, ohne je etwas zu aendern. Solche Spiele kommen
-    stattdessen als zweite Liste zurueck und werden protokolliert: Sie
-    gehoeren an der Quelle korrigiert, nicht hier.
-
-    Torlose Spiele fallen ganz heraus - bei einem 0:0 gibt es nichts
-    nachzutragen.
-    """
-    label = f"{saison}/{str(saison + 1)[-2:]}"
-    kandidaten, unvollstaendig = {}, []
-    for m in matches:
-        if (m.get("gender") != gender or m.get("competition") != competition
-                or m.get("season") != label or m.get("homeScore") is None):
-            continue
-        tore = (m.get("homeScore") or 0) + (m.get("awayScore") or 0)
-        if tore == 0:
-            continue
-        gs = m.get("goals") or []
-        namen_unklar = any(zerlege_abkuerzung(g.get("scorer") or "")
-                           or not (g.get("scorer") or "").strip()
-                           or g.get("scorer") == "–" for g in gs)
-        if not gs or namen_unklar:
-            kandidaten[m["id"]] = m
-        elif len(gs) < tore:
-            unvollstaendig.append(f"{m['id']} ({len(gs)} von {tore} Toren)")
-    return kandidaten, unvollstaendig
 
 
 def archivluecken(matches, saison, heute=None):
@@ -373,7 +235,7 @@ def sammle(saisons, espn_tage, log, seed=None, archiv=False):
                 log(f"  Hinweis: DFB-Spielplan/{competition}/{gender}/{s} "
                     f"nicht nutzbar – {e}")
 
-    # DFB-Datencenter zuletzt: Welche Spiele Tore brauchen, steht erst fest,
+    # Quellenlinks zuletzt: Welche Spiele noch keinen haben, steht erst fest,
     # wenn die Ergebnisse dieses Laufs beruecksichtigt sind. Der Probe-Merge
     # nutzt dieselbe upsert-Semantik wie der echte weiter unten, damit die
     # Vorauswahl nicht auf einer eigenen, abweichenden Regel beruht.
@@ -381,31 +243,6 @@ def sammle(saisons, espn_tage, log, seed=None, archiv=False):
     # Entfernen verschobener Platzhalter gehoert in den echten Merge.
     if seed is not None:
         vorschau, _ = merge(seed, gefunden, prune_moved=False)
-        for s in saisons:
-            if s < DFB_AB_SAISON:
-                continue
-            for (competition, gender) in providers.DFB_QUELLEN:
-                kandidaten, unvollstaendig = torluecken(vorschau, s, competition, gender)
-                if unvollstaendig:
-                    # Der Upsert ruehrt eine vorhandene, benannte Torliste
-                    # nicht an - auch keine halbe. Das ist hier nur zu
-                    # melden, nicht zu beheben.
-                    log(f"  PRUEFEN: unvollstaendige Torlisten, die automatisch "
-                        f"nicht gefuellt werden: {', '.join(unvollstaendig)}")
-                if not kandidaten:
-                    continue
-                log(f"  {len(kandidaten)} Spiele ohne oder mit unklarer "
-                    f"Torliste ({competition}/{gender} {s})")
-                try:
-                    gefunden += providers.dfb_torschuetzen(
-                        s, kandidaten, competition, gender,
-                        log=log, max_detail=DFB_MAX_DETAIL)
-                except Exception as e:
-                    # Bewusst kein raise: Eine ausgefallene Zweitquelle ist
-                    # ein Ergebnis ohne Namen, kein kaputter Seed.
-                    log(f"  Hinweis: DFB-Datencenter/{competition}/{gender}/{s} "
-                        f"nicht nutzbar – {e}")
-
         if archiv:
             for s in saisons:
                 kandidaten = archivluecken(vorschau, s)
@@ -418,8 +255,8 @@ def sammle(saisons, espn_tage, log, seed=None, archiv=False):
                         kandidaten, log=log,
                         max_pruefungen=ARCHIV_MAX_PRUEFUNGEN)
                 except Exception as e:
-                    # Wie beim Datencenter: ein fehlender Link ist kein
-                    # kaputter Seed.
+                    # Eine ausgefallene Zweitquelle ist ein fehlender Link,
+                    # kein kaputter Seed.
                     log(f"  Hinweis: eintracht-archiv/{s} nicht nutzbar – {e}")
     return gefunden
 
@@ -488,55 +325,38 @@ def main():
         log(f"ABBRUCH: Spielzahl faellt von {len(seed)} auf {len(neu)}.")
         return 1
 
-    # --- Torschuetzinnen gegen den DFB ---
-    # Laeuft auf dem fertig gemergten Bestand: geprueft wird, was die App
-    # tatsaechlich bekommt, egal aus welcher Quelle es stammt.
-    pruefstand_neu = None
+    # --- Abgekuerzte Torschuetzennamen ueber Wikidata ausschreiben ---
+    # Laeuft auf dem fertig gemergten Bestand: Was providers.loese_abkuerzung()
+    # nicht aus dem Seed aufloesen konnte, fragt wikidata_namen bei Wikidata
+    # nach. Ein ausgeschriebener Name haelt ueber spaetere Laeufe, weil upsert()
+    # eine Torliste mit weniger Abkuerzungen nicht durch eine mit mehr ersetzt
+    # (ausser bei unbeendeten Spielen, die ohnehin jedes Mal neu geladen und
+    # neu aufgeloest werden).
+    #
+    # Wie jede Zusatzquelle: ein Ausfall ist ein Hinweis, kein Abbruch.
     if not args.offline_fixture:
-        pfad = os.path.join(args.out_dir, PRUEFSTAND_DATEI)
         try:
-            with open(pfad, encoding="utf-8") as f:
-                pruefstand = json.load(f)
-        except (OSError, ValueError):
-            pruefstand = {}
-        try:
-            pruefstand_neu, tor_meldungen, tor_korrekturen = torpruefung(
-                neu, pruefstand, aktuelle_saison(), log)
+            wd_korrekturen, wd_offen = wikidata_namen.schreibe_aus(
+                wikidata_kandidaten(neu), wikidata_namen.Aufloeser(), log)
         except Exception as e:
-            # Wie alle DFB-Zugriffe: ein Ausfall ist ein Hinweis, kein Abbruch.
-            log(f"  Hinweis: Torpruefung nicht moeglich – {e}")
-            pruefstand_neu, tor_meldungen, tor_korrekturen = None, [], []
-        if tor_korrekturen:
-            # Erneut validieren: Die Korrektur hat Torlisten ersetzt.
+            log(f"  Hinweis: Namensaufloesung ueber Wikidata nicht moeglich – {e}")
+            wd_korrekturen, wd_offen = [], []
+        if wd_korrekturen:
+            # Erneut validieren: Die Namen haben Torlisten veraendert.
             fehler, warnungen = validate(neu)
             if fehler:
-                log(f"ABBRUCH: {len(fehler)} Validierungsfehler nach der DFB-Korrektur.")
+                log(f"ABBRUCH: {len(fehler)} Validierungsfehler nach der Wikidata-Aufloesung.")
                 for e in fehler[:10]:
                     log(f"  {e}")
                 return 1
-            stats["Torliste nach DFB"] += len({k[0] for k in tor_korrekturen})
-            melde("### Torschuetzinnen nach DFB korrigiert")
-            melde("| Spiel | Feld | vorher | DFB |")
-            melde("| --- | --- | --- | --- |")
-        for mid, art, ist, soll in tor_korrekturen:
-            log(f"  KORRIGIERT: {mid} {art} – vorher {ist}, jetzt DFB {soll}")
-            melde(f"| {mid} | {art} | {ist} | {soll} |")
-        if tor_meldungen:
-            melde("### PRUEFEN: Torschuetzinnen weichen vom DFB ab")
-            melde("| Spiel | Feld | Seed (OpenLigaDB) | DFB |")
-            melde("| --- | --- | --- | --- |")
-        for mid, art, ist, soll in tor_meldungen:
-            log(f"  PRUEFEN: {mid} {art} – Seed {ist}, DFB {soll}")
-            melde(f"| {mid} | {art} | {ist} | {soll} |")
-        if pruefstand_neu is not None and pruefstand_neu != pruefstand and not args.dry_run:
-            os.makedirs(args.out_dir, exist_ok=True)
-            with open(pfad, "w", encoding="utf-8") as f:
-                json.dump(pruefstand_neu, f, ensure_ascii=False, indent=1, sort_keys=True)
-                f.write("\n")
-            # Eigener Output, damit der Workflow den Pruefstand auch dann
-            # committet, wenn sich am Seed nichts geaendert hat - sonst
-            # wuerde jeder Lauf dieselben Seiten erneut holen.
-            _setze_output(pruefstand="true")
+            stats["Namen nach Wikidata"] += len(wd_korrekturen)
+            melde("### Torschuetzennamen ueber Wikidata ausgeschrieben")
+            melde("| Spiel | abgekuerzt | Wikidata |")
+            melde("| --- | --- | --- |")
+            for mid, alt, neu_name in wd_korrekturen:
+                melde(f"| {mid} | {alt} | {neu_name} |")
+        if wd_offen:
+            log(f"  {len(wd_offen)} Namen bleiben abgekuerzt (Gruende oben, PRUEFEN)")
 
     # Vergleich ueber die vollstaendig serialisierte Datei, NICHT ueber
     # content_hash: Der deckt nur id, Ergebnis, Toranzahl, Notiz,

@@ -1,0 +1,238 @@
+{
+  "head" : {
+    "vars" : [ "spieler", "spielerLabel", "geburt", "vereinLabel", "von", "bis" ]
+  },
+  "results" : {
+    "bindings" : [ {
+      "spieler" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q65261290"
+      },
+      "von" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2019-02-01T00:00:00Z"
+      },
+      "bis" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2020-01-07T00:00:00Z"
+      },
+      "geburt" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1999-05-25T00:00:00Z"
+      },
+      "spielerLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Terem Moffi"
+      },
+      "vereinLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "FK Riteriai"
+      }
+    }, {
+      "spieler" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q65261290"
+      },
+      "von" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2020-01-08T00:00:00Z"
+      },
+      "bis" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2020-09-30T00:00:00Z"
+      },
+      "geburt" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1999-05-25T00:00:00Z"
+      },
+      "spielerLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Terem Moffi"
+      },
+      "vereinLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "KV Kortrijk"
+      }
+    }, {
+      "spieler" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q65261290"
+      },
+      "von" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2017-08-01T00:00:00Z"
+      },
+      "bis" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2017-12-31T00:00:00Z"
+      },
+      "geburt" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1999-05-25T00:00:00Z"
+      },
+      "spielerLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Terem Moffi"
+      },
+      "vereinLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "FK Kauno Žalgiris"
+      }
+    }, {
+      "spieler" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q65261290"
+      },
+      "von" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2020-10-01T00:00:00Z"
+      },
+      "bis" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2023-01-31T00:00:00Z"
+      },
+      "geburt" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1999-05-25T00:00:00Z"
+      },
+      "spielerLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Terem Moffi"
+      },
+      "vereinLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "FC Lorient"
+      }
+    }, {
+      "spieler" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q65261290"
+      },
+      "von" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2023-01-31T00:00:00Z"
+      },
+      "bis" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2026-08-24T00:00:00Z"
+      },
+      "geburt" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1999-05-25T00:00:00Z"
+      },
+      "spielerLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Terem Moffi"
+      },
+      "vereinLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "OGC Nizza"
+      }
+    }, {
+      "spieler" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q65261290"
+      },
+      "von" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2021-06-01T00:00:00Z"
+      },
+      "geburt" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1999-05-25T00:00:00Z"
+      },
+      "spielerLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Terem Moffi"
+      },
+      "vereinLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Nigerianische Fußballnationalmannschaft"
+      }
+    }, {
+      "spieler" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q65261290"
+      },
+      "von" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2026-01-30T00:00:00Z"
+      },
+      "bis" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2026-06-30T00:00:00Z"
+      },
+      "geburt" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1999-05-25T00:00:00Z"
+      },
+      "spielerLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Terem Moffi"
+      },
+      "vereinLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "FC Porto"
+      }
+    }, {
+      "spieler" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q65261290"
+      },
+      "von" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "2026-08-01T00:00:00Z"
+      },
+      "geburt" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type" : "literal",
+        "value" : "1999-05-25T00:00:00Z"
+      },
+      "spielerLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Terem Moffi"
+      },
+      "vereinLabel" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Hamburger SV"
+      }
+    } ]
+  }
+}

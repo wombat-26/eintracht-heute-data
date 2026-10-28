@@ -1,8 +1,8 @@
 # eintracht-heute-data
 
 Zentral gepflegte Spieldaten für die App **EintrachtHeute**. Eine GitHub
-Action fragt dreimal täglich OpenLigaDB, ESPN und das DFB-Datencenter ab,
-merged die Ergebnisse in `data/seed_matches.json` und veröffentlicht sie als
+Action fragt dreimal täglich OpenLigaDB, ESPN, den DFB-Spielplan und Wikidata
+(für ausgeschriebene Torschützennamen) ab, merged die Ergebnisse in `data/seed_matches.json` und veröffentlicht sie als
 Release-Assets.
 
 Zweck: Neuinstallationen bringen alle vergangenen Spiele mit, und nicht jedes
@@ -23,8 +23,9 @@ Lauf ersetzt — die URLs bleiben dadurch stabil.
 
 ```
 data/       seed_matches.json (Wahrheitsquelle) + generierte Artefakte
-tools/      seedkit.py · providers.py · update_seed.py · validate_seed.py
-            check_abbreviations.py · canonicalize_ids.py · test_dfb_parser.py
+tools/      seedkit.py · providers.py · wikidata_namen.py · update_seed.py
+            validate_seed.py · check_abbreviations.py · canonicalize_ids.py
+            test_dfb_parser.py · test_wikidata_namen.py
 tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 ```
 
@@ -52,49 +53,104 @@ tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 | `wsc` | DFB Frauen Supercup | women |
 | ESPN `uefa.wchampions[_qual]` | UEFA Women's Champions League | women |
 | ESPN `uefa.w.europa` | UEFA Women's Europa Cup (im Seed `europacup`) | women |
-| DFB-Datencenter | Torschützen: Bundesliga (Frauen und Männer), DFB-Pokal | beide |
+| Wikidata | Vornamen abgekürzter Torschützen („T. Moffi“ → „Terem Moffi“) | beide |
 | eintracht-archiv.de | Quellenlinks (`sourceUrl`), 1. und 15. des Monats | beide |
 | DFB-Datencenter | DFB-Pokal der Frauen (Primärquelle, legt Spiele an) | women |
+| DFB-Datencenter | Abgleich von Termin und Ergebnis, nur Meldung | beide |
 
 Nicht abgedeckt und weiterhin nur im Seed: DFB-Pokal (Männer und Frauen),
 Europapokal der Männer, Champions League der Männer. Für `dfb`, `ucl` und
 `BLSupercup` gäbe es OpenLigaDB-Kürzel — bewusst noch nicht aktiviert.
 
-## DFB-Datencenter als Zweitquelle
+## Wikidata: abgekürzte Torschützennamen
 
-Das [DFB-Datencenter](https://datencenter.dfb.de) liefert Torschützen mit
-ausgeschriebenen Namen, ohne Key und ohne JavaScript. Es schließt zwei
-verschiedene Lücken:
+OpenLigaDB kürzt Vornamen von Spielern ab, die nicht in seinem Bestand
+stehen („T. Moffi“, „T. Skarke“). `providers.loese_abkuerzung()` hilft nur,
+wenn der Seed den Namen schon kennt. Für den Rest fragt `wikidata_namen.py`
+den [Query Service von Wikidata](https://query.wikidata.org) (Daten unter
+CC0, für automatisierte Abfragen gedacht, mit identifizierendem
+User-Agent).
 
-- **Frauen:** OpenLigaDB führt für die Frauen-Bundesliga überhaupt keine
-  Torschützinnen. Was dort steht, hat jemand von Hand eingetragen.
-- **Männer:** OpenLigaDB kürzt Vornamen von Spielern ab, die nicht im
-  gepflegten Bestand stehen („T. Skarke", „R. Fellhauer").
-  `loese_abkuerzung()` kommt da nicht weiter, weil es nur auflösen kann, was
-  der Seed schon kennt.
+Die Stufe läuft in `update_seed.py` nach dem Merge, auf Spielen ab
+`WIKIDATA_AB_SAISON` (2026/27) mit mindestens einem abgekürzten Namen,
+neueste zuerst. Je Nachname und Geschlecht eine Anfrage:
 
-Abgedeckt sind laut `providers.DFB_QUELLEN` die Bundesliga (Frauen und
-Männer) und der DFB-Pokal der Männer. Der Europapokal liegt nicht beim DFB,
-die UWCL kommt von ESPN.
+```sparql
+SELECT ?spieler ?spielerLabel ?geburt ?vereinLabel ?von ?bis WHERE {
+  SERVICE wikibase:mwapi {
+    bd:serviceParam wikibase:endpoint "www.wikidata.org" ;
+                    wikibase:api "Search" ;
+                    mwapi:srsearch "Moffi haswbstatement:P106=Q937857" ;
+                    mwapi:srlimit "max" .
+    ?spieler wikibase:apiOutputItem mwapi:title .
+  }
+  ?spieler wdt:P21 wd:Q6581097 .                      # männlich; Q6581072 weiblich
+  OPTIONAL { ?spieler wdt:P569 ?geburt }
+  OPTIONAL { ?spieler p:P54 ?st . ?st ps:P54 ?verein .
+             OPTIONAL { ?st pq:P580 ?von } OPTIONAL { ?st pq:P582 ?bis } }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "de,mul,en". }
+}
+```
 
-Nachteil gegenüber der Handarbeit: Das Datencenter füllt die Ereignisliste
-mit Verzug. In einer Stichprobe über die ersten vier Spieltage 2026/27 lagen
-Partien ab acht Tagen vollständig vor, eine zwei Tage alte noch gar nicht.
-Bei drei Läufen täglich holt die Pipeline das von selbst nach.
+Ein Kandidat ist, wessen Bezeichnung mit der Initiale beginnt und auf den
+Nachnamen endet (ohne Akzente, ohne Groß/Klein) und der am Spieltag zwischen
+15 und 45 Jahre alt war. Übernommen wird dann in zwei Stufen:
 
-Drei Eigenschaften, die den Zuschnitt bestimmen:
+1. **Verein:** Genau ein Kandidat war am Spieltag für die Mannschaft
+   gemeldet, für die das Tor zählt (`P54` mit `P580`/`P582`; bei Eigentoren
+   der Gegner). Im Protokoll steht `Q…, Verein`.
+2. **Nur Name:** Wikidata kennt den Verein nicht oder nicht datiert. Namensvettern,
+   die Wikidata am Spieltag nachweislich bei einem anderen Verein führt
+   (abgeschlossener Zeitraum, der den Spieltag einschließt; Auswahlmannschaften
+   zählen nicht) oder deren Vereinsstationen alle davor enden, scheiden aus.
+   Bleibt genau ein Kandidat übrig, wird er übernommen. Im Protokoll
+   steht `Q…, nur Name`. Diese Stufe ist nötig, weil die Vereinsstationen
+   bei Wikidata lückenhaft sind: In einer Stichprobe führte Wikidata für
+   Derry Scherhant gar keinen Verein, für Tim Skarke nur Heidenheim und für
+   Rebecka Blomqvist nur Häcken. `OHNE_VEREINSBELEG = False` schaltet sie ab.
 
-- **Legt nie ein Spiel an.** Der Provider bekommt nur Partien, die nach dem
-  Merge dieses Laufs ohnehin im Seed stünden, und gibt sie unverändert mit
-  gefüllter Torliste zurück. Eine abweichende Vereinsschreibweise im
-  Datencenter kann damit keine Dublette erzeugen; der schlimmste Fall ist ein
-  Spiel ohne Namen.
-- **Fällt weich aus.** HTML-Scraping bricht, wenn der DFB sein Layout ändert.
-  Fehlende Torschützinnen sind keine kaputten Daten — der Lauf wird deshalb
-  nicht rot (Regel 4 zielt auf Schäden, nicht auf ausgebliebene Ergänzungen).
-- **Gedeckelt auf 10 Detailseiten je Lauf** (`DFB_MAX_DETAIL`). Der
-  Vereinsspielplan kostet eine Anfrage und liefert die ganze Saison mit Datum
-  und Ergebnis; nur die Torliste steht auf der jeweiligen Schema-Seite.
+Alles andere bleibt abgekürzt und steht als `PRUEFEN` im Protokoll: mehrere
+Kandidaten, Namensvetter beim selben Verein, Doppelinitialen („K.-P.“),
+Nachnamen mit Sonderzeichen. Ein abgekürzter, aber richtiger Name ist
+harmloser als ein geratener falscher.
+
+- **Fällt weich aus.** Antwortet Wikidata nicht (Netz, Drosselung, Timeout),
+  versucht der Lauf es nicht weiter; die Namen bleiben abgekürzt und der Lauf
+  wird nicht rot.
+- **Gedeckelt auf 15 Anfragen je Lauf** (`MAX_ABFRAGEN`), eine Sekunde
+  Pause dazwischen. Antworten werden innerhalb eines Laufs zwischengespeichert.
+- **Hält über spätere Läufe.** `upsert()` ersetzt die Torliste eines
+  beendeten Spiels nicht durch eine mit mehr Abkürzungen. Bei laufenden
+  Spielen holt jeder Lauf die Liste neu und löst sie neu auf.
+- **Ältere Saisons bleiben unberührt.** Ihre Namen stammen kuratiert aus
+  eintracht-archiv.de.
+
+Test ohne Netz, mit gespeicherter Antwort für „Moffi“ und gebauten
+Antworten für jeden Fall der Regeln, dazu ein Durchlauf von
+`update_seed.main()`:
+
+```bash
+cd tools && python3 test_wikidata_namen.py
+```
+
+## DFB-Datencenter: nur noch Spielplan
+
+Das [DFB-Datencenter](https://datencenter.dfb.de) wird nur noch auf der
+Vereinsspielplan-Seite gelesen, eine Anfrage je Saison und Wettbewerb:
+
+- **DFB-Pokal der Frauen** (`providers.dfb_spiele`): Primärquelle, weil
+  OpenLigaDB ihn nicht führt, ESPN keine deutsche Frauenliga kennt und
+  eintracht-archiv.de erst Tage später nachträgt. Legt Spiele an.
+- **Abgleich** (`providers.dfb_abgleich`): Termin, Ergebnis und Paarung der
+  OpenLigaDB-Spiele von Frauen- und Männer-Bundesliga, nur als Meldung.
+
+**Torschützen holt die Pipeline dort seit dem 28.10.2026 nicht mehr.** Die
+Nutzungsbedingungen des Datencenters untersagen Datencrawling und
+Datenscraping; deshalb liest die Pipeline keine Detailseiten einzelner Spiele
+mehr. Folge: Für die **Frauen** gibt es keine automatische
+Torschützinnen-Quelle mehr. OpenLigaDB führt dort keine, und
+Wikidata kann nur vorhandene Namen ausschreiben, nicht fehlende ergänzen. Was
+in der Ereignisliste steht, kommt von eintracht-archiv.de.
 
 Der Wettbewerbs-Slug der Frauen trägt den Sponsornamen
 (`google-pixel-frauen-bundesliga`, davor Flyeralarm). Neuer Vertrag → in
@@ -103,13 +159,18 @@ sondern aus dem Auswahlfeld der Seite nachgezogen, denn der DFB führt drei
 Formate nebeneinander: `google-pixel-frauen-bundesliga-2026-2027` bei den
 Frauen, `2026-2027` bei den Männern, `2026-27` im Pokal.
 
-Geprüft und verworfen: ESPN (kennt keine deutsche Frauenliga — nur `eng.w.1`,
-`esp.w.1`, `fra.w.1`, `ned.w.1`, `aus.w.1` und die UWCL), TheSportsDB (für
-Deutschland nur Bundesliga, 2. Bundesliga und die beiden DFB-Pokale),
-Sofascore (403 für alles, was nicht wie ein Browser aussieht), api-football.com
-(kann es, aber der kostenlose Plan ist auf ältere Saisons beschränkt).
+HTML bricht, wenn der DFB sein Layout ändert. Ein Ausfall ist deshalb immer
+nur ein Hinweis im Protokoll (Regel 4 zielt auf kaputte Daten, nicht auf
+ausgebliebene Ergänzungen).
 
-Parser-Test ohne Netz, gegen gespeicherte Abzüge:
+Geprüft und verworfen für Torschützinnen: ESPN (kennt keine deutsche
+Frauenliga — nur `eng.w.1`, `esp.w.1`, `fra.w.1`, `ned.w.1`, `aus.w.1` und
+die UWCL), TheSportsDB (für Deutschland nur Bundesliga, 2. Bundesliga und
+die beiden DFB-Pokale), Sofascore (403 für alles, was nicht wie ein Browser
+aussieht), api-football.com (kann es, aber der kostenlose Plan ist auf ältere
+Saisons beschränkt).
+
+Spielplan-Parser und Abgleich, ohne Netz, gegen einen gespeicherten Abzug:
 
 ```bash
 cd tools && python3 test_dfb_parser.py
@@ -152,6 +213,21 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
 
+### 28.10.2026 — Namen über Wikidata statt Torschützen vom DFB
+
+Abgekürzte Torschützennamen aus OpenLigaDB („T. Moffi“) schreibt jetzt
+`wikidata_namen.py` über den Query Service von Wikidata aus, siehe oben. Neu
+sind `tools/wikidata_namen.py`, `tools/test_wikidata_namen.py` und die Stufe
+in `update_seed.py`.
+
+Entfernt ist jeder Abruf von Torschützen im DFB-Datencenter:
+`providers.dfb_torschuetzen`, `dfb_tore`, `tore_abweichungen` und
+`dfb_spiel_urls`, die Torprüfung der Frauen-Bundesliga samt
+`data/dfb_torpruefung.json` und der Workflow-Zweig dafür, die vier
+Detailseiten-Abzüge in `tests/fixtures` und die Tests dazu. Der
+Pokal-Spielplan der Frauen und der Abgleich von Termin und Ergebnis bleiben.
+Für die Frauen gibt es damit keine automatische Torschützinnen-Quelle mehr.
+
 ### 15.10.2026 — contentHash mit Torschützen
 
 `seedkit.content_hash` (und `MatchStore.contentHash` in der App) umfasst
@@ -164,6 +240,9 @@ Beide Implementierungen müssen Zeichen für Zeichen übereinstimmen. Die App
 importiert nach dem Update auf die neue Definition einmalig komplett neu.
 
 ### 03.10.2026 — Torschützinnen gegen den DFB prüfen, Männer im Abgleich
+
+*Die Torprüfung ist seit dem 28.10.2026 entfernt. Der Abgleich von Termin und
+Ergebnis für die Männer-Bundesliga bleibt.*
 
 Jedes Ergebnis der Frauen-Bundesliga wird einmal gegen die DFB-Detailseite
 geprüft: Name, Mannschaft, Minute (eine Minute Toleranz) und Anzahl. Akzente
@@ -228,6 +307,8 @@ Hand gepflegt wird und Tage bis Wochen hinterherhängt.
 
 ### 16.09.2026 — Torschützen auch bei den Männern korrigieren
 
+*Seit dem 28.10.2026 entfernt, Namen kommen von Wikidata.*
+
 Die DFB-Quelle deckt jetzt Bundesliga (Frauen und Männer) und DFB-Pokal ab,
 gesteuert über `providers.DFB_QUELLEN`. Damit werden auch abgekürzte Vornamen
 aus OpenLigaDB („T. Skarke") ausgeschrieben, die `loese_abkuerzung()` nicht
@@ -242,6 +323,8 @@ Anpfiff + 15 bis Anpfiff + 165 Minuten. Der Seed-Job läuft bei einem Ausfall
 des Gates trotzdem.
 
 ### 15.09.2026 — Torschützinnen aus dem DFB-Datencenter
+
+*Seit dem 28.10.2026 entfernt. Geblieben ist der Vereinsspielplan.*
 
 Neue Zweitquelle `providers.dfb_frauen_bundesliga()` für die
 Frauen-Bundesliga, weil OpenLigaDB dort keine Torschützinnen führt. Holt je

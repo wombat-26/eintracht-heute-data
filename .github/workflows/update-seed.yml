@@ -130,8 +130,9 @@ jobs:
 
       # Bewusst nicht blockierend: Ein abgekuerzter Vorname ist kosmetisch,
       # kein Datenfehler. providers.loese_abkuerzung() faengt den Regelfall
-      # ab; was uebrig bleibt, gehoert in _SCORER_ALIAS - soll aber keinen
-      # Seed-Update aufhalten. Treffer stehen in der Job-Zusammenfassung.
+      # ab, wikidata_namen.py den Rest; was danach uebrig bleibt, gehoert in
+      # _SCORER_ALIAS - soll aber keinen Seed-Update aufhalten. Treffer
+      # stehen in der Job-Zusammenfassung.
       - name: Abgekuerzte Torschuetzennamen melden
         if: steps.update.outputs.changed == 'true'
         continue-on-error: true
@@ -142,18 +143,13 @@ jobs:
           python check_abbreviations.py ../data/seed_matches.json >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
-      # Auch committen, wenn sich nur der Pruefstand der Torpruefung
-      # geaendert hat (data/dfb_torpruefung.json). Ohne Commit wuesste der
-      # naechste Lauf nicht, welche Spiele schon gegen den DFB geprueft sind,
-      # und holte dieselben Detailseiten erneut. Ins Release geht die Datei
-      # nicht - die Apps brauchen sie nicht.
       - name: Commit
-        if: steps.update.outputs.changed == 'true' || steps.update.outputs.pruefstand == 'true'
+        if: steps.update.outputs.changed == 'true'
         run: |
           git config user.name  'seed-bot'
           git config user.email 'seed-bot@users.noreply.github.com'
           git add data/
-          git commit -m "${{ steps.update.outputs.changed == 'true' && format('Seed: {0}', steps.update.outputs.summary) || 'Torpruefung: Pruefstand aktualisiert' }}"
+          git commit -m "Seed: ${{ steps.update.outputs.summary }}"
           git push
 
       # Release-Assets statt GitHub Pages: Ein einziges Release mit festem
