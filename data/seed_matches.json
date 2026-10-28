@@ -168233,15 +168233,32 @@
       "matchday": null,
       "homeTeam": "PSV Eindhoven",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
+      "homeScore": 0,
+      "awayScore": 2,
       "halftimeHome": null,
       "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 2,
+          "scorer": "Hayley Raso",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 14,
+          "scorer": "Laura Freigang",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
       "gender": "women"
     },
     {
