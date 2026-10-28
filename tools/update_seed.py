@@ -48,22 +48,25 @@ ESPN_SLUGS = [
     ("uefa.w.europa",        "europacup"),
 ]
 
-# DFB-Datencenter: Spielplan des DFB-Pokals der Frauen (providers.dfb_spiele)
-# und Abgleich von Terminen und Ergebnissen (providers.dfb_abgleich, siehe
-# DFB_ABGLEICH unten). Beides liest nur die Vereinsspielplan-Seite, eine
-# Anfrage je Saison und Wettbewerb.
+# DFB-Datencenter: Spielplan des DFB-Pokals der Frauen (providers.dfb_spiele),
+# gelesen von der Vereinsspielplan-Seite, eine Anfrage je Saison.
 #
 # Torschuetzen holt die Pipeline dort nicht mehr. Abgekuerzte Vornamen aus
 # OpenLigaDB ("T. Moffi") loest wikidata_namen auf, siehe WIKIDATA_AB_SAISON.
 # Bei den Frauen fuehrt OpenLigaDB gar keine Torschuetzinnen; was dort im Seed
 # steht, kommt von eintracht-archiv.de.
 #
-# Faellt die Quelle aus, bleibt der Abgleich aus - das ist kein Datenfehler
+# Faellt die Quelle aus, bleibt die Ergaenzung aus - das ist kein Datenfehler
 # und faerbt den Lauf nicht rot.
 #
 # Erst ab 2026, weil aeltere Saisons kuratiert aus eintracht-archiv.de stammen
 # - dieselbe Begruendung wie bei bl1 und dfb.
 DFB_AB_SAISON = 2026
+
+# Abgleich von Terminen und Ergebnissen gegen sportschau.de
+# (providers.sportschau_abgleich): zwei Anfragen je Lauf, siehe ABGLEICH.
+# Gleiche Grenze wie oben und aus demselben Grund.
+ABGLEICH_AB_SAISON = 2026
 
 # Abgekuerzte Torschuetzennamen ueber Wikidata ausschreiben
 # (wikidata_namen.py). Gleiche Grenze wie beim DFB und aus demselben Grund:
@@ -84,13 +87,13 @@ WIKIDATA_AB_SAISON = 2026
 # bleibt bis zum naechsten Mal offen.
 ARCHIV_MAX_PRUEFUNGEN = 25
 
-# OpenLigaDB-Ligen, deren Datensaetze gegen den DFB-Spielplan geprueft
-# werden (providers.dfb_abgleich). Die Frauen-Bundesliga, weil OpenLigaDB
-# dort nachweislich unzuverlaessig ist, die Maenner-Bundesliga zur
-# Sicherheit. Der DFB-Pokal fehlt bewusst: Der Abgleich ordnet ueber den
-# Spieltag zu, und Pokalrunden fuehrt der DFB nicht als Spieltag.
-DFB_ABGLEICH = {"ffb1": ("bundesliga", "women"),
-               "bl1":  ("bundesliga", "men")}
+# OpenLigaDB-Ligen, deren Datensaetze gegen die Sportschau-Uebersicht des
+# aktuellen Spieltags geprueft werden (providers.sportschau_abgleich). Die
+# Frauen-Bundesliga, weil OpenLigaDB dort nachweislich unzuverlaessig ist,
+# die Maenner-Bundesliga zur Sicherheit. Der DFB-Pokal fehlt bewusst: Der
+# Abgleich ordnet ueber den Spieltag zu, und Pokalrunden sind keiner.
+ABGLEICH = {"ffb1": ("bundesliga", "women"),
+            "bl1":  ("bundesliga", "men")}
 
 
 def wikidata_kandidaten(matches, ab_saison=WIKIDATA_AB_SAISON):
@@ -188,22 +191,22 @@ def sammle(saisons, espn_tage, log, seed=None, archiv=False):
                     f"Tag/Monat verworfen (Spieltage {verdaechtig})")
             log(f"  {cfg['shortcut']}/{s}: {len(ok)} Spiele")
 
-            abgleich = DFB_ABGLEICH.get(cfg["shortcut"])
-            if abgleich and s >= DFB_AB_SAISON:
+            abgleich = ABGLEICH.get(cfg["shortcut"])
+            if abgleich and s >= ABGLEICH_AB_SAISON:
                 try:
-                    abw = providers.dfb_abgleich(s, ok, *abgleich, log=log)
+                    abw = providers.sportschau_abgleich(s, ok, *abgleich, log=log)
                 except Exception as e:
                     abw = []
                     log(f"  Hinweis: Abgleich {cfg['shortcut']}/{s} – {e}")
                 if abw:
-                    melde(f"### PRUEFEN: {cfg['shortcut']}/{s} weicht vom DFB ab")
-                    melde("| Spiel | Feld | OpenLigaDB | DFB |")
+                    melde(f"### PRUEFEN: {cfg['shortcut']}/{s} weicht von Sportschau ab")
+                    melde("| Spiel | Feld | OpenLigaDB | Sportschau |")
                     melde("| --- | --- | --- | --- |")
                 for mid, art, ist, soll in abw:
-                    log(f"  PRUEFEN: {mid} {art} – OpenLigaDB {ist}, DFB {soll}")
+                    log(f"  PRUEFEN: {mid} {art} – OpenLigaDB {ist}, Sportschau {soll}")
                     melde(f"| {mid} | {art} | {ist} | {soll} |")
                 if not abw:
-                    log(f"  {cfg['shortcut']}/{s}: mit DFB abgeglichen, keine Abweichung")
+                    log(f"  {cfg['shortcut']}/{s}: mit Sportschau abgeglichen, keine Abweichung")
 
             gefunden += ok
             time.sleep(0.5)

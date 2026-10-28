@@ -60,7 +60,7 @@ jobs:
   # Vorgeschalteter Job statt einer Bedingung an jedem Schritt: Nur so laesst
   # sich der eigentliche Lauf als Ganzes ueberspringen. Kostet einen
   # Job-Start, spart bei einem Lauf ohne Spiel aber Checkout, Python-Setup
-  # und rund sechzig Abfragen an OpenLigaDB, ESPN und den DFB.
+  # und rund sechzig Abfragen an OpenLigaDB, ESPN, den DFB und Sportschau.
   gate:
     runs-on: ubuntu-latest
     outputs:

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Datenquellen: OpenLigaDB (saisonweise), ESPN (tagesweise) und das
-DFB-Datencenter (Spielplan, nicht Torschuetzen).
+"""Datenquellen: OpenLigaDB (saisonweise), ESPN (tagesweise), das
+DFB-Datencenter (Spielplan des Pokals der Frauen) und Sportschau (Abgleich
+von Termin und Ergebnis, nicht Torschuetzen).
 
 Bildet OpenLigaDBProvider.swift und ESPNProvider.swift 1:1 nach - inklusive
 Teamnamen-Normalisierung, ID-Erzeugung und der Auswahl des Endergebnisses.
 Weicht das Python hier ab, driften Server- und Geraetestand auseinander.
 
-Das Datencenter hat bewusst kein Swift-Gegenstueck: Es ist HTML, kein JSON,
-und gehoert damit in die Pipeline, nicht aufs Geraet.
+Datencenter und Sportschau haben bewusst kein Swift-Gegenstueck: Es ist HTML,
+kein JSON, und gehoert damit in die Pipeline, nicht aufs Geraet.
 """
 import functools, json, re, time, urllib.request, urllib.error
 import html as html_mod
@@ -347,11 +348,10 @@ def _espn_goals(details, home_team_id):
 
 # ---------- DFB-Datencenter ----------
 #
-# Zwei Aufgaben, beide nur auf der Vereinsspielplan-Seite (eine Anfrage je
-# Saison und Wettbewerb, kein Abruf einzelner Spiele):
-#
-#  1. dfb_spiele(): der DFB-Pokal der Frauen, den sonst keine Quelle fuehrt.
-#  2. dfb_abgleich(): Termin, Ergebnis und Paarung der OpenLigaDB-Spiele.
+# Eine Aufgabe, nur auf der Vereinsspielplan-Seite (eine Anfrage je Saison,
+# kein Abruf einzelner Spiele): dfb_spiele(), der DFB-Pokal der Frauen, den
+# sonst keine Quelle fuehrt. Den Abgleich von Termin und Ergebnis der
+# OpenLigaDB-Spiele macht seit 28.10.2026 Sportschau, siehe sportschau_abgleich().
 #
 # Torschuetzen holt die Pipeline hier NICHT. Bis 28.10.2026 las ein Parser die
 # Detailseiten der Spiele aus; die Nutzungsbedingungen des Datencenters
@@ -377,21 +377,6 @@ DFB_HEADERS = {
 # sondern laedt ihn per Turbo-Frame nach - die Antwort waere leer.
 DFB_TURBO = {"Turbo-Frame": "spielplan"}
 
-# Reihenfolge = Rateversuch. Neuer Sponsor: vorne ergaenzen, alte Eintraege
-# stehen lassen (aeltere Saisons liegen weiterhin unter ihrem Slug).
-#
-# Schluessel ist das Paar aus Wettbewerb und Geschlecht, genau wie im Seed.
-# Der Wert ist (Wettbewerbs-Slugs, Team-Slug): Die Frauen haengen am Verein
-# mit numerischer ID, die Maenner nicht - warum, weiss nur der DFB.
-DFB_QUELLEN = {
-    ("bundesliga", "women"): (("google-pixel-frauen-bundesliga", "frauen-bundesliga"),
-                              "eintracht-frankfurt-31426"),
-    ("bundesliga", "men"):   (("bundesliga",), "eintracht-frankfurt"),
-    ("dfbPokal", "men"):     (("dfb-pokal",), "eintracht-frankfurt"),
-    ("dfbPokal", "women"):   (("dfb-pokal-1132",), "eintracht-frankfurt-31426"),
-}
-
-
 def _dfb_html(url, extra=None, timeout=30):
     kopf = dict(DFB_HEADERS)
     kopf.update(extra or {})
@@ -414,7 +399,7 @@ def _dfb_saison_passt(saison_slug, saison):
 
 
 # Innerhalb eines Laufs nur einmal je Saison und Wettbewerb abrufen:
-# Terminabgleich und Pokal-Spielplan brauchen dieselbe Seite. Der Cache lebt
+# Einmal je Saison und Wettbewerb genuegt. Der Cache lebt
 # nur so lange wie der Prozess, ein Lauf sieht also immer den aktuellen
 # Stand.
 @functools.lru_cache(maxsize=16)
@@ -712,7 +697,7 @@ def dfb_spiele(saison, competition, gender, log=None):
     return out
 
 
-# ---------- Abgleich OpenLigaDB gegen DFB ----------
+# ---------- Abgleich OpenLigaDB gegen Sportschau ----------
 #
 # OpenLigaDB ist bei den Frauen unzuverlaessig: Torschuetzinnen fehlen ganz,
 # ein ganzer Import kam mit vertauschtem Tag und Monat, und Ansetzungen
@@ -722,54 +707,72 @@ def dfb_spiele(saison, competition, gender, log=None):
 # Gate haette am Spieltag keinen Live-Lauf durchgelassen, weil es den Seed
 # nach Spielen von heute fragt.
 #
-# Deshalb wird jeder OpenLigaDB-Datensatz gegen den DFB-Spielplan geprueft,
-# die verbindliche Quelle. Die Seite laedt die Pipeline ohnehin; der
-# Abgleich kostet hoechstens eine Anfrage, meist keine (lru_cache oben).
-# Geprueft wird, was diese eine Seite hergibt:
+# Deshalb wird der aktuelle Spieltag jeder OpenLigaDB-Liga gegen sportschau.de
+# geprueft. Die Uebersichtsseite einer Liga zeigt genau einen Spieltag, mit
+# Anstoss (UTC), Mannschaften und - sobald "Beendet" dasteht - Endergebnis.
+# Das kostet zwei Anfragen je Lauf (Maenner und Frauen), keine Detailseiten.
 #
 #   Termin    Datum und Anstoss
-#   Ergebnis  sobald beide Quellen eines fuehren
-#   Paarung   gibt es das Spiel an diesem Spieltag beim DFB ueberhaupt?
+#   Ergebnis  sobald das Spiel bei Sportschau beendet ist
+#   Paarung   gibt es das Spiel an diesem Spieltag bei Sportschau ueberhaupt?
 #
 # Torschuetzinnen nicht: Dafuer braeuchte es je Spiel eine Detailseite.
 #
 # Bewusst nur Meldung, keine Korrektur: Die App fragt OpenLigaDB selbst ab.
 # Ein abweichender Termin im Seed wuerde dort als verschobener Platzhalter
 # wieder entfernt. Behoben werden muss es an der Quelle.
+#
+# Die robots.txt von sportschau.de erlaubt den Abruf (gesperrt ist nur
+# /live-und-ergebnisse/widget/); KI-Trainings-Bots sperrt sie, was hier nicht
+# zutrifft: Die Daten werden verglichen, nicht gesammelt oder zum Training
+# verwendet. Der User-Agent nennt Projekt und GitHub-Konto.
+
+SPORTSCHAU_BASE = "https://www.sportschau.de"
+SPORTSCHAU_QUELLEN = {
+    ("bundesliga", "men"):
+        "/live-und-ergebnisse/fussball/deutschland-bundesliga/spiele-und-ergebnisse",
+    ("bundesliga", "women"):
+        "/live-und-ergebnisse/fussball/deutschland-bundesliga-frauen/spiele-und-ergebnisse",
+}
+SPORTSCHAU_HEADERS = {
+    "User-Agent": UA["User-Agent"],
+    "Accept": "text/html, application/xhtml+xml",
+    "Accept-Language": "de-DE,de;q=0.9",
+}
 
 
-def dfb_abweichungen(fetched, dfb_zeilen):
-    """Vergleicht OpenLigaDB-Datensaetze mit dem DFB-Spielplan.
-    -> [(id, art, openligadb, dfb), ...]
+def abweichungen(fetched, zeilen):
+    """Vergleicht OpenLigaDB-Datensaetze mit dem Spielplan einer Zweitquelle.
+    -> [(id, art, openligadb, zweitquelle), ...]
 
     Zugeordnet wird ueber Spieltag und Paarung, nicht ueber die ID - die
     enthaelt das Datum, und genau das ist womoeglich falsch.
 
     Steht bei einer Seite noch keine Uhrzeit (00:00), wird nur das Datum
-    verglichen; sonst meldete jeder Spieltag, den der DFB schon terminiert
-    hat und OpenLigaDB noch nicht, eine Abweichung, die keine ist.
+    verglichen; sonst meldete jeder Spieltag, den die eine Quelle schon
+    terminiert hat und die andere noch nicht, eine Abweichung, die keine ist.
 
     Ein Ergebnis wird nur verglichen, wenn beide eines fuehren. Waehrend
-    eines Spiels zeigt OpenLigaDB den Zwischenstand, der DFB noch "-:-" -
-    das ist keine Abweichung.
+    eines Spiels zeigt OpenLigaDB den Zwischenstand, die Zweitquelle noch
+    nichts - das ist keine Abweichung.
     """
     def paarung(datum, heim, gast):
         return make_id(datum, heim, gast).split("-", 1)[1]
 
-    dfb, spieltage = {}, set()
-    for f in dfb_zeilen:
+    ref, spieltage = {}, set()
+    for f in zeilen:
         if f.get("matchday") is None or not f.get("homeTeam") or not f.get("awayTeam"):
             continue
-        dfb[(f["matchday"], paarung(f["date"], f["homeTeam"], f["awayTeam"]))] = f
+        ref[(f["matchday"], paarung(f["date"], f["homeTeam"], f["awayTeam"]))] = f
         spieltage.add(f["matchday"])
 
     out = []
     for m in fetched:
         tag = m.get("matchday")
-        f = dfb.get((tag, paarung(m["date"], m["homeTeam"], m["awayTeam"])))
+        f = ref.get((tag, paarung(m["date"], m["homeTeam"], m["awayTeam"])))
         if f is None:
-            # Nur melden, wenn der DFB diesen Spieltag ueberhaupt fuehrt -
-            # sonst waere es eine Luecke beim DFB, nicht bei OpenLigaDB.
+            # Nur melden, wenn die Zweitquelle diesen Spieltag ueberhaupt
+            # fuehrt - sonst waere es eine Luecke dort, nicht bei OpenLigaDB.
             if tag in spieltage:
                 out.append((m["id"], "Paarung",
                             f"{tag}. Spieltag {m['homeTeam']} – {m['awayTeam']}",
@@ -777,18 +780,9 @@ def dfb_abweichungen(fetched, dfb_zeilen):
             continue
 
         ist, soll = m["date"][:16], f["date"][:16]
-        if f.get("zeitraum"):
-            # Spieltag beim DFB noch nicht terminiert. OpenLigaDB setzt solche
-            # Spiele als Platzhalter auf einen Tag im Zeitraum (meist Sonntag
-            # 15:30) - das ist keine Abweichung, ein Tag ausserhalb schon.
-            von, bis = f["zeitraum"]
-            if not (von <= ist[:10] <= bis):
-                out.append((m["id"], "Termin", ist.replace("T", " "),
-                            f"{von} bis {bis}, noch nicht terminiert"))
-        else:
-            ohne_uhrzeit = soll.endswith("T00:00") or ist.endswith("T00:00")
-            if (soll[:10] != ist[:10]) if ohne_uhrzeit else (soll != ist):
-                out.append((m["id"], "Termin", ist.replace("T", " "), soll.replace("T", " ")))
+        ohne_uhrzeit = soll.endswith("T00:00") or ist.endswith("T00:00")
+        if (soll[:10] != ist[:10]) if ohne_uhrzeit else (soll != ist):
+            out.append((m["id"], "Termin", ist.replace("T", " "), soll.replace("T", " ")))
 
         if (m.get("homeScore") is not None and f.get("homeScore") is not None
                 and (m["homeScore"], m.get("awayScore")) != (f["homeScore"], f["awayScore"])):
@@ -798,18 +792,79 @@ def dfb_abweichungen(fetched, dfb_zeilen):
     return out
 
 
-def dfb_abgleich(saison, fetched, competition, gender, log=None):
-    """Holt den DFB-Spielplan und vergleicht. Ein nicht erreichbarer DFB ist
-    ein Hinweis, kein Fehler - ein ausgefallener Abgleich darf den Lauf nicht
-    scheitern lassen."""
+# Titel der Uebersichtsseite: "... Ergebnisse - 8. Spieltag - 2026/2027 | ..."
+_SS_TITEL = re.compile(r"(\d+)\.\s*Spieltag\s*-\s*(\d{4})/(\d{4})")
+_SS_SPIEL = re.compile(r'<li data-match_id="\d+".*?</li>', re.S)
+_SS_ZEIT = re.compile(r'class="match-time">\s*(\d{1,2}:\d{2})\s*<')
+_SS_ERGEBNIS = r'class="match-result match-result-{}">\s*<div class="match-result match-result-0">(\d+)<'
+
+
+def sportschau_spieltag(seite, saison):
+    """Liest die Uebersichtsseite einer Liga. -> (spieltag, [Spielzeile])
+
+    Die Zeilen haben dieselbe Form wie dfb_fixtures(); abweichungen() nimmt
+    beide. Ist die Seite nicht von dieser Saison oder fehlt der Spieltag im
+    Titel, kommt (None, []) zurueck - lieber kein Abgleich als ein falscher.
+    """
+    titel = re.search(r"<title>(.*?)</title>", seite, re.S)
+    m = _SS_TITEL.search(titel.group(1)) if titel else None
+    if not m or int(m.group(2)) != saison:
+        return None, []
+    tag = int(m.group(1))
+
+    out = []
+    for li in _SS_SPIEL.findall(seite):
+        kopf = re.match(r"<li[^>]*>", li).group(0)
+        utc = re.search(r'data-datetime="([^"]+)"', kopf)
+        heim = re.search(r'class="team-name team-name-home[^"]*">([^<]*)<', li)
+        gast = re.search(r'class="team-name team-name-away[^"]*">([^<]*)<', li)
+        if not (utc and heim and gast):
+            continue
+        # Ohne Uhrzeit ("--:--") steht der Anstoss noch nicht fest; dann gilt
+        # nur das Datum.
+        datum = (utc_to_berlin_str(utc.group(1)) if _SS_ZEIT.search(li)
+                 else utc.group(1)[:10] + "T00:00:00")
+        klassen = re.search(r'\bclass="([^"]*)"', kopf)
+        beendet = bool(klassen) and "finished" in klassen.group(1).split()
+        tore = [re.search(_SS_ERGEBNIS.format(seite_), li) for seite_ in ("home", "away")]
+        fertig = beendet and all(tore)
+        out.append({
+            "date": datum, "matchday": tag,
+            "homeTeam": html_mod.unescape(heim.group(1)).strip(),
+            "awayTeam": html_mod.unescape(gast.group(1)).strip(),
+            "homeScore": int(tore[0].group(1)) if fertig else None,
+            "awayScore": int(tore[1].group(1)) if fertig else None,
+        })
+    return tag, out
+
+
+# Je Lauf und Liga genau eine Anfrage; der Cache gilt nur fuer diesen Prozess.
+@functools.lru_cache(maxsize=4)
+def sportschau_seite(competition, gender):
+    req = urllib.request.Request(
+        SPORTSCHAU_BASE + SPORTSCHAU_QUELLEN[(competition, gender)],
+        headers=SPORTSCHAU_HEADERS)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.read().decode("utf-8", "replace")
+
+
+def sportschau_abgleich(saison, fetched, competition, gender, log=None):
+    """Holt die Uebersichtsseite und vergleicht. Eine nicht erreichbare oder
+    nicht lesbare Seite ist ein Hinweis, kein Fehler - ein ausgefallener
+    Abgleich darf den Lauf nicht scheitern lassen."""
     protokoll = log or (lambda s: None)
-    quelle = DFB_QUELLEN.get((competition, gender))
-    if not quelle or not fetched:
+    if (competition, gender) not in SPORTSCHAU_QUELLEN or not fetched:
         return []
-    wettbewerbe, team = quelle
-    seite, _ = dfb_spielplan_seite(saison, wettbewerbe, team)
-    if not seite:
+    try:
+        seite = sportschau_seite(competition, gender)
+    except (urllib.error.URLError, OSError) as e:
         protokoll(f"  Hinweis: Abgleich {competition}/{gender} {saison} nicht "
-                  f"moeglich – DFB-Spielplan nicht erreichbar.")
+                  f"moeglich – Sportschau nicht erreichbar ({e}).")
         return []
-    return dfb_abweichungen(fetched, dfb_fixtures(seite))
+    tag, zeilen = sportschau_spieltag(seite, saison)
+    if not zeilen:
+        protokoll(f"  Hinweis: Abgleich {competition}/{gender} {saison} nicht "
+                  f"moeglich – auf der Sportschau-Seite keine Spiele dieser "
+                  f"Saison erkannt (Layout geaendert?).")
+        return []
+    return abweichungen(fetched, zeilen)

@@ -25,7 +25,7 @@ Lauf ersetzt — die URLs bleiben dadurch stabil.
 data/       seed_matches.json (Wahrheitsquelle) + generierte Artefakte
 tools/      seedkit.py · providers.py · wikidata_namen.py · update_seed.py
             validate_seed.py · check_abbreviations.py · canonicalize_ids.py
-            test_dfb_parser.py · test_wikidata_namen.py
+            test_dfb_parser.py · test_wikidata_namen.py · test_sportschau.py
 tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 ```
 
@@ -56,7 +56,7 @@ tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 | Wikidata | Vornamen abgekürzter Torschützen („T. Moffi“ → „Terem Moffi“) | beide |
 | eintracht-archiv.de | Quellenlinks (`sourceUrl`), 1. und 15. des Monats | beide |
 | DFB-Datencenter | DFB-Pokal der Frauen (Primärquelle, legt Spiele an) | women |
-| DFB-Datencenter | Abgleich von Termin und Ergebnis, nur Meldung | beide |
+| Sportschau | Abgleich von Termin und Ergebnis des aktuellen Spieltags, nur Meldung | beide |
 
 Nicht abgedeckt und weiterhin nur im Seed: DFB-Pokal (Männer und Frauen),
 Europapokal der Männer, Champions League der Männer. Für `dfb`, `ucl` und
@@ -133,16 +133,15 @@ Antworten für jeden Fall der Regeln, dazu ein Durchlauf von
 cd tools && python3 test_wikidata_namen.py
 ```
 
-## DFB-Datencenter: nur noch Spielplan
+## DFB-Datencenter: nur noch der Pokal der Frauen
 
-Das [DFB-Datencenter](https://datencenter.dfb.de) wird nur noch auf der
-Vereinsspielplan-Seite gelesen, eine Anfrage je Saison und Wettbewerb:
-
-- **DFB-Pokal der Frauen** (`providers.dfb_spiele`): Primärquelle, weil
-  OpenLigaDB ihn nicht führt, ESPN keine deutsche Frauenliga kennt und
-  eintracht-archiv.de erst Tage später nachträgt. Legt Spiele an.
-- **Abgleich** (`providers.dfb_abgleich`): Termin, Ergebnis und Paarung der
-  OpenLigaDB-Spiele von Frauen- und Männer-Bundesliga, nur als Meldung.
+Das [DFB-Datencenter](https://datencenter.dfb.de) wird nur noch für den
+**DFB-Pokal der Frauen** gelesen (`providers.dfb_spiele`), auf der
+Vereinsspielplan-Seite, eine Anfrage je Saison. Es ist Primärquelle, weil
+OpenLigaDB den Pokal nicht führt, ESPN keine deutsche Frauenliga kennt und
+eintracht-archiv.de erst Tage später nachträgt, und legt Spiele an. Den
+Abgleich von Termin und Ergebnis der Bundesliga übernimmt seit dem 28.10.2026
+Sportschau, siehe unten.
 
 **Torschützen holt die Pipeline dort seit dem 28.10.2026 nicht mehr.** Die
 Nutzungsbedingungen des Datencenters untersagen Datencrawling und
@@ -152,12 +151,10 @@ Torschützinnen-Quelle mehr. OpenLigaDB führt dort keine, und
 Wikidata kann nur vorhandene Namen ausschreiben, nicht fehlende ergänzen. Was
 in der Ereignisliste steht, kommt von eintracht-archiv.de.
 
-Der Wettbewerbs-Slug der Frauen trägt den Sponsornamen
-(`google-pixel-frauen-bundesliga`, davor Flyeralarm). Neuer Vertrag → in
-`providers.DFB_QUELLEN` vorne ergänzen. Der Saison-Slug wird nicht gebaut,
-sondern aus dem Auswahlfeld der Seite nachgezogen, denn der DFB führt drei
-Formate nebeneinander: `google-pixel-frauen-bundesliga-2026-2027` bei den
-Frauen, `2026-2027` bei den Männern, `2026-27` im Pokal.
+Der Pokal-Slug ist nicht zu erraten (`dfb-pokal-1132`, eingetragen in
+`providers.DFB_PRIMAERQUELLEN`). Der Saison-Slug wird nicht gebaut, sondern
+aus dem Auswahlfeld der Seite nachgezogen; der Pokal nutzt das Format
+`2026-27`.
 
 HTML bricht, wenn der DFB sein Layout ändert. Ein Ausfall ist deshalb immer
 nur ein Hinweis im Protokoll (Regel 4 zielt auf kaputte Daten, nicht auf
@@ -170,10 +167,51 @@ die beiden DFB-Pokale), Sofascore (403 für alles, was nicht wie ein Browser
 aussieht), api-football.com (kann es, aber der kostenlose Plan ist auf ältere
 Saisons beschränkt).
 
-Spielplan-Parser und Abgleich, ohne Netz, gegen einen gespeicherten Abzug:
+Spielplan-Parser, ohne Netz, gegen einen gespeicherten Abzug:
 
 ```bash
 cd tools && python3 test_dfb_parser.py
+```
+
+## Sportschau: Abgleich von Termin und Ergebnis
+
+OpenLigaDB ist bei den Frauen unzuverlässig (falsche Termine, vertauschter Tag
+und Monat, verspätete Ansetzungen). Deshalb vergleicht `update_seed.py` die
+Spiele von `ffb1` und `bl1` mit der Spielübersicht von
+[sportschau.de](https://www.sportschau.de) (`providers.sportschau_abgleich`):
+
+| Liga | Seite |
+| --- | --- |
+| Bundesliga Männer | `/live-und-ergebnisse/fussball/deutschland-bundesliga/spiele-und-ergebnisse` |
+| Bundesliga Frauen | `/live-und-ergebnisse/fussball/deutschland-bundesliga-frauen/spiele-und-ergebnisse` |
+
+- **Zwei Anfragen je Lauf**, eine je Liga, mit dem User-Agent
+  `EintrachtHeute-SeedBot/1.0 (+github.com/wombat-26)`. Keine Detailseiten und
+  nichts unter `/live-und-ergebnisse/widget/`, das die `robots.txt` sperrt.
+- **Nur der aktuelle Spieltag.** Die Seite zeigt einen Spieltag; welchen, steht
+  im Titel („8. Spieltag - 2026/2027“). Geprüft werden Termin (Anstoß in UTC,
+  umgerechnet nach Berlin), Ergebnis (erst bei „Beendet“) und Paarung. Der Seed
+  führt je Spieltag nur die Eintracht-Partie, verglichen wird also eine Partie
+  je Liga. Frühere Spieltage prüft nichts mehr; der DFB-Abgleich lief über die
+  ganze Saison.
+- **Nur Meldung.** Abweichungen stehen als `PRUEFEN` im Protokoll und als
+  Tabelle in der Job-Zusammenfassung. Der Seed bleibt unverändert, die App
+  fragt OpenLigaDB selbst ab.
+- **Keine Torschützen.** Dafür bräuchte es je Spiel eine Detailseite.
+- Fällt Sportschau aus, ändert sich das Layout oder gehört die Seite zu einer
+  anderen Saison, steht ein Hinweis im Protokoll und der Lauf läuft weiter.
+
+Stand 28.10.2026: Die `robots.txt` erlaubt den Abruf. Sie sperrt KI-Trainings-Bots,
+das trifft hier nicht zu, denn die Daten werden verglichen, nicht gesammelt. Eigene
+Nutzungsbedingungen für die Ergebnisseiten habe ich nicht gefunden; die Zahlen
+stammen vom Datenanbieter hs-data.com, den die ARD lizenziert. Bleibt es
+bei zwei Anfragen je Lauf, ist die Last gering. Lässt sich der Abruf nicht
+mehr halten, genügt es, `ABGLEICH` in `update_seed.py` zu leeren.
+
+Parser und Abgleich, ohne Netz, gegen gespeicherte Ausschnitte:
+
+```bash
+cd tools && python3 test_sportschau.py
 ```
 
 ## Datumsdreher
@@ -213,6 +251,18 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
 
+### 28.10.2026 — Sportschau statt DFB für den Abgleich
+
+Der Abgleich von Termin und Ergebnis liest nicht mehr das DFB-Datencenter,
+sondern die Spielübersichten von sportschau.de
+(`providers.sportschau_abgleich`), siehe oben. Das Datencenter bleibt nur für
+den Pokal der Frauen. Entfernt sind `providers.dfb_abgleich` und
+`DFB_QUELLEN`; `dfb_abweichungen` heißt jetzt `abweichungen` und vergleicht
+gegen jede Zweitquelle. Neu sind `tools/test_sportschau.py` und zwei
+Ausschnitte in `tests/fixtures`.
+
+Geprüft wird nur noch der aktuelle Spieltag, nicht mehr die ganze Saison.
+
 ### 28.10.2026 — Namen über Wikidata statt Torschützen vom DFB
 
 Abgekürzte Torschützennamen aus OpenLigaDB („T. Moffi“) schreibt jetzt
@@ -225,7 +275,8 @@ Entfernt ist jeder Abruf von Torschützen im DFB-Datencenter:
 `dfb_spiel_urls`, die Torprüfung der Frauen-Bundesliga samt
 `data/dfb_torpruefung.json` und der Workflow-Zweig dafür, die vier
 Detailseiten-Abzüge in `tests/fixtures` und die Tests dazu. Der
-Pokal-Spielplan der Frauen und der Abgleich von Termin und Ergebnis bleiben.
+Pokal-Spielplan der Frauen bleibt, der Abgleich von Termin und Ergebnis läuft
+über Sportschau (siehe oben).
 Für die Frauen gibt es damit keine automatische Torschützinnen-Quelle mehr.
 
 ### 15.10.2026 — contentHash mit Torschützen
@@ -242,7 +293,7 @@ importiert nach dem Update auf die neue Definition einmalig komplett neu.
 ### 03.10.2026 — Torschützinnen gegen den DFB prüfen, Männer im Abgleich
 
 *Die Torprüfung ist seit dem 28.10.2026 entfernt. Der Abgleich von Termin und
-Ergebnis für die Männer-Bundesliga bleibt.*
+Ergebnis für die Männer-Bundesliga läuft seit dem 28.10.2026 über Sportschau.*
 
 Jedes Ergebnis der Frauen-Bundesliga wird einmal gegen die DFB-Detailseite
 geprüft: Name, Mannschaft, Minute (eine Minute Toleranz) und Anzahl. Akzente
@@ -265,6 +316,8 @@ Der Termin- und Ergebnisabgleich läuft jetzt auch für die Männer-Bundesliga.
 Der DFB-Pokal bleibt außen vor: Pokalrunden führt der DFB nicht als Spieltag.
 
 ### 03.10.2026 — Frauen-Bundesliga gegen den DFB prüfen
+
+*Seit dem 28.10.2026 über Sportschau statt DFB (`providers.sportschau_abgleich`).*
 
 OpenLigaDB ist bei den Frauen unzuverlässig. Jeder `ffb1`-Datensatz wird
 jetzt gegen den DFB-Spielplan geprüft (`providers.dfb_abgleich`): Termin,
