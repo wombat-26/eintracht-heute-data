@@ -53,8 +53,9 @@ ESPN_SLUGS = [
 #
 # Torschuetzen holt die Pipeline dort nicht mehr. Abgekuerzte Vornamen aus
 # OpenLigaDB ("T. Moffi") loest wikidata_namen auf, siehe WIKIDATA_AB_SAISON.
-# Bei den Frauen fuehrt OpenLigaDB gar keine Torschuetzinnen; was dort im Seed
-# steht, kommt von eintracht-archiv.de.
+# Bei den Frauen fuehrt OpenLigaDB gar keine Torschuetzinnen; die der
+# Bundesliga kommen von Sportschau (SPORTSCHAU_TORE_AB_SAISON), der Rest von
+# eintracht-archiv.de.
 #
 # Faellt die Quelle aus, bleibt die Ergaenzung aus - das ist kein Datenfehler
 # und faerbt den Lauf nicht rot.
@@ -67,6 +68,14 @@ DFB_AB_SAISON = 2026
 # (providers.sportschau_abgleich): zwei Anfragen je Lauf, siehe ABGLEICH.
 # Gleiche Grenze wie oben und aus demselben Grund.
 ABGLEICH_AB_SAISON = 2026
+
+# Torschuetzinnen der Frauen-Bundesliga aus dem Sportschau-Liveticker
+# (providers.sportschau_torschuetzinnen). OpenLigaDB fuehrt sie nicht, und
+# eintracht-archiv.de traegt erst Tage spaeter nach. Je Lauf hoechstens so
+# viele Spiele, jedes mit einem Liveticker und gegebenenfalls einer
+# Spieltagsseite; im Normalbetrieb ist es ein neues Spiel pro Woche.
+SPORTSCHAU_TORE_AB_SAISON = 2026
+SPORTSCHAU_MAX_SPIELE = 3
 
 # Abgekuerzte Torschuetzennamen ueber Wikidata ausschreiben
 # (wikidata_namen.py). Gleiche Grenze wie beim DFB und aus demselben Grund:
@@ -148,6 +157,42 @@ def roster(seed, gender):
             if s and " " in s:
                 namen.add(s)
     return namen
+
+
+def torluecken(matches, saison, competition, gender):
+    """Beendete Spiele mit fehlender oder mangelhafter Torliste.
+    -> (kandidaten, unvollstaendig)
+
+    Fehlt die Liste ganz oder steht dort ein abgekuerzter oder leerer Name,
+    ist das ein Kandidat: upsert() ersetzt eine Torliste, sobald die neue
+    weniger Abkuerzungen enthaelt.
+
+    Weniger Eintraege als Tore im Endstand gehen NICHT in die Kandidaten.
+    upsert() ersetzt eine vorhandene, benannte Torliste nicht, auch keine
+    halbe; ein Abruf verbraeuchte also in jedem Lauf eine Seite, ohne je
+    etwas zu aendern. Solche Spiele kommen als zweite Liste zurueck und werden
+    protokolliert: Sie gehoeren an der Quelle korrigiert.
+
+    Torlose Spiele fallen ganz heraus - bei einem 0:0 gibt es nichts nachzutragen.
+    """
+    label = f"{saison}/{str(saison + 1)[-2:]}"
+    kandidaten, unvollstaendig = {}, []
+    for m in matches:
+        if (m.get("gender") != gender or m.get("competition") != competition
+                or m.get("season") != label or m.get("homeScore") is None):
+            continue
+        tore = (m.get("homeScore") or 0) + (m.get("awayScore") or 0)
+        if tore == 0:
+            continue
+        gs = m.get("goals") or []
+        namen_unklar = any(zerlege_abkuerzung(g.get("scorer") or "")
+                           or not (g.get("scorer") or "").strip()
+                           or g.get("scorer") == "–" for g in gs)
+        if not gs or namen_unklar:
+            kandidaten[m["id"]] = m
+        elif len(gs) < tore:
+            unvollstaendig.append(f"{m['id']} ({len(gs)} von {tore} Toren)")
+    return kandidaten, unvollstaendig
 
 
 def archivluecken(matches, saison, heute=None):
@@ -246,6 +291,27 @@ def sammle(saisons, espn_tage, log, seed=None, archiv=False):
     # Entfernen verschobener Platzhalter gehoert in den echten Merge.
     if seed is not None:
         vorschau, _ = merge(seed, gefunden, prune_moved=False)
+        for s in saisons:
+            if s < SPORTSCHAU_TORE_AB_SAISON:
+                continue
+            kandidaten, unvollstaendig = torluecken(vorschau, s, "bundesliga", "women")
+            if unvollstaendig:
+                # Der Upsert ruehrt eine vorhandene, benannte Torliste nicht
+                # an - auch keine halbe. Das ist nur zu melden.
+                log(f"  PRUEFEN: unvollstaendige Torlisten, die automatisch "
+                    f"nicht gefuellt werden: {', '.join(unvollstaendig)}")
+            if not kandidaten:
+                continue
+            log(f"  {len(kandidaten)} Spiele ohne oder mit unklarer Torliste "
+                f"(bundesliga/women {s})")
+            try:
+                gefunden += providers.sportschau_torschuetzinnen(
+                    s, kandidaten, "bundesliga", "women", log=log,
+                    max_spiele=SPORTSCHAU_MAX_SPIELE)
+            except Exception as e:
+                # Eine ausgefallene Quelle ist ein Ergebnis ohne Namen, kein
+                # kaputter Seed.
+                log(f"  Hinweis: Sportschau-Torschuetzinnen/{s} nicht nutzbar – {e}")
         if archiv:
             for s in saisons:
                 kandidaten = archivluecken(vorschau, s)

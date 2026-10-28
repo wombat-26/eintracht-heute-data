@@ -146,10 +146,10 @@ Sportschau, siehe unten.
 **Torschützen holt die Pipeline dort seit dem 28.10.2026 nicht mehr.** Die
 Nutzungsbedingungen des Datencenters untersagen Datencrawling und
 Datenscraping; deshalb liest die Pipeline keine Detailseiten einzelner Spiele
-mehr. Folge: Für die **Frauen** gibt es keine automatische
-Torschützinnen-Quelle mehr. OpenLigaDB führt dort keine, und
-Wikidata kann nur vorhandene Namen ausschreiben, nicht fehlende ergänzen. Was
-in der Ereignisliste steht, kommt von eintracht-archiv.de.
+mehr. Für die **Frauen-Bundesliga** übernimmt seit dem 28.10.2026 Sportschau
+(siehe unten), für die übrigen Frauen-Wettbewerbe weiterhin
+eintracht-archiv.de. OpenLigaDB führt dort keine Torschützinnen, und Wikidata
+kann nur vorhandene Namen ausschreiben, nicht fehlende ergänzen.
 
 Der Pokal-Slug ist nicht zu erraten (`dfb-pokal-1132`, eingetragen in
 `providers.DFB_PRIMAERQUELLEN`). Der Saison-Slug wird nicht gebaut, sondern
@@ -160,10 +160,10 @@ HTML bricht, wenn der DFB sein Layout ändert. Ein Ausfall ist deshalb immer
 nur ein Hinweis im Protokoll (Regel 4 zielt auf kaputte Daten, nicht auf
 ausgebliebene Ergänzungen).
 
-Geprüft und verworfen für Torschützinnen: ESPN (kennt keine deutsche
+Geprüft und verworfen für Torschützinnen (vor Sportschau): ESPN (kennt keine deutsche
 Frauenliga — nur `eng.w.1`, `esp.w.1`, `fra.w.1`, `ned.w.1`, `aus.w.1` und
-die UWCL), TheSportsDB (für Deutschland nur Bundesliga, 2. Bundesliga und
-die beiden DFB-Pokale), Sofascore (403 für alles, was nicht wie ein Browser
+die UWCL), TheSportsDB (führt die Frauen-Bundesliga als Liga 5204, liefert mit
+dem kostenlosen Schlüssel aber nur Ergebnisse und keine Tore), Sofascore (403 für alles, was nicht wie ein Browser
 aussieht), api-football.com (kann es, aber der kostenlose Plan ist auf ältere
 Saisons beschränkt).
 
@@ -197,9 +197,31 @@ Spiele von `ffb1` und `bl1` mit der Spielübersicht von
 - **Nur Meldung.** Abweichungen stehen als `PRUEFEN` im Protokoll und als
   Tabelle in der Job-Zusammenfassung. Der Seed bleibt unverändert, die App
   fragt OpenLigaDB selbst ab.
-- **Keine Torschützen.** Dafür bräuchte es je Spiel eine Detailseite.
 - Fällt Sportschau aus, ändert sich das Layout oder gehört die Seite zu einer
   anderen Saison, steht ein Hinweis im Protokoll und der Lauf läuft weiter.
+
+### Torschützinnen der Frauen-Bundesliga
+
+OpenLigaDB führt bei den Frauen keine Torschützinnen, eintracht-archiv.de trägt
+sie erst Tage später nach. Der **Liveticker** eines beendeten Spiels bei
+Sportschau (`…/maNNN/…/liveticker`) nennt sie mit vollem Namen, Minute und
+Schussart. `providers.sportschau_torschuetzinnen` holt sie für beendete
+Frauen-Bundesliga-Spiele, deren Torliste fehlt (`update_seed.torluecken`):
+
+- **Eine Seite je Spiel**, einmal: Danach steht die Torliste im Seed. Ist es
+  nicht der aktuelle Spieltag, kommt eine Seite dazu, um den Link zu finden.
+  Höchstens `SPORTSCHAU_MAX_SPIELE` (3) Spiele je Lauf; im Normalbetrieb ist es
+  ein neues Spiel pro Woche.
+- **Zuordnung** über Spieltag, Endstand und Vereinsname. Findet sich nicht genau
+  ein Spiel, passiert nichts.
+- **Prüfung:** Die Tore je Mannschaft müssen dem Endstand entsprechen, jede
+  Schussart muss bekannt sein (`right-foot`, `left-foot`, `head`, Elfmeter).
+  Sonst steht ein `PRUEFEN` im Protokoll, und die Liste wird nicht übernommen.
+  **Eigentore werden nicht übernommen**, solange nicht geklärt ist, welcher
+  Mannschaft Sportschau sie zuordnet; in den geprüften Spielen kam keines vor.
+- Geprüft gegen die vorhandenen Torlisten von vier Spielen (Spieltage 1, 4, 5
+  und 8): Zahl, Minuten und Mannschaft stimmen überein, nur eine
+  Schreibweise weicht ab (Sportschau „Østenstad“, Seed „Östenstad“).
 
 Stand 28.10.2026: Die `robots.txt` erlaubt den Abruf. Sie sperrt KI-Trainings-Bots,
 das trifft hier nicht zu, denn die Daten werden verglichen, nicht gesammelt. Eigene
@@ -251,6 +273,15 @@ Run workflow* starten und den ersten Diff von Hand prüfen, bevor der Cron läuf
 Nur Änderungen an der Pipeline. Die Commits des `seed-bot` stehen nicht hier —
 sie sind Daten, keine Änderung am Verhalten.
 
+### 28.10.2026 — Torschützinnen der Frauen-Bundesliga von Sportschau
+
+Beendete Spiele der Frauen-Bundesliga ohne Torliste bekommen ihre
+Torschützinnen aus dem Sportschau-Liveticker
+(`providers.sportschau_torschuetzinnen`, `update_seed.torluecken`), siehe
+oben. Eigentore und unbekannte Schussarten werden nicht übernommen, sondern
+als `PRUEFEN` gemeldet. Neu sind zwei Fixtures und die Tests in
+`tools/test_sportschau.py`.
+
 ### 28.10.2026 — Sportschau statt DFB für den Abgleich
 
 Der Abgleich von Termin und Ergebnis liest nicht mehr das DFB-Datencenter,
@@ -277,7 +308,7 @@ Entfernt ist jeder Abruf von Torschützen im DFB-Datencenter:
 Detailseiten-Abzüge in `tests/fixtures` und die Tests dazu. Der
 Pokal-Spielplan der Frauen bleibt, der Abgleich von Termin und Ergebnis läuft
 über Sportschau (siehe oben).
-Für die Frauen gibt es damit keine automatische Torschützinnen-Quelle mehr.
+Für die Frauen-Bundesliga übernimmt die Torschützinnen Sportschau (siehe oben).
 
 ### 15.10.2026 — contentHash mit Torschützen
 

@@ -145,6 +145,84 @@ def main():
     finally:
         providers.sportschau_seite = original
 
+    print("Torschuetzinnen aus dem Liveticker")
+    ticker = lies("sportschau_liveticker_frankfurt_koeln.html")
+    tore, problem = providers.sportschau_tore(ticker, 2, 0)
+    fehler += pruefe(problem is None and len(tore) == 2, f"Frankfurt - Koeln: 2 Tore ({problem})")
+    fehler += pruefe([(g["scorer"], g["minute"], g["forHome"]) for g in tore]
+                     == [("Laura Freigang", 12, True), ("Laura Freigang", 45, True)],
+                     "Name voll ausgeschrieben, Minute, Seite")
+    fehler += pruefe(not any(g["isPenalty"] or g["isOwnGoal"] for g in tore)
+                     and [g["order"] for g in tore] == [0, 1], "keine Sonderfaelle, Reihenfolge")
+    fehler += pruefe(providers.sportschau_tore(ticker, 2, 1)[0] == []
+                     and "Endstand" in providers.sportschau_tore(ticker, 2, 1)[1],
+                     "Tore passen nicht zum Endstand: nicht uebernehmen")
+    # Gebaute Faelle - die Schussarten Elfmeter und Eigentor kamen in den
+    # geprueften Spielen nicht vor, hier steht nur die vorsichtige Behandlung.
+    elfer = ticker.replace("event goal right-foot home", "event goal penalty home", 1)
+    tore, problem = providers.sportschau_tore(elfer, 2, 0)
+    fehler += pruefe(problem is None and tore[0]["isPenalty"] and not tore[1]["isPenalty"],
+                     "Elfmeter erkannt")
+    kopf = ticker.replace("event goal right-foot home", "event goal head home", 1)
+    tore, problem = providers.sportschau_tore(kopf, 2, 0)
+    fehler += pruefe(problem is None and len(tore) == 2, f"Kopfball (Klasse head) ist bekannt ({problem})")
+    eigen = ticker.replace("event goal right-foot home", "event goal own-goal home", 1)
+    tore, problem = providers.sportschau_tore(eigen, 2, 0)
+    fehler += pruefe(tore == [] and "Eigentor" in problem, "Eigentor wird nicht uebernommen")
+    fremd = ticker.replace("event goal right-foot home", "event goal bicycle-kick home", 1)
+    tore, problem = providers.sportschau_tore(fremd, 2, 0)
+    fehler += pruefe(tore == [] and "unbekannte Torart" in problem, "unbekannte Schussart wird nicht uebernommen")
+    fehler += pruefe(providers.sportschau_tore("<html></html>", 0, 0)[0] == [], "Seite ohne Ereignisliste")
+    nachspiel = ticker.replace('<div class="match_event-minute">45.</div>',
+                               '<div class="match_event-minute">45.<span class="extra-minute">+2</span></div>')
+    fehler += pruefe(providers.sportschau_tore(nachspiel, 2, 0)[0][1]["minute"] == 47,
+                     "Nachspielzeit 45+2 = 47")
+
+    print("sportschau_torschuetzinnen")
+    md1 = lies("sportschau_bundesliga_frauen_spieltag1.html")
+    uebersicht = lies("sportschau_bundesliga_frauen_spieltag9.html") + (
+        '<a href="/live-und-ergebnisse/fussball/deutschland-bundesliga-frauen/se120974/2026-2027/'
+        'ro318374/spieltag/md1/spiele-und-ergebnisse"></a>')
+    abgerufen = []
+
+    def html(pfad):
+        abgerufen.append(pfad)
+        if pfad.endswith("/md1/spiele-und-ergebnisse"):
+            return md1
+        if pfad.endswith("/ma12306058/eintracht-frankfurt_1-fc-koeln/liveticker"):
+            return ticker
+        raise OSError("unerwartet: " + pfad)
+
+    spiel = {"id": "20260822-eintrach-fckln", "date": "2026-08-22T12:00:00", "matchday": 1,
+             "homeTeam": "Eintracht Frankfurt", "awayTeam": "1. FC Köln",
+             "homeScore": 2, "awayScore": 0, "goals": [], "goalsLoaded": False}
+    orig_html, orig_seite = providers._sportschau_html, providers.sportschau_seite
+    try:
+        providers._sportschau_html = html
+        providers.sportschau_seite = lambda c, g: uebersicht
+        meldungen = []
+        out = providers.sportschau_torschuetzinnen(
+            2026, {spiel["id"]: spiel}, "bundesliga", "women", log=meldungen.append, pause=0)
+        fehler += pruefe(len(out) == 1 and out[0]["goalsLoaded"] and len(out[0]["goals"]) == 2,
+                         f"Spiel gefunden, Tore eingetragen ({meldungen})")
+        fehler += pruefe(out and out[0]["date"] == spiel["date"] and spiel["goals"] == [],
+                         "Kopie: Seed-Daten bleiben, Original unveraendert")
+        fehler += pruefe(len(abgerufen) == 2, f"zwei Abrufe: Spieltag und Liveticker ({len(abgerufen)})")
+
+        abgerufen.clear()
+        falsch = dict(spiel, homeScore=3)
+        out = providers.sportschau_torschuetzinnen(
+            2026, {falsch["id"]: falsch}, "bundesliga", "women", pause=0)
+        fehler += pruefe(out == [] and len(abgerufen) == 1, "anderer Endstand: kein Treffer, kein Ticker-Abruf")
+
+        abgerufen.clear()
+        zwei = {"a": dict(spiel, id="a"), "b": dict(spiel, id="b", date="2026-08-23T12:00:00")}
+        out = providers.sportschau_torschuetzinnen(
+            2026, zwei, "bundesliga", "women", max_spiele=1, pause=0)
+        fehler += pruefe(len(out) == 1, "Obergrenze je Lauf")
+    finally:
+        providers._sportschau_html, providers.sportschau_seite = orig_html, orig_seite
+
     print()
     if fehler:
         print(f"{fehler} Pruefung(en) fehlgeschlagen.")

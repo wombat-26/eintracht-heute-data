@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Datenquellen: OpenLigaDB (saisonweise), ESPN (tagesweise), das
 DFB-Datencenter (Spielplan des Pokals der Frauen) und Sportschau (Abgleich
-von Termin und Ergebnis, nicht Torschuetzen).
+von Termin und Ergebnis, Torschuetzinnen der Frauen-Bundesliga).
 
 Bildet OpenLigaDBProvider.swift und ESPNProvider.swift 1:1 nach - inklusive
 Teamnamen-Normalisierung, ID-Erzeugung und der Auswahl des Endergebnisses.
@@ -356,7 +356,8 @@ def _espn_goals(details, home_team_id):
 # Torschuetzen holt die Pipeline hier NICHT. Bis 28.10.2026 las ein Parser die
 # Detailseiten der Spiele aus; die Nutzungsbedingungen des Datencenters
 # untersagen Datencrawling und Datenscraping. Abgekuerzte Vornamen loest
-# jetzt wikidata_namen.py auf, ueber den Query Service von Wikidata (CC0).
+# jetzt wikidata_namen.py auf, ueber den Query Service von Wikidata (CC0);
+# die Torschuetzinnen der Frauen-Bundesliga kommen von Sportschau.
 #
 # Zwei Einschraenkungen, die den Zuschnitt bestimmen:
 #
@@ -710,13 +711,13 @@ def dfb_spiele(saison, competition, gender, log=None):
 # Deshalb wird der aktuelle Spieltag jeder OpenLigaDB-Liga gegen sportschau.de
 # geprueft. Die Uebersichtsseite einer Liga zeigt genau einen Spieltag, mit
 # Anstoss (UTC), Mannschaften und - sobald "Beendet" dasteht - Endergebnis.
-# Das kostet zwei Anfragen je Lauf (Maenner und Frauen), keine Detailseiten.
+# Das kostet zwei Anfragen je Lauf (Maenner und Frauen).
 #
 #   Termin    Datum und Anstoss
 #   Ergebnis  sobald das Spiel bei Sportschau beendet ist
 #   Paarung   gibt es das Spiel an diesem Spieltag bei Sportschau ueberhaupt?
 #
-# Torschuetzinnen nicht: Dafuer braeuchte es je Spiel eine Detailseite.
+# Torschuetzinnen: eigener Weg, siehe unten (sportschau_torschuetzinnen).
 #
 # Bewusst nur Meldung, keine Korrektur: Die App fragt OpenLigaDB selbst ab.
 # Ein abweichender Termin im Seed wuerde dort als verschobener Platzhalter
@@ -828,7 +829,9 @@ def sportschau_spieltag(seite, saison):
         beendet = bool(klassen) and "finished" in klassen.group(1).split()
         tore = [re.search(_SS_ERGEBNIS.format(seite_), li) for seite_ in ("home", "away")]
         fertig = beendet and all(tore)
+        weiter = re.search(r'class="match-more">\s*<a href="([^"]+)"', li)
         out.append({
+            "url": weiter.group(1) if weiter else None,
             "date": datum, "matchday": tag,
             "homeTeam": html_mod.unescape(heim.group(1)).strip(),
             "awayTeam": html_mod.unescape(gast.group(1)).strip(),
@@ -838,14 +841,17 @@ def sportschau_spieltag(seite, saison):
     return tag, out
 
 
-# Je Lauf und Liga genau eine Anfrage; der Cache gilt nur fuer diesen Prozess.
-@functools.lru_cache(maxsize=4)
-def sportschau_seite(competition, gender):
-    req = urllib.request.Request(
-        SPORTSCHAU_BASE + SPORTSCHAU_QUELLEN[(competition, gender)],
-        headers=SPORTSCHAU_HEADERS)
+# Jede Seite hoechstens einmal je Lauf; der Cache gilt nur fuer diesen Prozess.
+@functools.lru_cache(maxsize=16)
+def _sportschau_html(pfad):
+    req = urllib.request.Request(SPORTSCHAU_BASE + pfad, headers=SPORTSCHAU_HEADERS)
     with urllib.request.urlopen(req, timeout=30) as r:
         return r.read().decode("utf-8", "replace")
+
+
+def sportschau_seite(competition, gender):
+    """Uebersicht des aktuellen Spieltags einer Liga (eine Anfrage je Lauf)."""
+    return _sportschau_html(SPORTSCHAU_QUELLEN[(competition, gender)])
 
 
 def sportschau_abgleich(saison, fetched, competition, gender, log=None):
@@ -868,3 +874,153 @@ def sportschau_abgleich(saison, fetched, competition, gender, log=None):
                   f"Saison erkannt (Layout geaendert?).")
         return []
     return abweichungen(fetched, zeilen)
+
+
+# ---------- Sportschau: Torschuetzinnen der Frauen-Bundesliga ----------
+#
+# OpenLigaDB fuehrt bei den Frauen keine Torschuetzinnen, und eintracht-archiv.de
+# traegt erst Tage spaeter nach. Der Liveticker eines beendeten Spiels bei
+# sportschau.de nennt sie mit vollem Namen, Minute und Schussart.
+#
+# Das kostet je Spiel eine Seite (den Liveticker) und, wenn es nicht der
+# aktuelle Spieltag ist, eine weitere, um den Link zu finden. Geholt wird ein
+# Spiel einmal - danach steht die Torliste im Seed. Je Lauf gibt es hoechstens
+# max_spiele Spiele, und nur beendete, deren Torliste fehlt.
+#
+# Uebernommen wird nur, was sich pruefen laesst: Die Tore je Mannschaft muessen
+# dem Endstand entsprechen, und jede Schussart muss bekannt sein. Eigentore
+# bleiben aussen vor, solange ungeklaert ist, welcher Seite Sportschau sie
+# zuordnet - in den geprueften Spielen kam keines vor.
+
+_SS_EREIGNISSE = re.compile(r'<div class="module-events">(.*?)<!--end module', re.S)
+_SS_EREIGNIS = re.compile(r'<li class="event ([^"]*)">(.*?)</li>', re.S)
+_SS_NAME = re.compile(r'class="person-name[^"]*">([^<]*)<')
+_SS_MINUTE = re.compile(r'class="match_event-minute">(.*?)</div>', re.S)
+# Schussarten, wie Sportschau sie als Klasse fuehrt ("head" = Kopfball).
+_SS_SCHUSS = {"right-foot", "left-foot", "head", "header"}
+
+
+def sportschau_tore(seite, heim_tore, gast_tore):
+    """Torliste eines Livetickers in Seed-Form. -> (tore, problem)
+
+    `problem` ist None oder der Grund, warum die Liste nicht taugt; dann ist
+    `tore` leer. Geprueft wird gegen den Endstand (heim_tore, gast_tore).
+    """
+    block = _SS_EREIGNISSE.search(seite)
+    if not block:
+        return [], "keine Ereignisliste auf der Seite (Layout geaendert?)"
+    tore = []
+    for klassen, inhalt in _SS_EREIGNIS.findall(block.group(1)):
+        teile = klassen.split()
+        if "goal" not in teile:
+            continue
+        art = [t for t in teile if t not in ("goal", "home", "away")]
+        text = _text(inhalt)
+        eigentor = any("own" in t for t in art) or "igentor" in text
+        if eigentor:
+            return [], "Eigentor - Zuordnung zur Mannschaft ungeklaert"
+        elfmeter = any(t.startswith("penalty") for t in art) or "lfmeter" in text
+        if not elfmeter and not set(art) <= _SS_SCHUSS:
+            return [], f"unbekannte Torart {' '.join(art)}"
+        name = _SS_NAME.search(inhalt)
+        minute = _SS_MINUTE.search(inhalt)
+        zahlen = re.findall(r"\d+", _text(minute.group(1))) if minute else []
+        if not name or not name.group(1).strip() or not zahlen:
+            return [], "Tor ohne Namen oder Minute"
+        if ("home" in teile) == ("away" in teile):
+            return [], "Tor ohne eindeutige Mannschaft"
+        tore.append({
+            # Nachspielzeit "90" + "+2" wird addiert (92), wie OpenLigaDB sie zaehlt.
+            "minute": sum(int(z) for z in zahlen[:2]),
+            "scorer": _text(name.group(1)),
+            "forHome": "home" in teile,
+            "isPenalty": elfmeter,
+            "isOwnGoal": False,
+        })
+    if (sum(t["forHome"] for t in tore), sum(not t["forHome"] for t in tore)) != (heim_tore, gast_tore):
+        return [], f"{len(tore)} Tore im Liveticker passen nicht zum Endstand {heim_tore}:{gast_tore}"
+    tore.sort(key=lambda t: t["minute"])
+    for i, t in enumerate(tore):
+        t["order"] = i
+    return tore, None
+
+
+def sportschau_torschuetzinnen(saison, kandidaten, competition, gender,
+                               log=None, max_spiele=3, pause=1.0):
+    """Traegt Torschuetzinnen fuer bereits bekannte, beendete Spiele nach.
+
+    `kandidaten` ist {id: Spiel-Dict}. Zurueck kommen Kopien dieser Dicts mit
+    gefuellter Torliste, sonst unveraendert - Datum, Vereinsnamen und Ergebnis
+    bleiben also die des Seeds, und der Upsert kann nichts ausser den Toren
+    anfassen.
+
+    Zugeordnet wird ueber Spieltag, Endstand und Vereinsname (mindestens eine
+    Seite stimmt ueberein, die Eintracht ist immer dabei).
+    """
+    protokoll = log or (lambda s: None)
+    pfad = SPORTSCHAU_QUELLEN.get((competition, gender))
+    if not pfad or not kandidaten:
+        return []
+    uebersicht = sportschau_seite(competition, gender)
+    aktuell, aktuelle_spiele = sportschau_spieltag(uebersicht, saison)
+    if aktuell is None:
+        protokoll(f"  Hinweis: Sportschau {competition}/{gender} {saison} – "
+                  f"Spieltag nicht erkannt, keine Torschuetzinnen.")
+        return []
+    stamm = pfad.rsplit("/spiele-und-ergebnisse", 1)[0]
+    spieltag_pfad = re.search(
+        re.escape(stamm) + r"/(se\d+/\d{4}-\d{4}/ro\d+/spieltag)/md\d+/spiele-und-ergebnisse",
+        uebersicht)
+
+    out, offen = [], 0
+    for mid, m in sorted(kandidaten.items(), key=lambda kv: kv[1]["date"]):
+        if len(out) >= max_spiele:
+            offen += 1
+            continue
+        tag = m.get("matchday")
+        if tag is None:
+            continue
+        if tag == aktuell:
+            spiele = aktuelle_spiele
+        elif spieltag_pfad:
+            try:
+                seite = _sportschau_html(f"{stamm}/{spieltag_pfad.group(1)}/md{tag}/spiele-und-ergebnisse")
+            except (urllib.error.URLError, OSError) as e:
+                protokoll(f"  Hinweis: Sportschau Spieltag {tag} nicht abrufbar – {e}")
+                continue
+            time.sleep(pause)
+            _, spiele = sportschau_spieltag(seite, saison)
+        else:
+            protokoll(f"  Hinweis: Sportschau – kein Link zum {tag}. Spieltag gefunden.")
+            continue
+
+        stand = (m["homeScore"], m["awayScore"])
+        treffer = [f for f in spiele if f.get("url")
+                   and (f["homeScore"], f["awayScore"]) == stand
+                   and (slug(f["homeTeam"]) == slug(m["homeTeam"])
+                        or slug(f["awayTeam"]) == slug(m["awayTeam"]))]
+        if len(treffer) != 1:
+            protokoll(f"  Hinweis: {mid} – {len(treffer)} passende Spiele bei Sportschau "
+                      f"({tag}. Spieltag, {stand[0]}:{stand[1]}).")
+            continue
+        ticker = treffer[0]["url"].rsplit("/", 1)[0] + "/liveticker"
+        try:
+            seite = _sportschau_html(ticker)
+        except (urllib.error.URLError, OSError) as e:
+            protokoll(f"  Hinweis: Sportschau {mid} nicht abrufbar – {e}")
+            continue
+        time.sleep(pause)
+        tore, problem = sportschau_tore(seite, *stand)
+        if problem:
+            protokoll(f"  PRUEFEN: {mid} Torschuetzinnen nicht uebernommen – {problem}")
+            continue
+        angereichert = dict(m)
+        angereichert["goals"] = tore
+        angereichert["goalsLoaded"] = True
+        out.append(angereichert)
+        protokoll(f"  Sportschau {mid}: {len(tore)} Tore "
+                  f"({m['homeTeam']} – {m['awayTeam']} {stand[0]}:{stand[1]})")
+    if offen:
+        protokoll(f"  Sportschau: {offen} Spiele bleiben offen "
+                  f"(Grenze {max_spiele} Spiele je Lauf).")
+    return out
