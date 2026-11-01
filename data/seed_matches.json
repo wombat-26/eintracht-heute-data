@@ -168290,15 +168290,48 @@
       "matchday": 8,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "Hamburger SV",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 3,
+      "awayScore": 1,
+      "halftimeHome": 1,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 10,
+          "scorer": "Warmed Omari",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 0
+        },
+        {
+          "minute": 14,
+          "scorer": "Terem Moffi",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 47,
+          "scorer": "Raphael Onyedika",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 69,
+          "scorer": "Younes Ebnoutalib",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
       "gender": "men"
     },
     {
@@ -168410,6 +168443,26 @@
       "matchday": 11,
       "homeTeam": "VfB Stuttgart",
       "awayTeam": "Eintracht Frankfurt",
+      "homeScore": null,
+      "awayScore": null,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": false,
+      "goalsLoaded": false,
+      "note": null,
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "men"
+    },
+    {
+      "id": "20261201-eintrach-borussia",
+      "date": "2026-12-01T15:30:00",
+      "kickoffText": "15:30",
+      "competition": "dfbPokal",
+      "season": "2026/27",
+      "matchday": 3,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "Borussia Dortmund",
       "homeScore": null,
       "awayScore": null,
       "halftimeHome": null,
