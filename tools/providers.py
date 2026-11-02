@@ -199,6 +199,64 @@ def _parse_goals(goals, roster=None):
     return out
 
 
+def _verlaengerung_und_elfmeter(res, goals):
+    """Endstand bei Verlaengerung oder Elfmeterschiessen.
+
+    -> (heim, gast, notiz, tore) oder None, wenn die Quelle keins von beiden
+    meldet. OpenLigaDB pflegt diese Faelle uneinheitlich:
+
+    - "Verlaengerung" ist bei den Maennern der Stand nach 120 Minuten, im
+      Pokal der Frauen der nach 90 (HSV - Union Berlin: Endergebnis 3:4,
+      Verlaengerung 3:3, Tor in der 113.). Ohne Elfmeterschiessen gilt
+      deshalb der hoehere Stand - ein Spielstand kann nur wachsen.
+    - Elfmeter stehen als gewoehnliche Tore in der Liste und zaehlen den
+      Stand weiter: In Nuernberg (01.11.2026, 0:0, 2:4 i.E.) sechs Tore ohne
+      Namen, "Endergebnis" 2:4, das Elfmeterergebnis selbst 0:1.
+
+    Bei einem Elfmeterschiessen ist der Endstand daher der unentschiedene
+    Stand; was darueber hinaus gezaehlt wird, ist das Schiessen. Es faellt
+    aus der Torliste und kommt als "n.E. X:Y" (Heim:Gast) in die Notiz.
+
+    Muss mit verlaengerungUndElfmeter in OpenLigaDBProvider.swift
+    uebereinstimmen.
+    """
+    name = lambda r: (r.get("resultName") or "").lower()
+    stand = lambda r: ((r.get("pointsTeam1"), r.get("pointsTeam2"))
+                       if r and r.get("pointsTeam1") is not None
+                       and r.get("pointsTeam2") is not None else None)
+    end = (next((r for r in res if r.get("resultTypeID") == 2), None)
+           or next((r for r in res if "endergebnis" in name(r)), None))
+    # Die Maenner-Saison 2025/26 nennt den Stand nach 120 Minuten
+    # "Nachspielzeit" (Eintracht - Dortmund, Match 79589).
+    verl = next((r for r in res if "verlängerung" in name(r)
+                 or "verlaengerung" in name(r) or "nachspielzeit" in name(r)), None)
+    elfm = next((r for r in res if "elfmeter" in name(r)), None)
+    if verl is None and elfm is None:
+        return None
+    kandidaten = [k for k in (stand(end), stand(verl)) if k]
+    if not kandidaten:
+        return None
+    summe = lambda k: k[0] + k[1]
+    if elfm is not None:
+        remis = [k for k in kandidaten if k[0] == k[1]]
+        if remis:
+            endstand = max(remis, key=summe)
+            alle = kandidaten + [k for k in (stand(elfm),) if k] + [
+                (g.get("scoreTeam1"), g.get("scoreTeam2")) for g in goals or []
+                if g.get("scoreTeam1") is not None and g.get("scoreTeam2") is not None]
+            hoechster = max(alle, key=summe)
+            eh, ea = hoechster[0] - endstand[0], hoechster[1] - endstand[1]
+            notiz = f"n.E. {eh}:{ea}" if eh >= 0 and ea >= 0 and eh != ea else None
+            tore = [g for g in goals or []
+                    if (g.get("scoreTeam1") or 0) <= endstand[0]
+                    and (g.get("scoreTeam2") or 0) <= endstand[1]]
+            return endstand[0], endstand[1], notiz, tore
+        # Kein unentschiedener Stand: widerspruechlich, dann wie eine
+        # Verlaengerung ohne Elfmeterschiessen.
+    endstand = max(kandidaten, key=summe)
+    return endstand[0], endstand[1], None, goals or []
+
+
 def openligadb(league, season, gender, fallback_competition=None, roster=None):
     """Alle Eintracht-Spiele einer Liga-Saison als Seed-Dicts.
 
@@ -228,6 +286,13 @@ def openligadb(league, season, gender, fallback_competition=None, roster=None):
         half = (next((r for r in res if r.get("resultTypeID") == 1), None)
                 or next((r for r in res if "halbzeit" in (r.get("resultName") or "").lower()), None))
 
+        heim = end.get("pointsTeam1") if end else None
+        gast = end.get("pointsTeam2") if end else None
+        notiz, tore = None, m.get("goals")
+        k = _verlaengerung_und_elfmeter(res, tore)
+        if k:
+            heim, gast, notiz, tore = k
+
         dt = (m.get("matchDateTime") or "")[:19]
         if len(dt) == 16:
             dt += ":00"
@@ -243,14 +308,14 @@ def openligadb(league, season, gender, fallback_competition=None, roster=None):
             "season": label,
             "matchday": (m.get("group") or {}).get("groupOrderID"),
             "homeTeam": home, "awayTeam": away,
-            "homeScore": end.get("pointsTeam1") if end else None,
-            "awayScore": end.get("pointsTeam2") if end else None,
+            "homeScore": heim,
+            "awayScore": gast,
             "halftimeHome": half.get("pointsTeam1") if half else None,
             "halftimeAway": half.get("pointsTeam2") if half else None,
             "isFinished": bool(m.get("matchIsFinished")),
             "goalsLoaded": False,
-            "note": None, "sourceUrl": None,
-            "goals": _parse_goals(m.get("goals"), roster),
+            "note": notiz, "sourceUrl": None,
+            "goals": _parse_goals(tore, roster),
             "gender": gender,
         })
     return out
@@ -448,6 +513,11 @@ _DFB_DATUM = re.compile(r"(\d{2})\.(\d{2})\.(\d{4})(?:\s+(\d{2}):(\d{2}))?")
 _DFB_LINK = re.compile(r'href="(https://datencenter\.dfb\.de/datencenter/[^"]+?-\d{5,7})"')
 _DFB_SPIELTAG = re.compile(r"/(\d+)-spieltag/")
 _DFB_ERGEBNIS = re.compile(r"(\d+)\s*:\s*(\d+)")
+_DFB_IE = re.compile(r"\bi\.\s*E\.")
+# Detailseite: "2:4 i.E." und darunter "(0:0) (0:0) (0:0)" - Stand nach
+# Verlaengerung, nach 90 Minuten, zur Halbzeit.
+_DFB_DETAIL_STAENDE = re.compile(
+    r'm-MatchDetails-score-halftime">(.*?)</div>', re.S)
 _A_TEXT = re.compile(r"<a[^>]*>(.*?)</a>", re.S)
 
 
@@ -491,12 +561,20 @@ def dfb_fixtures(seiten_html):
         # Nur im Ergebnisfeld nach "x : y" suchen. Die Zeile enthaelt weiter
         # oben die Anstosszeit ("12:00 Uhr"), ein ungebundener Treffer waere
         # also regelmaessig ein Uhrzeit-Fehlfund.
-        heim = gast = None
+        #
+        # Steht "i.E." dabei, ist die Zahl das Elfmeterschiessen, nicht das
+        # Ergebnis: Nuernberg - Eintracht (Frauen, 01.11.2026) stand dort als
+        # "2 : 4 i.E." und kam als 2:4 in den Seed, gespielt wurde 0:0. Der
+        # Endstand steht nur auf der Detailseite, siehe dfb_spiele().
+        heim = gast = elfmeter = None
         j = zeile.find("c-MatchTable-score")
         if j >= 0:
-            e = _DFB_ERGEBNIS.search(zeile[j:j + 400])
+            fenster = zeile[j:j + 400]
+            e = _DFB_ERGEBNIS.search(fenster)
             if e:
                 heim, gast = int(e.group(1)), int(e.group(2))
+                if _DFB_IE.search(_text(fenster)):
+                    elfmeter, heim, gast = (heim, gast), None, None
 
         out.append({
             "dfbId": dfb_id,
@@ -506,6 +584,8 @@ def dfb_fixtures(seiten_html):
             "awayTeam": normalize_team(_dfb_team_name(zeile, "away") or ""),
             "homeScore": heim,
             "awayScore": gast,
+            # (Heim, Gast) im Elfmeterschiessen, sonst None.
+            "elfmeter": elfmeter,
             "matchday": int(spieltag.group(1)) if spieltag else None,
             "url": link.group(1) if link else None,
             # (von, bis) als ISO-Datum, solange der Spieltag nicht
@@ -631,8 +711,10 @@ def archiv_links(kandidaten, log=None, max_pruefungen=25, pause=0.5):
 
 # DFB-Pokal der Frauen: einzige Partie, die sonst gar nicht ankaeme.
 #
-# OpenLigaDB fuehrt den Wettbewerb nicht (832 Ligen durchgesehen, fuer 2026
-# gibt es ffb1, ffb2, wsc und fna - keinen Frauenpokal), ESPN kennt keine
+# OpenLigaDB fuehrte den Wettbewerb bei der Einfuehrung nicht (832 Ligen
+# durchgesehen, fuer 2026 gab es ffb1, ffb2, wsc und fna). Inzwischen gibt
+# es "dfbf" - die App fragt ihn seit 2.0.1 live ab, hier steht er noch
+# aus. ESPN kennt keine
 # deutsche Frauenliga, und eintracht-archiv.de traegt erst Tage spaeter nach.
 # Ohne diese Quelle fehlte das Spiel bis zum naechsten Seed-Nachtrag von Hand
 # komplett in der App.
@@ -643,6 +725,25 @@ def archiv_links(kandidaten, log=None, max_pruefungen=25, pause=0.5):
 DFB_PRIMAERQUELLEN = {
     ("dfbPokal", "women"): (("dfb-pokal-1132",), "eintracht-frankfurt-31426"),
 }
+
+
+def dfb_endstand_elfmeter(detail_html):
+    """Endstand eines im Elfmeterschiessen entschiedenen Spiels.
+
+    -> (heim, gast, halbzeit_heim, halbzeit_gast) oder None. Die
+    Detailseite fuehrt unter "2:4 i.E." die Staende "(0:0) (0:0) (0:0)":
+    nach Verlaengerung, nach 90 Minuten, zur Halbzeit. Der erste muss
+    unentschieden sein - sonst gaebe es kein Elfmeterschiessen, und die
+    Seite waere anders aufgebaut als angenommen.
+    """
+    m = _DFB_DETAIL_STAENDE.search(detail_html or "")
+    if not m:
+        return None
+    staende = [(int(a), int(b)) for a, b in _DFB_ERGEBNIS.findall(_text(m.group(1)))]
+    if not staende or staende[0][0] != staende[0][1]:
+        return None
+    halbzeit = staende[-1] if len(staende) >= 3 else (None, None)
+    return staende[0][0], staende[0][1], halbzeit[0], halbzeit[1]
 
 
 def dfb_spiele(saison, competition, gender, log=None):
@@ -672,6 +773,26 @@ def dfb_spiele(saison, competition, gender, log=None):
     for f in dfb_fixtures(seite):
         if not f["homeTeam"] or not f["awayTeam"]:
             continue
+        halbzeit = (None, None)
+        notiz = None
+        if f.get("elfmeter"):
+            # Endstand von der Detailseite. Ohne ihn das Spiel lieber
+            # auslassen: Ein Ergebnis ohne Endstand haette der Upsert als
+            # "unveraendert" behandelt, ein falsches wuerde er uebernehmen.
+            stand = None
+            if f.get("url"):
+                try:
+                    stand = dfb_endstand_elfmeter(_dfb_html(f["url"], timeout=25))
+                except (urllib.error.URLError, OSError) as e:
+                    protokoll(f"  Hinweis: DFB-Detailseite {f['url']} – {e}")
+            if not stand:
+                protokoll(f"  PRUEFEN: {f['homeTeam']} - {f['awayTeam']} "
+                          f"{f['elfmeter'][0]}:{f['elfmeter'][1]} i.E. ohne "
+                          f"Endstand, nicht uebernommen.")
+                continue
+            f = dict(f, homeScore=stand[0], awayScore=stand[1])
+            halbzeit = (stand[2], stand[3])
+            notiz = f"n.E. {f['elfmeter'][0]}:{f['elfmeter'][1]}"
         out.append({
             "id": make_id(f["date"], f["homeTeam"], f["awayTeam"]),
             "date": f["date"],
@@ -684,13 +805,14 @@ def dfb_spiele(saison, competition, gender, log=None):
             "matchday": None,
             "homeTeam": f["homeTeam"], "awayTeam": f["awayTeam"],
             "homeScore": f["homeScore"], "awayScore": f["awayScore"],
-            "halftimeHome": None, "halftimeAway": None,
+            # Nur bei Elfmeterschiessen bekannt (Detailseite), sonst None.
+            "halftimeHome": halbzeit[0], "halftimeAway": halbzeit[1],
             # Das Datencenter tickert nicht mit: Bis zum Abpfiff steht dort
             # "-:-". Ein vorhandenes Ergebnis heisst deshalb, dass die Partie
             # durch ist.
             "isFinished": f["homeScore"] is not None,
             "goalsLoaded": False,
-            "note": None, "sourceUrl": None,
+            "note": notiz, "sourceUrl": None,
             "goals": [],
             "gender": gender,
         })

@@ -26,6 +26,7 @@ data/       seed_matches.json (Wahrheitsquelle) + generierte Artefakte
 tools/      seedkit.py · providers.py · wikidata_namen.py · update_seed.py
             validate_seed.py · check_abbreviations.py · canonicalize_ids.py
             test_dfb_parser.py · test_wikidata_namen.py · test_sportschau.py
+            test_elfmeter.py
 tests/      Fixtures aus echten API-Antworten und HTML-Abzügen
 ```
 
@@ -142,6 +143,26 @@ OpenLigaDB den Pokal nicht führt, ESPN keine deutsche Frauenliga kennt und
 eintracht-archiv.de erst Tage später nachträgt, und legt Spiele an. Den
 Abgleich von Termin und Ergebnis der Bundesliga übernimmt seit dem 28.10.2026
 Sportschau, siehe unten.
+
+**Elfmeterschießen (seit 02.11.2026):** Der Spielplan zeigt bei einem im
+Elfmeterschießen entschiedenen Spiel nur dessen Stand ("2 : 4 i.E.").
+Bis dahin kam der als Ergebnis in den Seed (Nürnberg – Eintracht, 01.11.2026:
+2:4 statt 0:0). Jetzt holt `dfb_spiele` für solche Spiele die Detailseite:
+Der Endstand ist dort der erste der Stände "(0:0) (0:0) (0:0)" (nach
+Verlängerung, nach 90 Minuten, Halbzeit), das Schießen kommt als
+`note: "n.E. 2:4"` (Heim:Gast), die die App auswertet. Ohne Detailseite wird
+das Spiel ausgelassen und beim nächsten Lauf neu versucht.
+
+OpenLigaDB erfasst Elfmeter dagegen als gewöhnliche Tore, die den Stand
+weiterzählen, und benennt die Ergebnisse uneinheitlich ("Verlängerung" ist im
+Frauenpokal der Stand nach 90 Minuten, bei den Männern teils "Nachspielzeit").
+`providers._verlaengerung_und_elfmeter` (Gegenstück zur App) nimmt bei einem
+Elfmeterschießen den unentschiedenen Stand als Endstand und streicht alles
+darüber aus der Torliste; ohne Schießen gilt der höhere Stand.
+
+```bash
+cd tools && python3 test_elfmeter.py
+```
 
 **Torschützen holt die Pipeline dort seit dem 28.10.2026 nicht mehr.** Die
 Nutzungsbedingungen des Datencenters untersagen Datencrawling und
