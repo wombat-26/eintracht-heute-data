@@ -168476,8 +168476,8 @@
     },
     {
       "id": "20261205-eintrach-werderbr",
-      "date": "2026-12-05T15:30:00",
-      "kickoffText": "15:30",
+      "date": "2026-12-05T18:30:00",
+      "kickoffText": "18:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 12,
@@ -168496,8 +168496,8 @@
     },
     {
       "id": "20261212-borussia-eintrach",
-      "date": "2026-12-12T15:30:00",
-      "kickoffText": "15:30",
+      "date": "2026-12-12T18:30:00",
+      "kickoffText": "18:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 13,
@@ -168595,9 +168595,9 @@
       "gender": "men"
     },
     {
-      "id": "20270112-svelvers-eintrach",
-      "date": "2027-01-12T20:30:00",
-      "kickoffText": "20:30",
+      "id": "20270113-svelvers-eintrach",
+      "date": "2027-01-13T18:30:00",
+      "kickoffText": "18:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 16,
@@ -168616,8 +168616,8 @@
     },
     {
       "id": "20270116-eintrach-fcbayern",
-      "date": "2027-01-16T15:30:00",
-      "kickoffText": "15:30",
+      "date": "2027-01-16T18:30:00",
+      "kickoffText": "18:30",
       "competition": "bundesliga",
       "season": "2026/27",
       "matchday": 17,
@@ -168655,8 +168655,8 @@
       "gender": "women"
     },
     {
-      "id": "20270123-eintrach-fcunionb",
-      "date": "2027-01-23T15:30:00",
+      "id": "20270124-eintrach-fcunionb",
+      "date": "2027-01-24T15:30:00",
       "kickoffText": "15:30",
       "competition": "bundesliga",
       "season": "2026/27",
