@@ -99430,7 +99430,7 @@
         {
           "minute": 83,
           "scorer": "Birgit Prinz",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 0
@@ -132471,7 +132471,7 @@
         {
           "minute": 2,
           "scorer": "Mandy Islacker",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 0
@@ -132479,7 +132479,7 @@
         {
           "minute": 16,
           "scorer": "Mandy Islacker",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 1
@@ -132487,7 +132487,7 @@
         {
           "minute": 34,
           "scorer": "Kerstin Garefrekes",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 2
@@ -132495,7 +132495,7 @@
         {
           "minute": 72,
           "scorer": "Emily van Egmond",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 3
@@ -132503,7 +132503,7 @@
         {
           "minute": 78,
           "scorer": "Lucie Vonková",
-          "forHome": true,
+          "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 4
@@ -132511,7 +132511,7 @@
         {
           "minute": 85,
           "scorer": "Yuki Nagasato",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 5
@@ -144385,7 +144385,7 @@
       "goals": [
         {
           "minute": 49,
-          "scorer": "Patrik Andersson",
+          "scorer": "Sebastian Andersson",
           "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -144401,10 +144401,10 @@
         },
         {
           "minute": 79,
-          "scorer": "André Silva",
+          "scorer": "Florian Hübner",
           "forHome": true,
           "isPenalty": false,
-          "isOwnGoal": false,
+          "isOwnGoal": true,
           "order": 2
         }
       ],
@@ -147674,7 +147674,7 @@
           "scorer": "Robert Andrich",
           "forHome": true,
           "isPenalty": false,
-          "isOwnGoal": false,
+          "isOwnGoal": true,
           "order": 2
         },
         {
@@ -150550,7 +150550,7 @@
         {
           "minute": 22,
           "scorer": "Daichi Kamada",
-          "forHome": true,
+          "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 0
@@ -150558,7 +150558,7 @@
         {
           "minute": 38,
           "scorer": "Michael Gregoritsch",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 1
@@ -152295,7 +152295,7 @@
         {
           "minute": 32,
           "scorer": "Kolo Muani",
-          "forHome": true,
+          "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 3
@@ -153620,7 +153620,7 @@
         {
           "minute": 88,
           "scorer": "Marlene Müller",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 2
@@ -158150,7 +158150,7 @@
         {
           "minute": 72,
           "scorer": "Ansgar Knauff",
-          "forHome": true,
+          "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 4
@@ -158158,7 +158158,7 @@
         {
           "minute": 90,
           "scorer": "Michael Gregoritsch",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 5
