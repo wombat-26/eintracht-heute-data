@@ -2256,7 +2256,7 @@
       "awayTeam": "Eintracht Frankfurt",
       "homeScore": 1,
       "awayScore": 6,
-      "halftimeHome": 1,
+      "halftimeHome": 0,
       "halftimeAway": 3,
       "isFinished": true,
       "goalsLoaded": true,
@@ -3613,8 +3613,8 @@
       "awayTeam": "VfB Stuttgart",
       "homeScore": 1,
       "awayScore": 2,
-      "halftimeHome": 0,
-      "halftimeAway": 1,
+      "halftimeHome": 1,
+      "halftimeAway": 0,
       "isFinished": true,
       "goalsLoaded": true,
       "note": null,
@@ -8734,7 +8734,7 @@
       "sourceUrl": "https://www.eintracht-archiv.de/1964/1965-01-23st.html",
       "goals": [
         {
-          "minute": 31,
+          "minute": 51,
           "scorer": "Hans-Georg Tutschek",
           "forHome": true,
           "isPenalty": false,
@@ -8803,7 +8803,7 @@
           "order": 0
         },
         {
-          "minute": 34,
+          "minute": 54,
           "scorer": "Horst Trimhold",
           "forHome": false,
           "isPenalty": false,
@@ -10770,7 +10770,7 @@
           "order": 2
         },
         {
-          "minute": 45,
+          "minute": 46,
           "scorer": "Karl-Heinz Bechmann",
           "forHome": true,
           "isPenalty": false,
@@ -38310,7 +38310,7 @@
           "order": 2
         },
         {
-          "minute": 40,
+          "minute": 70,
           "scorer": "Bernd Nickel",
           "forHome": true,
           "isPenalty": false,
@@ -40739,7 +40739,7 @@
           "order": 1
         },
         {
-          "minute": 72,
+          "minute": 41,
           "scorer": "Bum-Kun Cha",
           "forHome": true,
           "isPenalty": false,
@@ -58614,7 +58614,7 @@
       "sourceUrl": "https://www.eintracht-archiv.de/1990f/f_1990-09-09st.html",
       "goals": [
         {
-          "minute": 44,
+          "minute": 46,
           "scorer": "Vera Heck",
           "forHome": true,
           "isPenalty": false,
@@ -58622,7 +58622,7 @@
           "order": 0
         },
         {
-          "minute": 64,
+          "minute": 63,
           "scorer": "Vera Heck",
           "forHome": true,
           "isPenalty": false,
@@ -60076,7 +60076,7 @@
           "order": 0
         },
         {
-          "minute": 37,
+          "minute": 35,
           "scorer": "Sandra Minnert",
           "forHome": false,
           "isPenalty": false,
@@ -60084,7 +60084,7 @@
           "order": 1
         },
         {
-          "minute": 44,
+          "minute": 46,
           "scorer": "Britta Schlösser",
           "forHome": false,
           "isPenalty": false,
@@ -60092,7 +60092,7 @@
           "order": 2
         },
         {
-          "minute": 55,
+          "minute": 54,
           "scorer": "Britta Schlösser",
           "forHome": false,
           "isPenalty": false,
@@ -86197,7 +86197,7 @@
           "order": 0
         },
         {
-          "minute": 42,
+          "minute": 30,
           "scorer": "Karel Rada",
           "forHome": true,
           "isPenalty": false,
@@ -86205,7 +86205,7 @@
           "order": 1
         },
         {
-          "minute": 59,
+          "minute": 42,
           "scorer": "Ervin Skela",
           "forHome": false,
           "isPenalty": false,
@@ -86213,7 +86213,7 @@
           "order": 2
         },
         {
-          "minute": 67,
+          "minute": 59,
           "scorer": "Ervin Skela",
           "forHome": false,
           "isPenalty": false,
@@ -92483,20 +92483,12 @@
       "sourceUrl": "https://www.eintracht-archiv.de/2003f/f_2003-08-17st.html",
       "goals": [
         {
-          "minute": 45,
-          "scorer": "Birgit Prinz",
-          "forHome": true,
-          "isPenalty": false,
-          "isOwnGoal": false,
-          "order": 0
-        },
-        {
           "minute": 61,
           "scorer": "Judith Affeld",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
-          "order": 1
+          "order": 0
         }
       ],
       "gender": "women"
@@ -99549,7 +99541,7 @@
       "awayTeam": "1. FC Köln",
       "homeScore": 6,
       "awayScore": 3,
-      "halftimeHome": 3,
+      "halftimeHome": 4,
       "halftimeAway": 1,
       "isFinished": true,
       "goalsLoaded": true,
@@ -122794,12 +122786,20 @@
       "sourceUrl": "https://www.eintracht-archiv.de/2012f/f_2012-09-23st.html",
       "goals": [
         {
-          "minute": 20,
-          "scorer": "Turid Knaak",
+          "minute": 5,
+          "scorer": "Jessica Wich",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 0
+        },
+        {
+          "minute": 20,
+          "scorer": "Turid Knaak",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
         },
         {
           "minute": 24,
@@ -122807,7 +122807,7 @@
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
-          "order": 1
+          "order": 2
         },
         {
           "minute": 48,
@@ -122815,7 +122815,7 @@
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
-          "order": 2
+          "order": 3
         },
         {
           "minute": 55,
@@ -122823,7 +122823,7 @@
           "forHome": false,
           "isPenalty": true,
           "isOwnGoal": false,
-          "order": 3
+          "order": 4
         },
         {
           "minute": 82,
@@ -122831,7 +122831,7 @@
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
-          "order": 4
+          "order": 5
         }
       ],
       "gender": "women"
@@ -129757,7 +129757,7 @@
       "homeScore": 4,
       "awayScore": 5,
       "halftimeHome": 1,
-      "halftimeAway": 3,
+      "halftimeAway": 2,
       "isFinished": true,
       "goalsLoaded": true,
       "note": null,
@@ -144359,8 +144359,8 @@
       "awayTeam": "Eintracht Frankfurt",
       "homeScore": 1,
       "awayScore": 1,
-      "halftimeHome": 0,
-      "halftimeAway": 1,
+      "halftimeHome": 1,
+      "halftimeAway": 0,
       "isFinished": true,
       "goalsLoaded": true,
       "note": "n.E. 4:3",
@@ -163635,7 +163635,7 @@
       "homeScore": 0,
       "awayScore": 2,
       "halftimeHome": 0,
-      "halftimeAway": 1,
+      "halftimeAway": 0,
       "isFinished": true,
       "goalsLoaded": true,
       "note": null,
@@ -164933,7 +164933,7 @@
       "homeScore": 1,
       "awayScore": 2,
       "halftimeHome": 1,
-      "halftimeAway": 0,
+      "halftimeAway": 1,
       "isFinished": true,
       "goalsLoaded": true,
       "note": null,
@@ -167155,7 +167155,7 @@
       "homeScore": 1,
       "awayScore": 1,
       "halftimeHome": 1,
-      "halftimeAway": 1,
+      "halftimeAway": 0,
       "isFinished": true,
       "goalsLoaded": true,
       "note": "n.E. 1:3",
