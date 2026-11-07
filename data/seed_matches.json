@@ -168343,15 +168343,48 @@
       "matchday": 9,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "VfL Wolfsburg",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 1,
+      "awayScore": 3,
+      "halftimeHome": 1,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 13,
+          "scorer": "Ella Peddemors",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 27,
+          "scorer": "Amanda Ilestedt",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 50,
+          "scorer": "Smilla Vallotto",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 70,
+          "scorer": "Ella Peddemors",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
       "gender": "women"
     },
     {
