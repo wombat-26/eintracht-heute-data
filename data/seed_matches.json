@@ -86420,6 +86420,261 @@
       "gender": "men"
     },
     {
+      "id": "20011003-ffcfrank-levanteu",
+      "date": "2001-10-03T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2001/02",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Levante UD",
+      "homeScore": 1,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 67,
+          "scorer": "Pia Wunderlich",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20011005-ffcfrank-fccodruc",
+      "date": "2001-10-05T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2001/02",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "FC Codru Chişinău",
+      "homeScore": 5,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 5,
+          "scorer": "Nia Künzer",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 45,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 56,
+          "scorer": "Louise Hansen",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 76,
+          "scorer": "Sandra Minnert",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 86,
+          "scorer": "Jennifer Meier",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20011007-cscyerev-ffcfrank",
+      "date": "2001-10-07T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2001/02",
+      "matchday": null,
+      "homeTeam": "CSC Yerevan",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 18,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 13,
+          "scorer": "Louise Hansen",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 21,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 26,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 33,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 34,
+          "scorer": "Jennifer Meier",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 38,
+          "scorer": "Claudia Klein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 47,
+          "scorer": "Nicole Haase",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        },
+        {
+          "minute": 53,
+          "scorer": "Madita Spee",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 7
+        },
+        {
+          "minute": 61,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 8
+        },
+        {
+          "minute": 62,
+          "scorer": "Claudia Klein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 9
+        },
+        {
+          "minute": 63,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 10
+        },
+        {
+          "minute": 64,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 11
+        },
+        {
+          "minute": 70,
+          "scorer": "Jennifer Meier",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 12
+        },
+        {
+          "minute": 74,
+          "scorer": "Jennifer Meier",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 13
+        },
+        {
+          "minute": 78,
+          "scorer": "Nicole Haase",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 14
+        },
+        {
+          "minute": 81,
+          "scorer": "Nia Künzer",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 15
+        },
+        {
+          "minute": 86,
+          "scorer": "Claudia Klein",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 16
+        },
+        {
+          "minute": 90,
+          "scorer": "Marleen Wissink",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 17
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20011013-fcunionb-eintrach",
       "date": "2001-10-13T15:00:00",
       "kickoffText": "15:00",
@@ -87849,6 +88104,51 @@
       "gender": "men"
     },
     {
+      "id": "20020316-odensebk-ffcfrank",
+      "date": "2002-03-16T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2001/02",
+      "matchday": null,
+      "homeTeam": "Odense BK",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 3,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 22,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 30,
+          "scorer": "Birgit Prinz",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 36,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20020323-eintrach-spvggunt",
       "date": "2002-03-23T15:00:00",
       "kickoffText": "15:00",
@@ -87908,6 +88208,51 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20020331-ffcfrank-odensebk",
+      "date": "2002-03-31T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2001/02",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Odense BK",
+      "homeScore": 2,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 21,
+          "scorer": "Signe Werming Pedersen",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 52,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 67,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20020401-vflbochu-eintrach",
@@ -88018,6 +88363,51 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20020414-toulouse-ffcfrank",
+      "date": "2002-04-14T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2001/02",
+      "matchday": null,
+      "homeTeam": "Toulouse FC",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 2,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 8,
+          "scorer": "Sandrine Rouquet",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 32,
+          "scorer": "Jennifer Meier",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 60,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20020419-eintrach-rotweiob",
@@ -88137,6 +88527,26 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20020428-ffcfrank-toulouse",
+      "date": "2002-04-28T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2001/02",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Toulouse FC",
+      "homeScore": 0,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "women"
     },
     {
       "id": "20020501-ffcfrank-ffcbrauw",
@@ -88362,6 +88772,43 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 6
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20020523-ffcfrank-umeik",
+      "date": "2002-05-23T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2001/02",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Umeå IK",
+      "homeScore": 2,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup, Finale – Sieger",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 68,
+          "scorer": "Steffi Jones",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 89,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
         }
       ],
       "gender": "women"
@@ -89204,6 +89651,128 @@
       "gender": "men"
     },
     {
+      "id": "20020925-fkmainac-ffcfrank",
+      "date": "2002-09-25T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2002/03",
+      "matchday": null,
+      "homeTeam": "ŽFK Mašinac Niš",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 2,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 1,
+          "scorer": "Jennifer Meier",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 53,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20020927-ffcfrank-nkosijek",
+      "date": "2002-09-27T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2002/03",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "ŽNK Osijek",
+      "homeScore": 8,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 34,
+          "scorer": "Patrizia Barucha",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 40,
+          "scorer": "Pia Wunderlich",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 43,
+          "scorer": "Jennifer Meier",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 45,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 62,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 72,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 88,
+          "scorer": "Jennifer Meier",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        },
+        {
+          "minute": 90,
+          "scorer": "Steffi Jones",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 7
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20020929-eintrach-msvduisb",
       "date": "2002-09-29T15:00:00",
       "kickoffText": "15:00",
@@ -89247,6 +89816,91 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20020929-shamrock-ffcfrank",
+      "date": "2002-09-29T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2002/03",
+      "matchday": null,
+      "homeTeam": "Shamrock Rovers",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 7,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 7,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 21,
+          "scorer": "Olivia O'Toole",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 26,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 30,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 42,
+          "scorer": "Patrizia Barucha",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 62,
+          "scorer": "Élodie Woock",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 72,
+          "scorer": "Renate Lingor",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        },
+        {
+          "minute": 86,
+          "scorer": "Jennifer Meier",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 7
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20021003-fcbayern-ffcfrank",
@@ -89588,6 +90242,43 @@
       "gender": "men"
     },
     {
+      "id": "20021102-hjkhelsi-ffcfrank",
+      "date": "2002-11-02T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2002/03",
+      "matchday": null,
+      "homeTeam": "HJK Helsinki",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 2,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 31,
+          "scorer": "Katrin Kliehm",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 64,
+          "scorer": "Steffi Jones",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20021105-hansaros-eintrach",
       "date": "2002-11-05T15:30:00",
       "kickoffText": null,
@@ -89884,6 +90575,91 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20021201-ffcfrank-hjkhelsi",
+      "date": "2002-12-01T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2002/03",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "HJK Helsinki",
+      "homeScore": 8,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 13,
+          "scorer": "Élodie Woock",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 15,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 17,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 25,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 30,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 32,
+          "scorer": "Élodie Woock",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 50,
+          "scorer": "Pia Wunderlich",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 6
+        },
+        {
+          "minute": 67,
+          "scorer": "Judith Affeld",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 7
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20021208-ffcfrank-tusniede",
@@ -90699,6 +91475,43 @@
       "gender": "men"
     },
     {
+      "id": "20030406-umeik-ffcfrank",
+      "date": "2003-04-06T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2002/03",
+      "matchday": null,
+      "homeTeam": "Umeå IK",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 5,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 64,
+          "scorer": "Maria Nordbrandt",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20030413-ffcfrank-fcbayern",
       "date": "2003-04-13T11:00:00",
       "kickoffText": "11:00",
@@ -90912,6 +91725,43 @@
       "sourceUrl": "https://www.eintracht-archiv.de/2002/2003-04-25st.html",
       "goals": [],
       "gender": "men"
+    },
+    {
+      "id": "20030427-ffcfrank-umeik",
+      "date": "2003-04-27T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2002/03",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Umeå IK",
+      "homeScore": 1,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "n.E. 6:7",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 30,
+          "scorer": "Emma Lindqvist",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 90,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20030501-scfreibu-ffcfrank",
@@ -91652,6 +92502,59 @@
       "gender": "women"
     },
     {
+      "id": "20030821-ffcfrank-sudezemb",
+      "date": "2003-08-21T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "SU 1º Dezembro",
+      "homeScore": 4,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 4,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 19,
+          "scorer": "Patrizia Barucha",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 44,
+          "scorer": "Sandra Albertz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 58,
+          "scorer": "Ana Andrade Rita Gomes",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20030823-eintrach-herthabs",
       "date": "2003-08-23T15:30:00",
       "kickoffText": null,
@@ -91670,6 +92573,184 @@
       "sourceUrl": "https://www.eintracht-archiv.de/2003/2003-08-23st.html",
       "goals": [],
       "gender": "men"
+    },
+    {
+      "id": "20030823-ffcfrank-svneulen",
+      "date": "2003-08-23T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "SV Neulengbach",
+      "homeScore": 7,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 6,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 10,
+          "scorer": "Judith Affeld",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 31,
+          "scorer": "Nicky Grant",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 33,
+          "scorer": "Katrin Kliehm",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 45,
+          "scorer": "Sandra Albertz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 55,
+          "scorer": "Sandra Albertz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 58,
+          "scorer": "Maria Gstöttner",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        },
+        {
+          "minute": 81,
+          "scorer": "Sabrina Rastetter",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 7
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20030825-athletic-ffcfrank",
+      "date": "2003-08-25T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "Athletic Bilbao",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 8,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 18,
+          "scorer": "Nicky Grant",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 20,
+          "scorer": "Louise Hansen",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 30,
+          "scorer": "Renate Lingor",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 31,
+          "scorer": "Nia Künzer",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 36,
+          "scorer": "Aitziber Juaristi",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 49,
+          "scorer": "Renate Lingor",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 53,
+          "scorer": "Patrizia Barucha",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        },
+        {
+          "minute": 73,
+          "scorer": "Patrizia Barucha",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 7
+        },
+        {
+          "minute": 78,
+          "scorer": "Sandra Albertz",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 8
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20030831-ffcfrank-hamburge",
@@ -92268,6 +93349,59 @@
       "gender": "men"
     },
     {
+      "id": "20031102-ffcfrank-fulhamlf",
+      "date": "2003-11-02T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Fulham LFC",
+      "homeScore": 3,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 7,
+          "scorer": "Katrin Kliehm",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 10,
+          "scorer": "Rachel McArthur",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 58,
+          "scorer": "Sandra Albertz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 70,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20031108-eintrach-vfbstutt",
       "date": "2003-11-08T15:30:00",
       "kickoffText": null,
@@ -92438,6 +93572,67 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20031130-fulhamlf-ffcfrank",
+      "date": "2003-11-30T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "Fulham LFC",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 4,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 50,
+          "scorer": "Birgit Prinz",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 80,
+          "scorer": "Danielle Bird",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 84,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 86,
+          "scorer": "Patrizia Barucha",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 90,
+          "scorer": "Patrizia Barucha",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20031206-eintrach-hannover",
@@ -93319,6 +94514,26 @@
       "gender": "men"
     },
     {
+      "id": "20040328-malmff-ffcfrank",
+      "date": "2004-03-28T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "Malmö FF",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "women"
+    },
+    {
       "id": "20040403-fckln-eintrach",
       "date": "2004-04-03T15:30:00",
       "kickoffText": "15:30",
@@ -93481,6 +94696,67 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20040411-ffcfrank-malmff",
+      "date": "2004-04-11T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Malmö FF",
+      "homeScore": 4,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 59,
+          "scorer": "Heidi Kackur",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 71,
+          "scorer": "Caroline Jönsson",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 1
+        },
+        {
+          "minute": 75,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 89,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 90,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20040414-ffcfrank-vflwolfs",
@@ -93851,6 +95127,51 @@
       "gender": "men"
     },
     {
+      "id": "20040508-umeik-ffcfrank",
+      "date": "2004-05-08T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "Umeå IK",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 3,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup, Finale",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 16,
+          "scorer": "Marta Vieira da Silva",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 49,
+          "scorer": "Frida Östberg",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 58,
+          "scorer": "Marta Vieira da Silva",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20040515-eintrach-vflbochu",
       "date": "2004-05-15T15:30:00",
       "kickoffText": "15:30",
@@ -94152,6 +95473,67 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 1
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20040605-ffcfrank-umeik",
+      "date": "2004-06-05T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2003/04",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Umeå IK",
+      "homeScore": 0,
+      "awayScore": 5,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup, Finale",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 27,
+          "scorer": "Marta Vieira da Silva",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 45,
+          "scorer": "Frida Östberg",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 49,
+          "scorer": "Anna Sjöström",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 68,
+          "scorer": "Malin Moström",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 70,
+          "scorer": "Anna Sjöström",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
         }
       ],
       "gender": "women"
@@ -97707,6 +99089,213 @@
       "gender": "women"
     },
     {
+      "id": "20050913-ffcfrank-scluwinc",
+      "date": "2005-09-13T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "SC LUwin.ch",
+      "homeScore": 4,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 10,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 55,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 63,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 88,
+          "scorer": "Susanne Hartel",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20050915-ffcfrank-acsparta",
+      "date": "2005-09-15T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "AC Sparta Prag",
+      "homeScore": 1,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 62,
+          "scorer": "Sandra Smisek",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 88,
+          "scorer": "Markéta Ringelová",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20050917-gmrkbaku-ffcfrank",
+      "date": "2005-09-17T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "Gömrükçü Baku",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 11,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 8,
+          "scorer": "Birgit Prinz",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 10,
+          "scorer": "Birgit Prinz",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 13,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 17,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 18,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 20,
+          "scorer": "Katrin Kliehm",
+          "forHome": false,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 5
+        },
+        {
+          "minute": 33,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 6
+        },
+        {
+          "minute": 38,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 7
+        },
+        {
+          "minute": 40,
+          "scorer": "Birgit Prinz",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 8
+        },
+        {
+          "minute": 47,
+          "scorer": "Pia Wunderlich",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 9
+        },
+        {
+          "minute": 83,
+          "scorer": "Susanne Hartel",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 10
+        },
+        {
+          "minute": 87,
+          "scorer": "Augun Girkhlarova",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 11
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20050917-hamburge-eintrach",
       "date": "2005-09-17T15:30:00",
       "kickoffText": "15:30",
@@ -97829,6 +99418,96 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20051008-arsenall-ffcfrank",
+      "date": "2005-10-08T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "Arsenal LFC",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 23,
+          "scorer": "Sandra Smisek",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 45,
+          "scorer": "Lianne Sanderson",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20051015-ffcfrank-arsenall",
+      "date": "2005-10-15T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Arsenal LFC",
+      "homeScore": 3,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 11,
+          "scorer": "Ciara Grant",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 20,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 43,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 54,
+          "scorer": "Sandra Smisek",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20051016-msvduisb-eintrach",
@@ -98301,6 +99980,96 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20051120-ffcfrank-montpell",
+      "date": "2005-11-20T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Montpellier HSC",
+      "homeScore": 0,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 50,
+          "scorer": "Ludivine Diguelman",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20051126-montpell-ffcfrank",
+      "date": "2005-11-26T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "Montpellier HSC",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 2,
+      "awayScore": 3,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 10,
+          "scorer": "Sandra Smisek",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 16,
+          "scorer": "Ludivine Diguelman",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 37,
+          "scorer": "Renate Lingor",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 49,
+          "scorer": "Sandra Smisek",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 84,
+          "scorer": "Ludivine Diguelman",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20051127-eintrach-vfbstutt",
@@ -100299,6 +102068,59 @@
       "gender": "women"
     },
     {
+      "id": "20060520-turbinep-ffcfrank",
+      "date": "2006-05-20T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "Turbine Potsdam",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 4,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup, Finale",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 7,
+          "scorer": "Renate Lingor",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 64,
+          "scorer": "Sandra Albertz",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 77,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 84,
+          "scorer": "Renate Lingor",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20060525-ffcfrank-scfreibu",
       "date": "2006-05-25T14:00:00",
       "kickoffText": "14:00",
@@ -100371,6 +102193,67 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 6
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20060527-ffcfrank-turbinep",
+      "date": "2006-05-27T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2005/06",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Turbine Potsdam",
+      "homeScore": 3,
+      "awayScore": 2,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup, Finale – Sieger",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 8,
+          "scorer": "Conny Pohlers",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 23,
+          "scorer": "Steffi Jones",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 35,
+          "scorer": "Conny Pohlers",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 72,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 90,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
         }
       ],
       "gender": "women"
@@ -100637,6 +102520,128 @@
       "gender": "women"
     },
     {
+      "id": "20060912-ffcfrank-universi",
+      "date": "2006-09-12T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2006/07",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Universitet Vitebsk",
+      "homeScore": 5,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 25,
+          "scorer": "Sandra Smisek",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 44,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 55,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 64,
+          "scorer": "Saskia Bartusiak",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 90,
+          "scorer": "Louise Hansen",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20060914-ffcfrank-breiabli",
+      "date": "2006-09-14T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2006/07",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Breiðablik",
+      "homeScore": 5,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 25,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 51,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 68,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 77,
+          "scorer": "Petra Wimbersky",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 84,
+          "scorer": "Renate Lingor",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20060914-eintrach-brndbyif",
       "date": "2006-09-14T20:45:00",
       "kickoffText": "20:45",
@@ -100688,6 +102693,43 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20060917-hjkhelsi-ffcfrank",
+      "date": "2006-09-17T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2006/07",
+      "matchday": null,
+      "homeTeam": "HJK Helsinki",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 2,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 41,
+          "scorer": "Judith Affeld",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 54,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20060917-eintrach-bayerlev",
@@ -100963,6 +103005,51 @@
       "gender": "women"
     },
     {
+      "id": "20061011-kolbotni-ffcfrank",
+      "date": "2006-10-11T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2006/07",
+      "matchday": null,
+      "homeTeam": "Kolbotn IL",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 2,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 48,
+          "scorer": "Solveig Gulbrandsen",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 51,
+          "scorer": "Solveig Gulbrandsen",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 74,
+          "scorer": "Sandra Smisek",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20061014-hannover-eintrach",
       "date": "2006-10-14T15:30:00",
       "kickoffText": "15:30",
@@ -101040,6 +103127,67 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 2
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20061019-ffcfrank-kolbotni",
+      "date": "2006-10-19T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2006/07",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Kolbotn IL",
+      "homeScore": 3,
+      "awayScore": 2,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 8,
+          "scorer": "Sandra Smisek",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 49,
+          "scorer": "Petra Wimbersky",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 57,
+          "scorer": "Sandra Smisek",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 66,
+          "scorer": "Solveig Gulbrandsen",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 67,
+          "scorer": "Isabell Herlovsen",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
         }
       ],
       "gender": "women"
@@ -104453,6 +106601,141 @@
       "gender": "men"
     },
     {
+      "id": "20071011-ffcfrank-valurrey",
+      "date": "2007-10-11T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Valur Reykjavík",
+      "homeScore": 3,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 42,
+          "scorer": "Margrét Lára Viðarsdóttir",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 80,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 87,
+          "scorer": "Petra Wimbersky",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 90,
+          "scorer": "Petra Wimbersky",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20071013-ffcfrank-evertonl",
+      "date": "2007-10-13T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Everton LFC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 5,
+          "scorer": "Fara Williams",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 30,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 90,
+          "scorer": "Conny Pohlers",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20071016-rapidewe-ffcfrank",
+      "date": "2007-10-16T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "Rapide Wezemaal",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 21,
+          "scorer": "Jessy Torreele",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 35,
+          "scorer": "Karoline Meykens",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 1
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20071020-fcnrnber-eintrach",
       "date": "2007-10-20T15:30:00",
       "kickoffText": "15:30",
@@ -104766,6 +107049,26 @@
       "gender": "women"
     },
     {
+      "id": "20071115-wfcrossi-ffcfrank",
+      "date": "2007-11-15T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "WFC Rossiyanka",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [],
+      "gender": "women"
+    },
+    {
       "id": "20071118-ffcfrank-tsvcrail",
       "date": "2007-11-18T14:00:00",
       "kickoffText": "14:00",
@@ -104814,6 +107117,51 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20071121-ffcfrank-wfcrossi",
+      "date": "2007-11-21T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "WFC Rossiyanka",
+      "homeScore": 2,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 23,
+          "scorer": "Petra Wimbersky",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 44,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 90,
+          "scorer": "Elena Morozova",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
         }
       ],
       "gender": "women"
@@ -105738,6 +108086,120 @@
       "gender": "men"
     },
     {
+      "id": "20080329-ffcfrank-bardolin",
+      "date": "2008-03-29T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Bardolino Verona",
+      "homeScore": 4,
+      "awayScore": 2,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 5,
+          "scorer": "Conny Pohlers",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 19,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 47,
+          "scorer": "Giorgia Motta",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 79,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 81,
+          "scorer": "Conny Pohlers",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 83,
+          "scorer": "Melania Gabbiadini",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20080405-bardolin-ffcfrank",
+      "date": "2008-04-05T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "Bardolino Verona",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 0,
+      "awayScore": 3,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 68,
+          "scorer": "Karolin Thomas",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 80,
+          "scorer": "Kerstin Garefrekes",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 81,
+          "scorer": "Conny Pohlers",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20080405-eintrach-fcnrnber",
       "date": "2008-04-05T15:30:00",
       "kickoffText": "15:30",
@@ -106555,6 +109017,104 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20080517-umeik-ffcfrank",
+      "date": "2008-05-17T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "Umeå IK",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup, Finale",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 1,
+          "scorer": "Marta",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 5,
+          "scorer": "Conny Pohlers",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20080524-ffcfrank-umeik",
+      "date": "2008-05-24T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2007/08",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Umeå IK",
+      "homeScore": 3,
+      "awayScore": 2,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup, Finale – Sieger",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 7,
+          "scorer": "Conny Pohlers",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 55,
+          "scorer": "Conny Pohlers",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 68,
+          "scorer": "Lisa Dahlqvist",
+          "forHome": false,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 71,
+          "scorer": "Petra Wimbersky",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 83,
+          "scorer": "Frida Östberg",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20080601-sgwatten-ffcfrank",
@@ -107418,6 +109978,141 @@
       "gender": "women"
     },
     {
+      "id": "20081009-ffcfrank-zvezdape",
+      "date": "2008-10-09T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2008/09",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Zvezda 2005 Perm",
+      "homeScore": 0,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 67,
+          "scorer": "Hanna Kostraba",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20081011-ffcfrank-rail",
+      "date": "2008-10-11T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2008/09",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "Røa IL",
+      "homeScore": 3,
+      "awayScore": 1,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 21,
+          "scorer": "Siri Nordby",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 0
+        },
+        {
+          "minute": 27,
+          "scorer": "Sarah Schatton",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 41,
+          "scorer": "Sarah Schatton",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 78,
+          "scorer": "Guro Knutsen Mienna",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
+      "id": "20081014-glasgowc-ffcfrank",
+      "date": "2008-10-14T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2008/09",
+      "matchday": null,
+      "homeTeam": "Glasgow City",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 1,
+      "awayScore": 3,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 29,
+          "scorer": "Sarah Schatton",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 37,
+          "scorer": "Karolin Thomas",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 38,
+          "scorer": "Katharina Lindner",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 90,
+          "scorer": "Karolin Thomas",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20081018-eintrach-bayerlev",
       "date": "2008-10-18T15:30:00",
       "kickoffText": "15:30",
@@ -107712,6 +110407,59 @@
       "gender": "men"
     },
     {
+      "id": "20081106-ffcfrank-fcrduisb",
+      "date": "2008-11-06T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2008/09",
+      "matchday": null,
+      "homeTeam": "1. FFC Frankfurt",
+      "awayTeam": "FCR 2001 Duisburg",
+      "homeScore": 1,
+      "awayScore": 3,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 7,
+          "scorer": "Inka Grings",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 19,
+          "scorer": "Christina Plessen",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 1
+        },
+        {
+          "minute": 37,
+          "scorer": "Linda Bresonik",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 68,
+          "scorer": "Birgit Prinz",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        }
+      ],
+      "gender": "women"
+    },
+    {
       "id": "20081109-eintrach-vfbstutt",
       "date": "2008-11-09T17:00:00",
       "kickoffText": "17:00",
@@ -107763,6 +110511,43 @@
         }
       ],
       "gender": "men"
+    },
+    {
+      "id": "20081113-fcrduisb-ffcfrank",
+      "date": "2008-11-13T15:30:00",
+      "kickoffText": null,
+      "competition": "championsLeague",
+      "season": "2008/09",
+      "matchday": null,
+      "homeTeam": "FCR 2001 Duisburg",
+      "awayTeam": "1. FFC Frankfurt",
+      "homeScore": 2,
+      "awayScore": 0,
+      "halftimeHome": null,
+      "halftimeAway": null,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": "UEFA Women's Cup",
+      "sourceUrl": null,
+      "goals": [
+        {
+          "minute": 45,
+          "scorer": "Inka Grings",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 72,
+          "scorer": "Linda Bresonik",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
+      "gender": "women"
     },
     {
       "id": "20081115-borussia-eintrach",
