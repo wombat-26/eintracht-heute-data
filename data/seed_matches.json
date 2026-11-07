@@ -168396,15 +168396,24 @@
       "matchday": 9,
       "homeTeam": "SC Paderborn 07",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
+      "homeScore": 0,
+      "awayScore": 1,
+      "halftimeHome": 0,
+      "halftimeAway": 0,
       "isFinished": false,
-      "goalsLoaded": false,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 23,
+          "scorer": "Jonathan Burkardt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        }
+      ],
       "gender": "men"
     },
     {
