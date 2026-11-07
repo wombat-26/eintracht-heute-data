@@ -171226,11 +171226,11 @@
       "matchday": 9,
       "homeTeam": "SC Paderborn 07",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": 0,
-      "awayScore": 1,
-      "halftimeHome": 0,
-      "halftimeAway": 0,
-      "isFinished": false,
+      "homeScore": 2,
+      "awayScore": 2,
+      "halftimeHome": 1,
+      "halftimeAway": 1,
+      "isFinished": true,
       "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
@@ -171242,6 +171242,30 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 0
+        },
+        {
+          "minute": 45,
+          "scorer": "Raphael Obermair",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 73,
+          "scorer": "Marvin Pieringer",
+          "forHome": true,
+          "isPenalty": true,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 93,
+          "scorer": "Jonathan Burkardt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
         }
       ],
       "gender": "men"
