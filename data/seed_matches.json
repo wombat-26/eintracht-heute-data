@@ -1519,7 +1519,7 @@
         },
         {
           "minute": 24,
-          "scorer": "Dieter Lindner",
+          "scorer": "Adolf Lindner",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -3541,7 +3541,7 @@
         {
           "minute": 63,
           "scorer": "Josef Marx",
-          "forHome": true,
+          "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 1
@@ -4921,7 +4921,7 @@
         },
         {
           "minute": 54,
-          "scorer": "Marx",
+          "scorer": "Josef Marx",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
@@ -19674,7 +19674,7 @@
           "scorer": "Horst Heese",
           "forHome": false,
           "isPenalty": false,
-          "isOwnGoal": false,
+          "isOwnGoal": true,
           "order": 1
         },
         {
@@ -19694,7 +19694,7 @@
           "order": 3
         },
         {
-          "minute": 67,
+          "minute": 62,
           "scorer": "Bernd Hölzenbein",
           "forHome": true,
           "isPenalty": false,
@@ -33151,17 +33151,17 @@
       "sourceUrl": "https://www.eintracht-archiv.de/1976/1977-03-19st.html",
       "goals": [
         {
-          "minute": 28,
-          "scorer": "Bernd Nickel",
+          "minute": 8,
+          "scorer": "Bernd Hölzenbein",
           "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 0
         },
         {
-          "minute": 56,
-          "scorer": "Erich Worm",
-          "forHome": true,
+          "minute": 10,
+          "scorer": "Ronald Worm",
+          "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 1
@@ -33177,7 +33177,7 @@
         {
           "minute": 89,
           "scorer": "Rüdiger Wenzel",
-          "forHome": false,
+          "forHome": true,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 3
@@ -69341,7 +69341,7 @@
         {
           "minute": null,
           "scorer": "Lisa Häusler",
-          "forHome": true,
+          "forHome": false,
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 4
@@ -144567,6 +144567,51 @@
           "scorer": "Dejan Joveljic",
           "forHome": false,
           "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
+      "gender": "men"
+    },
+    {
+      "id": "20190801-eintrach-fcflorat",
+      "date": "2019-08-01T20:30:00",
+      "kickoffText": "20:30",
+      "competition": "europacup",
+      "season": "2019/20",
+      "matchday": null,
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "FC Flora Tallinn",
+      "homeScore": 2,
+      "awayScore": 1,
+      "halftimeHome": 1,
+      "halftimeAway": 1,
+      "isFinished": true,
+      "goalsLoaded": true,
+      "note": null,
+      "sourceUrl": "https://www.eintracht-archiv.de/2019/2019-08-01st.html",
+      "goals": [
+        {
+          "minute": 37,
+          "scorer": "Gonçalo Paciência",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 40,
+          "scorer": "Vlasiy Sinyavskiy",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 54,
+          "scorer": "Gonçalo Paciência",
+          "forHome": true,
+          "isPenalty": true,
           "isOwnGoal": false,
           "order": 2
         }
