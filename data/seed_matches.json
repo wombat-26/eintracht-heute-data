@@ -58614,7 +58614,7 @@
       "sourceUrl": "https://www.eintracht-archiv.de/1990f/f_1990-09-09st.html",
       "goals": [
         {
-          "minute": 46,
+          "minute": 44,
           "scorer": "Vera Heck",
           "forHome": true,
           "isPenalty": false,
@@ -58622,7 +58622,7 @@
           "order": 0
         },
         {
-          "minute": 63,
+          "minute": 64,
           "scorer": "Vera Heck",
           "forHome": true,
           "isPenalty": false,
@@ -60076,7 +60076,7 @@
           "order": 0
         },
         {
-          "minute": 35,
+          "minute": 37,
           "scorer": "Sandra Minnert",
           "forHome": false,
           "isPenalty": false,
@@ -60084,7 +60084,7 @@
           "order": 1
         },
         {
-          "minute": 46,
+          "minute": 44,
           "scorer": "Britta Schlösser",
           "forHome": false,
           "isPenalty": false,
@@ -60092,7 +60092,7 @@
           "order": 2
         },
         {
-          "minute": 54,
+          "minute": 55,
           "scorer": "Britta Schlösser",
           "forHome": false,
           "isPenalty": false,
