@@ -171279,15 +171279,40 @@
       "matchday": null,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "PSV Eindhoven",
-      "homeScore": null,
-      "awayScore": null,
+      "homeScore": 2,
+      "awayScore": 1,
       "halftimeHome": null,
       "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 26,
+          "scorer": "Liz Rijsbergen",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 0
+        },
+        {
+          "minute": 58,
+          "scorer": "Liz Rijsbergen",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        },
+        {
+          "minute": 59,
+          "scorer": "Rebecka Blomqvist",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        }
+      ],
       "gender": "women"
     },
     {
