@@ -171324,11 +171324,11 @@
       "matchday": 10,
       "homeTeam": "RB Leipzig",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": 0,
-      "awayScore": 2,
+      "homeScore": 1,
+      "awayScore": 5,
       "halftimeHome": 0,
       "halftimeAway": 2,
-      "isFinished": false,
+      "isFinished": true,
       "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
@@ -171348,6 +171348,38 @@
           "isPenalty": false,
           "isOwnGoal": false,
           "order": 1
+        },
+        {
+          "minute": 63,
+          "scorer": "Nina Lührßen",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 2
+        },
+        {
+          "minute": 74,
+          "scorer": "Hayley Raso",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 3
+        },
+        {
+          "minute": 79,
+          "scorer": "Hanna Bennison",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 4
+        },
+        {
+          "minute": 90,
+          "scorer": "Alieke Tuin",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 5
         }
       ],
       "gender": "women"
