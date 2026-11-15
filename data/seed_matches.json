@@ -171324,15 +171324,32 @@
       "matchday": 10,
       "homeTeam": "RB Leipzig",
       "awayTeam": "Eintracht Frankfurt",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
+      "homeScore": 0,
+      "awayScore": 2,
+      "halftimeHome": 0,
+      "halftimeAway": 2,
       "isFinished": false,
-      "goalsLoaded": false,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 11,
+          "scorer": "Rebecka Blomqvist",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 17,
+          "scorer": "Amanda Ilestedt",
+          "forHome": false,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 1
+        }
+      ],
       "gender": "women"
     },
     {
