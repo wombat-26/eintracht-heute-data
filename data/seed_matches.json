@@ -171430,15 +171430,24 @@
       "matchday": 10,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "TSG Hoffenheim",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 1,
+      "awayScore": 0,
+      "halftimeHome": 1,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 25,
+          "scorer": "Jonathan Burkardt",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        }
+      ],
       "gender": "men"
     },
     {
