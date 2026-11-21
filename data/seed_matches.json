@@ -171393,15 +171393,32 @@
       "matchday": 11,
       "homeTeam": "Eintracht Frankfurt",
       "awayTeam": "Hamburger SV",
-      "homeScore": null,
-      "awayScore": null,
-      "halftimeHome": null,
-      "halftimeAway": null,
-      "isFinished": false,
-      "goalsLoaded": false,
+      "homeScore": 2,
+      "awayScore": 0,
+      "halftimeHome": 0,
+      "halftimeAway": 0,
+      "isFinished": true,
+      "goalsLoaded": true,
       "note": null,
       "sourceUrl": null,
-      "goals": [],
+      "goals": [
+        {
+          "minute": 81,
+          "scorer": "Hayley Raso",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": false,
+          "order": 0
+        },
+        {
+          "minute": 96,
+          "scorer": "Magou Doucouré",
+          "forHome": true,
+          "isPenalty": false,
+          "isOwnGoal": true,
+          "order": 1
+        }
+      ],
       "gender": "women"
     },
     {
